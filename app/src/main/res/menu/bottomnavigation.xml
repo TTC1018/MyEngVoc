@@ -7,7 +7,7 @@
     <item
         android:id="@+id/myDicBtn"
         android:icon="@android:drawable/ic_menu_compass"
-        android:title="나의 단어장" />
+        android:title="나의 단어장"/>
     <item
         android:id="@+id/quizBtn"
         android:icon="@android:drawable/ic_menu_agenda"
