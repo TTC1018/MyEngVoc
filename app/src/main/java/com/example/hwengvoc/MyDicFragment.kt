@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 
 class MyDicFragment : Fragment() {
@@ -13,8 +15,16 @@ class MyDicFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_dic, container, false)
+        val view = inflater.inflate(R.layout.fragment_my_dic, container, false)
+
+        if(view is RecyclerView){
+            with(view){
+                layoutManager = GridLayoutManager(context, 2)
+            }
+        }
+
+
+        return view
     }
 
 }

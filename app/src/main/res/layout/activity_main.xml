@@ -12,7 +12,8 @@
         android:id="@+id/fragContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="50">
+        android:layout_weight="50"
+        android:padding="5dp">
 
     </FrameLayout>
 
