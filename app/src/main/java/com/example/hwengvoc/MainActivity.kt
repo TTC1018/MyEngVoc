@@ -17,6 +17,8 @@ import org.jsoup.Jsoup
 class MainActivity : AppCompatActivity() {
     private val dicFragment by lazy {MyDicFragment()}
     private val searchFragment by lazy {SearchFragment()}
+    private val quizFragment by lazy {QuizFragment()}
+    private val manageFragment by lazy {SettingFragment()}
 
 
     lateinit var binding: ActivityMainBinding
@@ -32,12 +34,10 @@ class MainActivity : AppCompatActivity() {
         with(binding){
             bottomNavi.setOnNavigationItemSelectedListener {
                 when(it.itemId){
-                    R.id.myDicBtn -> {
-                        changeFragment(dicFragment)
-                    }
-                    R.id.searchBtn -> {
-                        changeFragment(searchFragment)
-                    }
+                    R.id.myDicBtn -> changeFragment(dicFragment)
+                    R.id.searchBtn -> changeFragment(searchFragment)
+                    R.id.quizBtn -> changeFragment(quizFragment)
+                    R.id.manageBtn -> changeFragment(manageFragment)
                 }
                 true
             }
