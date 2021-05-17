@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hwengvoc.databinding.FragmentSearchBinding
@@ -26,11 +27,7 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
-
-
-
         return binding!!.root
     }
 
@@ -49,15 +46,29 @@ class SearchFragment : Fragment() {
     }
 
     private fun getNews(){
+        val engMatch = "^[a-zA-Z]*\$".toRegex()
         var word = binding!!.searchEditText.text.toString()
         var meaning:String
+
+        if(!engMatch.matches(word)){
+            Toast.makeText(context, "영어를 입력하세요", Toast.LENGTH_SHORT).show()
+            binding!!.searchEditText.text.clear()
+            return
+        }
+
         scope.launch {
             val doc = Jsoup.connect(url+word).get()
-            meaning = doc.select("div.def-body.ddef_b span").text()
-            println(word + "=" + meaning)
-            searchedList.add(VocData(word, meaning))
-            activity!!.runOnUiThread {
-                adapter!!.notifyDataSetChanged()
+            try{
+                meaning = doc.select("div.def-body.ddef_b span.trans.dtrans.dtrans-se ").first().text()
+                println(word + "=" + meaning)
+                searchedList.add(VocData(word, meaning))
+                activity!!.runOnUiThread {
+                    adapter!!.notifyDataSetChanged()
+                }
+            }catch(e:NullPointerException){
+                activity!!.runOnUiThread {
+                    Toast.makeText(context, "찾는 단어가 없습니다", Toast.LENGTH_SHORT).show()
+                }
             }
         }
         binding!!.searchEditText.text.clear()
