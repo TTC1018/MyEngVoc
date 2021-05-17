@@ -10,8 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
+        android:background="@drawable/layout_shadow"
         android:gravity="center"
         android:orientation="horizontal">
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -24,7 +26,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginRight="7dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/button_radius"
+            android:background="@drawable/gradient_radius"
             android:elevation="10dp"
             android:ems="14"
             android:inputType="textPersonName"
@@ -48,7 +50,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/button_radius"
+            android:background="@drawable/gradient_radius"
             android:elevation="10dp"
             android:outlineAmbientShadowColor="?attr/colorOnPrimary"
             android:outlineSpotShadowColor="?attr/colorOnPrimary"
@@ -59,6 +61,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSearch"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
 
 </LinearLayout>

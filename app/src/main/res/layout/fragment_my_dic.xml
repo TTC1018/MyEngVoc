@@ -12,21 +12,22 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:orientation="horizontal">
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/editBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:background="@drawable/button_radius"
-            android:padding="5dp"
+            android:background="@drawable/gradient_radius"
             android:elevation="10dp"
             android:outlineAmbientShadowColor="?attr/colorOnPrimary"
             android:outlineSpotShadowColor="?attr/colorOnPrimary"
+            android:padding="5dp"
             android:src="@drawable/edit_button_ripple"
             android:tint="@color/blue" />
     </LinearLayout>
@@ -34,6 +35,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerDic"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" >
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

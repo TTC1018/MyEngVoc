@@ -73,4 +73,9 @@ class SearchFragment : Fragment() {
         }
         binding!!.searchEditText.text.clear()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding=null
+    }
 }

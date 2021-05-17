@@ -36,4 +36,9 @@ class MyDicFragment : Fragment() {
             recyclerView!!.adapter = adapter
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding=null
+    }
 }
