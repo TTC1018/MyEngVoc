@@ -8,7 +8,9 @@
     android:gravity="center"
     android:orientation="horizontal"
     android:padding="10dp"
-    android:elevation="5dp">
+    android:elevation="10dp"
+    android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+    android:outlineSpotShadowColor="?attr/colorOnPrimary">
 
     <TextView
         android:id="@+id/wordTextView"

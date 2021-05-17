@@ -10,9 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:gravity="center|right"
+        android:gravity="center"
         android:orientation="horizontal">
-
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -26,13 +25,20 @@
             android:layout_marginRight="7dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/button_radius"
-            android:elevation="5dp"
-            android:ems="15"
+            android:elevation="10dp"
+            android:ems="14"
             android:inputType="textPersonName"
+            android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+            android:outlineSpotShadowColor="?attr/colorOnPrimary"
             android:padding="6dp"
             android:text="@null"
             android:textAlignment="center"
             android:textColor="?attr/colorOnPrimary" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.3" />
 
         <ImageButton
             android:id="@+id/wordSearchBtn"
@@ -43,7 +49,9 @@
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/button_radius"
-            android:elevation="5dp"
+            android:elevation="10dp"
+            android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+            android:outlineSpotShadowColor="?attr/colorOnPrimary"
             android:padding="1dp"
             android:src="@drawable/search_button_ripple" />
     </LinearLayout>

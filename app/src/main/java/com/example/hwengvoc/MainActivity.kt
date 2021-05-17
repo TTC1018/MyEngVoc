@@ -53,4 +53,8 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.bottomNavi.selectedItemId = R.id.myDicBtn
+    }
 }

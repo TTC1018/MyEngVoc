@@ -24,7 +24,9 @@
             android:layout_margin="15dp"
             android:background="@drawable/button_radius"
             android:padding="5dp"
-            android:elevation="5dp"
+            android:elevation="10dp"
+            android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+            android:outlineSpotShadowColor="?attr/colorOnPrimary"
             android:src="@drawable/edit_button_ripple"
             android:tint="@color/blue" />
     </LinearLayout>

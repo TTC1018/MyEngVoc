@@ -27,6 +27,8 @@
         android:layout_weight="1"
         android:background="@drawable/bottom_navigation_background"
         android:elevation="10dp"
+        android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+        android:outlineSpotShadowColor="?attr/colorOnPrimary"
         app:itemIconTint="@drawable/bottom_navigation_color"
         app:itemTextColor="?attr/colorOnPrimary"
         app:itemRippleColor="@color/gray_ripple"
