@@ -10,9 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:background="@drawable/layout_shadow"
+        android:background="?attr/colorPrimary"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:elevation="7dp"
+        android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+        android:outlineSpotShadowColor="?attr/colorOnPrimary">
 
         <View
             android:layout_width="0dp"
@@ -23,9 +26,9 @@
             android:id="@+id/searchEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="21dp"
             android:layout_marginRight="7dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="21dp"
             android:background="@drawable/gradient_radius"
             android:elevation="10dp"
             android:ems="14"
@@ -47,9 +50,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/gradient_radius"
             android:elevation="10dp"
             android:outlineAmbientShadowColor="?attr/colorOnPrimary"

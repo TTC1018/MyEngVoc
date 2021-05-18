@@ -1,6 +1,8 @@
 package com.example.hwengvoc
 
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +40,14 @@ class SearchFragment : Fragment() {
                 getNews()
             }
 
+            searchEditText.setOnKeyListener { v, keyCode, event ->
+                if(event.action==KeyEvent.ACTION_DOWN && keyCode==KeyEvent.KEYCODE_ENTER){
+                    getNews()
+                    true
+                }
+                false
+            }
+
             recyclerView = recyclerSearch
             recyclerView!!.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = SearchRecyclerViewAdapter(searchedList)
@@ -48,13 +58,17 @@ class SearchFragment : Fragment() {
     private fun getNews(){
         val engMatch = "^[a-zA-Z]*\$".toRegex()
         var word = binding!!.searchEditText.text.toString()
+        val word_unit = word.split(" ")
         var meaning:String
 
-        if(!engMatch.matches(word)){
-            Toast.makeText(context, "영어를 입력하세요", Toast.LENGTH_SHORT).show()
-            binding!!.searchEditText.text.clear()
-            return
+        for(unit in word_unit){
+            if(!engMatch.matches(unit)){
+                Toast.makeText(context, "영어를 입력하세요", Toast.LENGTH_SHORT).show()
+                binding!!.searchEditText.text.clear()
+                return
+            }
         }
+
 
         scope.launch {
             val doc = Jsoup.connect(url+word).get()
@@ -65,9 +79,10 @@ class SearchFragment : Fragment() {
                 activity!!.runOnUiThread {
                     adapter!!.notifyDataSetChanged()
                 }
-            }catch(e:NullPointerException){
+            }catch(e:Exception){
                 activity!!.runOnUiThread {
-                    Toast.makeText(context, "찾는 단어가 없습니다", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "검색된 단어가 없습니다", Toast.LENGTH_SHORT).show()
+                    Log.e("getNews", e.toString())
                 }
             }
         }
