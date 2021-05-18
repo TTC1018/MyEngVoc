@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:background="@drawable/gradient"
-    android:elevation="10dp"
     android:orientation="vertical"
+    android:elevation="10dp"
     android:outlineAmbientShadowColor="?attr/colorOnPrimary"
     android:outlineSpotShadowColor="?attr/colorOnPrimary"
     android:padding="10dp">
