@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class MyDicRecyclerViewAdapter(val dicList:List<DicData>): RecyclerView.Adapter<MyDicRecyclerViewAdapter.ViewHolder>() {
-        var itemClickListener:OnItemClickListener?=null
+    val itemClickListener:OnItemClickListener?=null
     interface OnItemClickListener{
         fun OnItemClick(holder:ViewHolder, view:View, data:VocData, position:Int)
     }

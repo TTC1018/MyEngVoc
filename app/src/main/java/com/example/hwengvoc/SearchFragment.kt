@@ -100,6 +100,7 @@ class SearchFragment : Fragment() {
                 }
             }catch(e:Exception){
                 activity!!.runOnUiThread {
+                    binding!!.progressBar.visibility = View.GONE
                     Toast.makeText(context, "검색된 단어가 없습니다", Toast.LENGTH_SHORT).show()
                     Log.e("getNews", e.toString())
                 }
