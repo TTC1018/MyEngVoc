@@ -25,7 +25,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initData()
         init()
+    }
+
+    private fun initData() {
+
     }
 
     private fun init() {
