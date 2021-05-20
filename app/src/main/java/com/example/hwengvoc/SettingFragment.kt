@@ -1,6 +1,5 @@
 package com.example.hwengvoc
 
-import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,7 +12,7 @@ import com.example.hwengvoc.databinding.FragmentSettingBinding
 
 class SettingFragment : Fragment() {
     var binding:FragmentSettingBinding?=null
-    var slideDown:Animation?=null
+    var slideUp:Animation?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,23 +20,21 @@ class SettingFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentSettingBinding.inflate(layoutInflater)
-        slideDown = AnimationUtils.loadAnimation(context, R.anim.slide_down)
+        slideUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
         return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding!!.apply {
-
             appInfoLayout.setOnClickListener {
-                        if(appInfoTextLayout.visibility==View.GONE){
-                            appInfoTextLayout.visibility=View.VISIBLE
-                            appInfoTextLayout.startAnimation(slideDown)
-                        }
-                        else{
-                            appInfoTextLayout.visibility=View.GONE
-                        }
-
+                if(appInfoTextLayout.visibility==View.GONE){
+                    appInfoTextLayout.visibility=View.VISIBLE
+                    appInfoTextLayout.startAnimation(slideUp)
+                }
+                else{
+                    appInfoTextLayout.visibility=View.GONE
+                }
             }
         }
     }

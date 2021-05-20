@@ -3,22 +3,36 @@ package com.example.hwengvoc
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
-class SearchRecyclerViewAdapter(val values:List<VocData>):RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder>(){
-//    var itemClickListener:OnItemClickListener?=null
-//    interface OnItemClickListener{
-//        fun OnItemClick(holder:ViewHolder, view:View, data:VocData, position:Int)
-//    }
+class SearchRecyclerViewAdapter(val vocs: LinkedList<VocData>):RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder>(){
+    val itemClickListener:OnItemClickListener?=null
+    interface OnItemClickListener{
+        fun OnItemClick(holder:ViewHolder, view:View, data:VocData, position:Int)
+    }
+
+    fun removeItem(pos:Int){
+        vocs.removeAt(pos)
+        notifyItemRemoved(pos)
+        notifyItemRangeRemoved(0, itemCount)
+    }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val layout:LinearLayout = view.findViewById(R.id.searchTextLayout)
         val wordText:TextView = view.findViewById(R.id.wordTextView)
         val meanText:TextView = view.findViewById(R.id.meanTextView)
+        init{
+            layout.setOnClickListener {
+                itemClickListener?.OnItemClick(this, it, vocs[adapterPosition], adapterPosition)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
-        return values.size
+        return vocs.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,7 +41,7 @@ class SearchRecyclerViewAdapter(val values:List<VocData>):RecyclerView.Adapter<S
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.wordText.text = values[position].word
-        holder.meanText.text = values[position].meaning
+        holder.wordText.text = vocs[position].word
+        holder.meanText.text = vocs[position].meaning
     }
 }

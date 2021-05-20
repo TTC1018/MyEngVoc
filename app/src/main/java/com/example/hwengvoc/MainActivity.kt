@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
-        binding!!.bottomNavi.selectedItemId = R.id.searchBtn
     }
 
     private fun init() {
@@ -38,8 +37,9 @@ class MainActivity : AppCompatActivity() {
                     R.id.quizBtn -> changeFragment(quizFragment)
                     R.id.manageBtn -> changeFragment(manageFragment)
                 }
-                false
+                true
             }
+            binding!!.bottomNavi.selectedItemId = R.id.searchBtn
         }
 
     }

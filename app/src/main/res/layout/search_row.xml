@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/searchTextLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
     android:background="@drawable/gradient"
     android:clickable="true"
+    android:elevation="10dp"
     android:gravity="center"
     android:orientation="horizontal"
-    android:padding="10dp"
-    android:elevation="10dp"
     android:outlineAmbientShadowColor="?attr/colorOnPrimary"
-    android:outlineSpotShadowColor="?attr/colorOnPrimary">
+    android:outlineSpotShadowColor="?attr/colorOnPrimary"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/wordTextView"
