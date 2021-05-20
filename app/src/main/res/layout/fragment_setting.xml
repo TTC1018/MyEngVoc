@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="기능 1"
+        android:clickable="true"
         style="@style/CustomTextViewStyle" />
 
     <TextView
@@ -19,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="기능 2"
+        android:clickable="true"
         style="@style/CustomTextViewStyle" />
 
     <TextView
@@ -26,5 +28,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="앱 정보"
+        android:clickable="true"
         style="@style/CustomTextViewStyle" />
 </LinearLayout>

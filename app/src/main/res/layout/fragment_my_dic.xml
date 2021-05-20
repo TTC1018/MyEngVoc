@@ -13,9 +13,9 @@
         android:layout_gravity="right"
         android:orientation="horizontal"
         android:background="?attr/colorPrimary"
+        android:elevation="7dp"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
-        android:outlineSpotShadowColor="?attr/colorOnPrimary"
-        android:elevation="7dp">
+        android:outlineSpotShadowColor="?attr/colorOnPrimary">
 
         <View
             android:layout_width="0dp"
