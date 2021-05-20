@@ -2,6 +2,7 @@ package com.example.hwengvoc
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import androidx.core.graphics.component2
 import androidx.core.view.get
@@ -19,29 +20,26 @@ class MainActivity : AppCompatActivity() {
     private val searchFragment by lazy {SearchFragment()}
     private val quizFragment by lazy {QuizFragment()}
     private val manageFragment by lazy {SettingFragment()}
-
-
     lateinit var binding: ActivityMainBinding
-    lateinit var binding_sear: FragmentSearchBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
+        binding!!.bottomNavi.selectedItemId = R.id.searchBtn
     }
 
     private fun init() {
-        with(binding){
+        binding.apply{
             bottomNavi.setOnNavigationItemSelectedListener {
                 when(it.itemId){
-                    R.id.myDicBtn -> changeFragment(dicFragment)
                     R.id.searchBtn -> changeFragment(searchFragment)
+                    R.id.myDicBtn -> changeFragment(dicFragment)
                     R.id.quizBtn -> changeFragment(quizFragment)
                     R.id.manageBtn -> changeFragment(manageFragment)
                 }
-                true
+                false
             }
-            bottomNavi.selectedItemId = R.id.myDicBtn
         }
 
     }
@@ -51,10 +49,5 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.fragContainer, fragment)
             .commit()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.bottomNavi.selectedItemId = R.id.myDicBtn
     }
 }

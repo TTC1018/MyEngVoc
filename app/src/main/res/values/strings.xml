@@ -2,4 +2,7 @@
     <string name="app_name">HWEngVoc</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_information">
+        나만의 단어장 어플 v1.0\n만든이 : 박동현\n버그 및 기타 문의 : paramore@kakao.com
+    </string>
 </resources>

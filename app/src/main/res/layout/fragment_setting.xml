@@ -7,27 +7,81 @@
     android:padding="15dp"
     tools:context=".SettingFragment">
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="기능 1"
-        android:clickable="true"
-        style="@style/CustomTextViewStyle" />
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView"
+            style="@style/CustomTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="기능 1" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView2"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="기능 2"
-        android:clickable="true"
-        style="@style/CustomTextViewStyle" />
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/CustomTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="기능 2" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/infoText"
+    <LinearLayout
+        android:id="@+id/appInfoLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="앱 정보"
+        android:layout_margin="10dp"
+        android:background="@drawable/gradient"
         android:clickable="true"
-        style="@style/CustomTextViewStyle" />
+        android:elevation="10dp"
+        android:gravity="left"
+        android:orientation="vertical"
+        android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+        android:outlineSpotShadowColor="?attr/colorOnPrimary">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:text="앱 정보"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/appInfoTextLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:animateLayoutChanges="true"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:text="@string/app_information"
+                android:textAlignment="textStart"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

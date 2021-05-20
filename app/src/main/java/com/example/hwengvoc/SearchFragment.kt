@@ -1,12 +1,14 @@
 package com.example.hwengvoc
 
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,12 +42,11 @@ class SearchFragment : Fragment() {
                 getNews()
             }
 
-            searchEditText.setOnKeyListener { v, keyCode, event ->
+            searchEditText.setOnKeyListener { _, keyCode, event ->
                 if(event.action==KeyEvent.ACTION_DOWN && keyCode==KeyEvent.KEYCODE_ENTER){
-                    getNews()
-                    true
+                    wordSearchBtn.performClick()
                 }
-                false
+                true
             }
 
             recyclerView = recyclerSearch
