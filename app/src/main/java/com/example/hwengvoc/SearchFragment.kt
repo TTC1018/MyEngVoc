@@ -93,7 +93,7 @@ class SearchFragment : Fragment() {
             try{
                 meaning = doc.select("div.def-body.ddef_b span.trans.dtrans.dtrans-se ").first().text()
                 println(word + "=" + meaning)
-                searchedList.push(VocData(word, meaning))
+                searchedList.push(VocData(searchedList.size, word, meaning))
                 activity!!.runOnUiThread {
                     adapter!!.notifyDataSetChanged()
                     binding!!.progressBar.visibility = View.GONE

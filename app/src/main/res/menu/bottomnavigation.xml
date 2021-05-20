@@ -3,17 +3,21 @@
     <item
         android:id="@+id/searchBtn"
         android:icon="@android:drawable/ic_menu_search"
+        android:menuCategory="secondary"
         android:title="단어 검색" />
     <item
         android:id="@+id/myDicBtn"
         android:icon="@android:drawable/ic_menu_compass"
+        android:menuCategory="secondary"
         android:title="나의 단어장"/>
     <item
         android:id="@+id/quizBtn"
         android:icon="@android:drawable/ic_menu_agenda"
+        android:menuCategory="secondary"
         android:title="단어 퀴즈" />
     <item
         android:id="@+id/manageBtn"
         android:icon="@android:drawable/ic_menu_manage"
+        android:menuCategory="secondary"
         android:title="설정" />
 </menu>

@@ -28,8 +28,6 @@ class MyDicFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding!!.apply {
-            //test
-            dicList.add(DicData("나의 단어장", 5))
 
             recyclerView = recyclerDic
             recyclerView!!.layoutManager = GridLayoutManager(context, 2)
