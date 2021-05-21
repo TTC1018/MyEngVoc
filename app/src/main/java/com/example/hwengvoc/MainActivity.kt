@@ -1,14 +1,20 @@
 package com.example.hwengvoc
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.graphics.component2
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.example.hwengvoc.databinding.ActivityMainBinding
 import com.example.hwengvoc.databinding.FragmentMyDicBinding
 import com.example.hwengvoc.databinding.FragmentSearchBinding
@@ -16,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val dicFragment by lazy {MyDicFragment()}
@@ -25,12 +32,16 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
     lateinit var myDBHelper: MyDBHelper
-    lateinit var fragmentManager: FragmentManager
     val myViewModel: MyViewModel by viewModels()
+
+    var fragNum = Stack<Int>()
+    var backStackCount:Int = 0
+    var backPressedTime:Long = 0
+    var finishFlag:Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        fragmentManager = supportFragmentManager
         setContentView(binding.root)
         init()
     }
@@ -40,33 +51,89 @@ class MainActivity : AppCompatActivity() {
             bottomNavi.setOnNavigationItemSelectedListener {
                 when(it.itemId){
                     R.id.searchBtn -> {
-                        changeFragment(searchFragment)
+                        changeFragment(searchFragment, "search")
                     }
                     R.id.myDicBtn -> {
-                        changeFragment(dicFragment)
+                        changeFragment(dicFragment, "mydic")
                     }
                     R.id.quizBtn -> {
-                        changeFragment(quizFragment)
+                        changeFragment(quizFragment, "quiz")
                     }
                     R.id.manageBtn -> {
-                        changeFragment(manageFragment)
+                        changeFragment(manageFragment, "manage")
                     }
                 }
                 true
             }
             binding!!.bottomNavi.selectedItemId = R.id.myDicBtn
         }
-
         myDBHelper= MyDBHelper(this)
 //        myDBHelper.initDB()
+
+        //BackStack과 BottomNavigation 동기화 코드
+        supportFragmentManager.addOnBackStackChangedListener {
+            val entryCount = supportFragmentManager.backStackEntryCount
+            if(entryCount<backStackCount){
+                backStackCount--
+                when(fragNum.pop()){
+                    0-> binding!!.bottomNavi.menu.getItem(0).setChecked(true)
+                    1-> binding!!.bottomNavi.menu.getItem(1).setChecked(true)
+                    2-> binding!!.bottomNavi.menu.getItem(2).setChecked(true)
+                    3-> binding!!.bottomNavi.menu.getItem(3).setChecked(true)
+                }
+            }
+        }
     }
 
-    private fun changeFragment(fragment: Fragment) {
-        fragmentManager
+    private fun changeFragment(fragment: Fragment, tag:String) {
+        updateFragNum()
+        supportFragmentManager
             .beginTransaction()
             .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-            .addToBackStack(null)
+            .addToBackStack(tag)
             .replace(R.id.fragContainer, fragment)
             .commit()
+
+        backStackCount++
+//        Toast.makeText(this, backStackCount.toString(), Toast.LENGTH_SHORT).show()
     }
+
+    private fun updateFragNum(){
+        //BackStack과 BottomNavigation을 동기화 하기 위한 코드
+        if(supportFragmentManager.backStackEntryCount > 0){
+            val backStack = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount-1)
+            when(backStack.name){
+                "search"->fragNum.push(0)
+                "mydic"->fragNum.push(1)
+                "quiz"->fragNum.push(2)
+                "manage"->fragNum.push(3)
+            }
+        }
+    }
+
+    private fun showCloseDialog(){
+        val alBuilder = AlertDialog.Builder(this);
+        alBuilder.setMessage("종료 하시겠습니까?");
+        alBuilder.setPositiveButton("예") { dialog, which ->
+            finish()
+        }
+        alBuilder.setNegativeButton("아니오") {dialog, which ->
+
+        }
+        alBuilder.setTitle("종료")
+        alBuilder.show()
+    }
+
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//        finishFlag = supportFragmentManager.backStackEntryCount == 0
+//        if(finishFlag){
+//            if(System.currentTimeMillis() > backPressedTime + 2000){
+//                backPressedTime = System.currentTimeMillis()
+//                Toast.makeText(this, "뒤로 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+//            }else if(System.currentTimeMillis() <= backPressedTime + 2000){
+//                finish()
+//            }
+//        }
+//    }
 }
