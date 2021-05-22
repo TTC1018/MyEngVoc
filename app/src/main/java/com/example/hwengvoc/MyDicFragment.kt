@@ -1,6 +1,8 @@
 package com.example.hwengvoc
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,11 +35,31 @@ class MyDicFragment : Fragment() {
             recyclerView!!.layoutManager = GridLayoutManager(context, 2)
             adapter = MyDicRecyclerViewAdapter(dicList)
             recyclerView!!.adapter = adapter
+            adapter!!.itemClickListener = object:MyDicRecyclerViewAdapter.OnItemClickListener{
+                override fun OnItemClick(
+                    holder: MyDicRecyclerViewAdapter.ViewHolder,
+                    view: View,
+                    data: DicData,
+                    position: Int
+                ) {
+                    val intent = Intent(context, MyDicActivity::class.java)
+                    intent.putExtra("dic", data)
+                    startActivity(intent)
+                }
+            }
+
 
             editBtn.setOnClickListener {
-
+                if(recyclerView!!.layoutManager is GridLayoutManager)
+                    recyclerView!!.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                else
+                    recyclerView!!.layoutManager = GridLayoutManager(context, 2)
             }
         }
+
+        val activity = requireActivity() as MainActivity
+        val dbHelper = activity.myDBHelper
+        dbHelper.readDefaultDic()
     }
 
     override fun onDestroyView() {

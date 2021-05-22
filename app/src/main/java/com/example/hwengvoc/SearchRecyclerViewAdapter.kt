@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
 class SearchRecyclerViewAdapter(val vocs: LinkedList<VocData>):RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder>(){
-    val itemClickListener:OnItemClickListener?=null
+    var itemClickListener:OnItemClickListener?=null
     interface OnItemClickListener{
         fun OnItemClick(holder:ViewHolder, view:View, data:VocData, position:Int)
     }

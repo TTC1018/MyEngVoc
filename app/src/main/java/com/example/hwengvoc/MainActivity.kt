@@ -67,8 +67,6 @@ class MainActivity : AppCompatActivity() {
             }
             binding!!.bottomNavi.selectedItemId = R.id.myDicBtn
         }
-        myDBHelper= MyDBHelper(this)
-//        myDBHelper.initDB()
 
         //BackStack과 BottomNavigation 동기화 코드
         supportFragmentManager.addOnBackStackChangedListener {
@@ -83,6 +81,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        myDBHelper= MyDBHelper(this)
+//        myDBHelper.readDefaultDic()
     }
 
     private fun changeFragment(fragment: Fragment, tag:String) {
@@ -91,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
             .addToBackStack(tag)
-            .replace(R.id.fragContainer, fragment)
+            .replace(R.id.fragContainer, fragment, tag)
             .commit()
 
         backStackCount++
@@ -114,14 +115,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCloseDialog(){
         val alBuilder = AlertDialog.Builder(this);
-        alBuilder.setMessage("어플을 종료합니다");
+        alBuilder.setMessage("종료 할까요?");
         alBuilder.setPositiveButton("종료") { dialog, which ->
             finish()
         }
         alBuilder.setNegativeButton("취소") {dialog, which ->
 
         }
-        alBuilder.setTitle("단어장 종료")
+        alBuilder.setTitle("나만의 단어장")
         alBuilder.show()
     }
 

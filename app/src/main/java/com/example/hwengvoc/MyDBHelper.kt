@@ -17,48 +17,51 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
     companion object{
         val DB_NAME = "dictionary.db"
         val DB_VERSION = 1
-        var TABLE_NAMES = mutableListOf<String>("myDic")
+        var TABLE_NAMES = mutableListOf<String>("기본_단어장")
         val VID = "vid"
         val WORD = "word"
         val MEAN = "meaning"
-    }
-    fun initDB(){
-        val db = readableDatabase
-        db.close()
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
         println("MyDBHelper onCreate")
         for(TABLE_NAME in TABLE_NAMES){
-            val create_table = "create table if not exists ${TABLE_NAME}("+
+            val create_table = "create table if not exists '${TABLE_NAME}'("+
                     "$VID integer primary key autoincrement, "+
                     "$WORD text, "+
                     "$MEAN text);"
             db!!.execSQL(create_table)
         }
-        readDefaultDic()
     }
 
-    private fun readDefaultDic() {
-        val scan = Scanner(context.resources.openRawResource(R.raw.words))
+    fun readDefaultDic() {
         val activity = context as MainActivity
-        val myDicFragment = activity.supportFragmentManager.findFragmentById(R.id.fragContainer) as MyDicFragment
+        val myDicFragment = activity.supportFragmentManager.findFragmentByTag("mydic") as MyDicFragment?
+
+        if(checkInitialize(TABLE_NAMES.get(0))){
+            myDicFragment!!.dicList.add(DicData(TABLE_NAMES.get(0).replace("_", " "), countVoc(
+                TABLE_NAMES.get(0))))
+            myDicFragment!!.adapter!!.notifyDataSetChanged()
+            return
+        }
+
+        val scan = Scanner(context.resources.openRawResource(R.raw.words_small))
         var count = 0
 
         while(scan.hasNextLine()){
             val word = scan.nextLine()
             val meaning = scan.nextLine()
-            insertVoc(VocData(0, word, meaning), "default")
+            insertVoc(VocData(0, word, meaning), TABLE_NAMES.get(0))
             count++
         }
-        myDicFragment!!.dicList.add(DicData("기본 단어장", count/2))
+        myDicFragment!!.dicList.add(DicData(TABLE_NAMES.get(0).replace("_", " "), count))
         myDicFragment!!.adapter!!.notifyDataSetChanged()
         scan.close()
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         for(TABLE_NAME in TABLE_NAMES){
-            db!!.execSQL("drop table if exists $TABLE_NAME;")
+            db!!.execSQL("drop table if exists '$TABLE_NAME';")
             onCreate(db)
         }
     }
@@ -165,6 +168,22 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
 //        return flag
 //    }
 
+    fun findDic(TABLE_NAME: String):LinkedList<VocData>{
+        var vocList = LinkedList<VocData>()
+        val strsql = "select * from '$TABLE_NAME';"
+        val db = readableDatabase
+        val cursor = db.rawQuery(strsql, null)
+        val flag = cursor.count!=0
+
+        if(flag){
+            cursor.moveToFirst()
+            do {
+                vocList.add(VocData(cursor.getInt(cursor.getColumnIndex("vid")), cursor.getString(cursor.getColumnIndex("word")), cursor.getString(cursor.getColumnIndex("meaning"))))
+            }while(cursor.moveToNext())
+        }
+        return vocList
+    }
+
     fun insertVoc(voc:VocData, TABLE_NAME:String):Boolean{
         val values = ContentValues()
         values.put(WORD, voc.word)
@@ -176,7 +195,7 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
     }
 
     fun deleteVoc(vid: String, TABLE_NAME: String): Boolean {
-        val strsql = "select * from $TABLE_NAME where $VID='$vid';"
+        val strsql = "select * from '$TABLE_NAME' where $VID='$vid';"
         val db = writableDatabase
         val cursor = db.rawQuery(strsql, null)
         val flag = cursor.count!=0
@@ -189,6 +208,24 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
         return flag
     }
 
+    fun checkInitialize(TABLE_NAME: String):Boolean{
+        val strsql = "select * from '$TABLE_NAME';"
+        val db = readableDatabase
+        val cursor = db.rawQuery(strsql, null)
+        val flag = cursor.count!=0
+        return flag
+    }
+
+    fun countVoc(TABLE_NAME: String):Int{
+        val strsql = "select * from '$TABLE_NAME';"
+        val db = readableDatabase
+        val cursor = db.rawQuery(strsql, null)
+        var count = 0
+        while(cursor.moveToNext()){
+            count++
+        }
+        return count
+    }
 
 
 
