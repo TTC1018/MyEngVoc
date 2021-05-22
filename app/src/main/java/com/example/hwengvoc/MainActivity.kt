@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         backStackCount++
+        finishFlag=false
 //        Toast.makeText(this, backStackCount.toString(), Toast.LENGTH_SHORT).show()
     }
 
@@ -113,27 +114,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCloseDialog(){
         val alBuilder = AlertDialog.Builder(this);
-        alBuilder.setMessage("종료 하시겠습니까?");
-        alBuilder.setPositiveButton("예") { dialog, which ->
+        alBuilder.setMessage("어플을 종료합니다");
+        alBuilder.setPositiveButton("종료") { dialog, which ->
             finish()
         }
-        alBuilder.setNegativeButton("아니오") {dialog, which ->
+        alBuilder.setNegativeButton("취소") {dialog, which ->
 
         }
-        alBuilder.setTitle("종료")
+        alBuilder.setTitle("단어장 종료")
         alBuilder.show()
     }
 
-//    override fun onBackPressed() {
-//        super.onBackPressed()
-//        finishFlag = supportFragmentManager.backStackEntryCount == 0
-//        if(finishFlag){
-//            if(System.currentTimeMillis() > backPressedTime + 2000){
-//                backPressedTime = System.currentTimeMillis()
-//                Toast.makeText(this, "뒤로 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
-//            }else if(System.currentTimeMillis() <= backPressedTime + 2000){
-//                finish()
-//            }
-//        }
-//    }
+    override fun onBackPressed() {
+        if(backStackCount==1){
+            finishFlag=true
+            if(finishFlag){
+                showCloseDialog()
+            }
+            return
+        }
+        super.onBackPressed()
+    }
 }
