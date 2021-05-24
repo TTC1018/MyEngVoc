@@ -38,10 +38,14 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
         val activity = context as MainActivity
         val myDicFragment = activity.supportFragmentManager.findFragmentByTag("mydic") as MyDicFragment?
 
+        //기본 단어장 추가한 경우
         if(checkInitialize(TABLE_NAMES.get(0))){
-            myDicFragment!!.dicList.add(DicData(TABLE_NAMES.get(0).replace("_", " "), countVoc(
-                TABLE_NAMES.get(0))))
-            myDicFragment!!.adapter!!.notifyDataSetChanged()
+            //중복으로 DicList 버튼 생기는거 방지
+            if(myDicFragment!!.dicList.size == 0){
+                myDicFragment!!.dicList.add(DicData(TABLE_NAMES.get(0).replace("_", " "), countVoc(
+                    TABLE_NAMES.get(0))))
+                myDicFragment!!.adapter!!.notifyDataSetChanged()
+            }
             return
         }
 

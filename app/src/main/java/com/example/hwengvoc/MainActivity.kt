@@ -46,6 +46,11 @@ class MainActivity : AppCompatActivity() {
         init()
     }
 
+    override fun onResume() {
+        super.onResume()
+        dicFragment.recyclerView!!.adapter!!.notifyDataSetChanged()
+    }
+
     private fun init() {
         binding.apply{
             bottomNavi.setOnNavigationItemSelectedListener {
