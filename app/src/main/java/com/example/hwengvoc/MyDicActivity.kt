@@ -28,9 +28,10 @@ class MyDicActivity : AppCompatActivity() {
     fun init(){
         val intent = intent
         val DicData = intent.getSerializableExtra("dic") as DicData
+        val dicName = DicData.dicName.replace(" ", "_")
 
         myDBHelper = MyDBHelper(this)
-        vocData = myDBHelper.findDic(DicData.dicName.replace(" ", "_"))
+        vocData = myDBHelper.findDic(dicName)
 
         recyclerView = binding.mydicRecycler
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -39,7 +40,9 @@ class MyDicActivity : AppCompatActivity() {
         val simpleCallback = object:
             ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                adapter!!.removeItem(viewHolder.adapterPosition)
+                val position = viewHolder.adapterPosition
+                myDBHelper!!.deleteVoc(position.toString(), vocData.size, dicName)
+                adapter!!.removeItem(position)
             }
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -54,9 +57,14 @@ class MyDicActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val intent = Intent()
-        intent.putExtra("count", vocData.size)
-        setResult(Activity.RESULT_OK, intent)
+        if(vocData.size>0){
+            val intent = Intent()
+            intent.putExtra("count", vocData.size)
+            setResult(Activity.RESULT_OK, intent)
+        }
+        else{
+
+        }
         finish()
         super.onBackPressed()
     }

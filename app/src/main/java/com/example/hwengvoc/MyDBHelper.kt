@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Color
 import android.view.Gravity
@@ -38,7 +39,7 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
         val activity = context as MainActivity
         val myDicFragment = activity.supportFragmentManager.findFragmentByTag("mydic") as MyDicFragment?
 
-        //기본 단어장 추가한 경우
+        //단어장에 1개 이상 들어있음
         if(checkInitialize(TABLE_NAMES.get(0))){
             //중복으로 DicList 버튼 생기는거 방지
             if(myDicFragment!!.dicList.size == 0){
@@ -154,23 +155,6 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
 //        db.close()
 //        return flag
 //    }
-//    fun updateVoc(voc: VocData, TABLE_NAME: String): Boolean {
-//        val vid = product.pId
-//        val strsql = "select * from $TABLE_NAME where $VID='$vid';"
-//        val db = writableDatabase
-//        val cursor = db.rawQuery(strsql, null)
-//        val flag = cursor.count!=0
-//        if(flag){
-//            cursor.moveToFirst()
-//            val values = ContentValues()
-//            values.put(WORD, voc.word)
-//            values.put(MEAN, voc.meaning)
-//            db.update(TABLE_NAME, values,"$VID=?", arrayOf(vid.toString()))
-//        }
-//        cursor.close()
-//        db.close()
-//        return flag
-//    }
 
     fun findDic(TABLE_NAME: String):LinkedList<VocData>{
         var vocList = LinkedList<VocData>()
@@ -198,26 +182,73 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
         return flag
     }
 
-    fun deleteVoc(vid: String, TABLE_NAME: String): Boolean {
-        val strsql = "select * from '$TABLE_NAME' where $VID='$vid';"
+    fun deleteVoc(vid: String, size:Int, TABLE_NAME: String): Boolean {
+        val targetVid = (vid.toInt()+1).toString()
+
+        val strsql = "select * from '$TABLE_NAME' where $VID='$targetVid';"
         val db = writableDatabase
         val cursor = db.rawQuery(strsql, null)
         val flag = cursor.count!=0
         if(flag){
             cursor.moveToFirst()
-            db.delete(TABLE_NAME, "$VID=?", arrayOf(vid))
+            db.delete(TABLE_NAME, "$VID=?", arrayOf(targetVid))
+            if(size>1){ //VID 정렬하여 갱신하기
+                for(i:Int in targetVid.toInt()+1..size){
+                    val updateSql = "select * from $TABLE_NAME where $VID='$i';"
+                    val cursor2 = db.rawQuery(updateSql, null)
+                    cursor2.moveToFirst()
+                    val values = ContentValues()
+                    values.put("vid", i-1)
+                    db.update(TABLE_NAME, values,"$VID=?", arrayOf(i.toString()))
+                }
+            }
         }
         cursor.close()
         db.close()
         return flag
     }
 
+    //    fun updateVoc(voc: VocData, TABLE_NAME: String): Boolean {
+//        val vid = product.pId
+//        val strsql = "select * from $TABLE_NAME where $VID='$vid';"
+//        val db = writableDatabase
+//        val cursor = db.rawQuery(strsql, null)
+//        val flag = cursor.count!=0
+//        if(flag){
+//            cursor.moveToFirst()
+//            val values = ContentValues()
+//            values.put(WORD, voc.word)
+//            values.put(MEAN, voc.meaning)
+//            db.update(TABLE_NAME, values,"$VID=?", arrayOf(vid.toString()))
+//        }
+//        cursor.close()
+//        db.close()
+//        return flag
+//    }
+
+    //초기화 됐는지
     fun checkInitialize(TABLE_NAME: String):Boolean{
         val strsql = "select * from '$TABLE_NAME';"
         val db = readableDatabase
         val cursor = db.rawQuery(strsql, null)
         val flag = cursor.count!=0
         return flag
+    }
+
+    //테이블 존재 확인
+    fun checkTableMade(TABLE_NAME: String):Boolean{
+        val strsql = "select * from '$TABLE_NAME' limit 1;"
+        val db = readableDatabase
+        try {
+            db.rawQuery(strsql, null)
+        } catch (e: SQLiteException) {
+            e.printStackTrace()
+            return false
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
+        return true
     }
 
     fun countVoc(TABLE_NAME: String):Int{

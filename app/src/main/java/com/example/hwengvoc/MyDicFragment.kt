@@ -67,7 +67,9 @@ class MyDicFragment : Fragment() {
 
         val activity = requireActivity() as MainActivity
         val dbHelper = activity.myDBHelper
-        dbHelper.readDefaultDic()
+        if(!dbHelper.checkInitialize("기본_단어장")){
+            dbHelper.readDefaultDic()
+        }
     }
 
 //    fun onActivityResult(position:Int, data:DicData){
