@@ -57,8 +57,8 @@ class MyDicFragment : Fragment() {
             recyclerView = recyclerDic
             recyclerView!!.layoutManager = GridLayoutManager(context, 2)
             adapter = MyDicRecyclerViewAdapter(dicList)
+            adapter!!.itemClickListener = defItemClickListener()
             recyclerView!!.adapter = adapter
-            adapter!!.itemClickListener = editItemClickListener()
 
             //단어장 수정 버튼 ClickListener
             editBtn.setOnClickListener {
@@ -68,12 +68,12 @@ class MyDicFragment : Fragment() {
                 if(recyclerView!!.layoutManager is GridLayoutManager){
                     recyclerView!!.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     recyclerView!!.startAnimation(fadeIn)
-                    adapter!!.itemClickListener = defItemClickListener()
+                    adapter!!.setOnItemClickListener(editItemClickListener())
                 }
                 else{
                     recyclerView!!.layoutManager = GridLayoutManager(context, 2)
                     recyclerView!!.startAnimation(fadeIn)
-                    adapter!!.itemClickListener = editItemClickListener()
+                    adapter!!.setOnItemClickListener(defItemClickListener())
                 }
 
                 val editShowText:TextView = binding!!.editShowText
@@ -156,13 +156,16 @@ class MyDicFragment : Fragment() {
 
                 var cancelBtn = customDialog.findViewById<Button>(R.id.diaCancelBtn)
                 var okBtn = customDialog.findViewById<Button>(R.id.diaOKBtn)
+                var dicText = customDialog.findViewById<EditText>(R.id.dicNameEditText)
+
                 cancelBtn.setOnClickListener {
                     dialog.dismiss()
                 }
                 okBtn.setOnClickListener {
+                    val newDicName = dicText.text.toString()
 
                 }
-                var dicText = customDialog.findViewById<EditText>(R.id.dicNameEditText)
+                dicText.setText(dicList.get(position).dicName)
                 dicText.requestFocus()
             }
         }

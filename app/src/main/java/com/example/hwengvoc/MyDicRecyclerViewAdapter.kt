@@ -41,4 +41,8 @@ class MyDicRecyclerViewAdapter(val dicList:List<DicData>): RecyclerView.Adapter<
         holder.dicNameText.text = dicList[position].dicName
         holder.wordCountText.text = "단어 "+dicList[position].wordCount.toString()+"개"
     }
+
+    fun setOnItemClickListener(itemClickListener: OnItemClickListener){
+        this.itemClickListener = itemClickListener
+    }
 }
