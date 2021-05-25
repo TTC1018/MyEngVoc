@@ -91,7 +91,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         myDBHelper= MyDBHelper(this)
-//        myDBHelper.readDefaultDic()
     }
 
     private fun changeFragment(fragment: Fragment, tag:String) {

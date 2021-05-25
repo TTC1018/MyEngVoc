@@ -1,12 +1,15 @@
 package com.example.hwengvoc
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
+import android.content.SharedPreferences
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Color
+import android.util.Log
 import android.view.Gravity
 import android.widget.TableRow
 import android.widget.TextView
@@ -18,7 +21,7 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
     companion object{
         val DB_NAME = "dictionary.db"
         val DB_VERSION = 1
-        var TABLE_NAMES = mutableListOf<String>("기본_단어장")
+        var TABLE_NAMES = mutableListOf<String>()
         val VID = "vid"
         val WORD = "word"
         val MEAN = "meaning"
@@ -26,6 +29,7 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
 
     override fun onCreate(db: SQLiteDatabase?) {
         println("MyDBHelper onCreate")
+
         for(TABLE_NAME in TABLE_NAMES){
             val create_table = "create table if not exists '${TABLE_NAME}'("+
                     "$VID integer primary key autoincrement, "+
@@ -38,17 +42,6 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
     fun readDefaultDic() {
         val activity = context as MainActivity
         val myDicFragment = activity.supportFragmentManager.findFragmentByTag("mydic") as MyDicFragment?
-
-        //단어장에 1개 이상 들어있음
-        if(checkInitialize(TABLE_NAMES.get(0))){
-            //중복으로 DicList 버튼 생기는거 방지
-            if(myDicFragment!!.dicList.size == 0){
-                myDicFragment!!.dicList.add(DicData(TABLE_NAMES.get(0).replace("_", " "), countVoc(
-                    TABLE_NAMES.get(0))))
-                myDicFragment!!.adapter!!.notifyDataSetChanged()
-            }
-            return
-        }
 
         val scan = Scanner(context.resources.openRawResource(R.raw.words_small))
         var count = 0
@@ -208,6 +201,49 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
         return flag
     }
 
+    fun createTable(TABLE_NAME: String){
+        val newTable = TABLE_NAME.replace(" ", "_")
+        val db = writableDatabase
+        val create_table = "create table if not exists '${newTable}'("+
+                "$VID integer primary key autoincrement, "+
+                "$WORD text, "+
+                "$MEAN text);"
+        db!!.execSQL(create_table)
+        db.close()
+
+        TABLE_NAMES.add(newTable)
+    }
+
+    fun updateTable(OLD_NAME:String, NEW_NAME: String){
+        val oldName = OLD_NAME.replace(" ", "_")
+        val newName = NEW_NAME.replace(" ", "_")
+        val strsql = "alter table '$oldName' rename to '$newName';"
+        val db = writableDatabase
+        db.execSQL(strsql)
+        db.close()
+
+        for(i:Int in 0..TABLE_NAMES.size-1){
+            if(TABLE_NAMES.get(i).equals(oldName)){
+                TABLE_NAMES.set(i, newName)
+            }
+        }
+    }
+
+    fun deleteTable(TABLE_NAME: String){
+        val targetName = TABLE_NAME.replace(" ", "_")
+        val strsql = "drop table '$targetName';"
+        val db = writableDatabase
+        db.execSQL(strsql)
+        db.close()
+
+        for(i:Int in 0 until TABLE_NAMES.size){
+            if(TABLE_NAMES.get(i).equals(targetName)){
+                TABLE_NAMES.removeAt(i)
+                break
+            }
+        }
+    }
+
     //    fun updateVoc(voc: VocData, TABLE_NAME: String): Boolean {
 //        val vid = product.pId
 //        val strsql = "select * from $TABLE_NAME where $VID='$vid';"
@@ -232,6 +268,8 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
         val db = readableDatabase
         val cursor = db.rawQuery(strsql, null)
         val flag = cursor.count!=0
+        db.close()
+        cursor.close()
         return flag
     }
 
@@ -259,7 +297,23 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
         while(cursor.moveToNext()){
             count++
         }
+        db.close()
+        cursor.close()
         return count
+    }
+
+    fun initalizeDB(){
+        val search_table = "select * from sqlite_master where (not (name='android_metadata' or name like '%sqlite_sequence%')) and type='table';"
+        val db = readableDatabase
+        val c = db!!.rawQuery(search_table, null)
+        if(c.moveToFirst()){
+            while(!c.isAfterLast){
+                TABLE_NAMES.add(c.getString(c.getColumnIndex("name")))
+                c.moveToNext()
+            }
+        }
+        db.close()
+        c.close()
     }
 
 

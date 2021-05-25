@@ -9,4 +9,11 @@
     <style name="CustomMyDicAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@drawable/dialog_radius</item>
     </style>
+    <style name="Widget.AppTheme.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextColor">?attr/colorOnPrimary</item>
+        <item name="boxBackgroundColor">?attr/colorPrimary</item>
+        <item name="boxStrokeColor">?attr/colorOnPrimary</item>
+        <item name="errorTextColor">?attr/colorOnPrimary</item>
+        <item name="colorControlActivated">?attr/colorOnPrimary</item>
+    </style>
 </resources>

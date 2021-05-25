@@ -17,7 +17,25 @@
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:outlineSpotShadowColor="?attr/colorOnPrimary">
 
+        <ImageButton
+            android:id="@+id/addBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="21dp"
+            android:background="@drawable/gradient_btn"
+            android:elevation="10dp"
+            android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+            android:outlineSpotShadowColor="?attr/colorOnPrimary"
+            android:padding="1dp"
+            android:src="@drawable/add_button_ripple"
+            android:tint="?attr/colorOnPrimary"
+            android:visibility="gone" />
+
         <View
+            android:id="@+id/weightView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
@@ -26,13 +44,12 @@
             android:id="@+id/editShowText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="21dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="21dp"
             android:layout_weight="1"
             android:padding="5dp"
-            android:text="편집할 단어장을 선택해주세요"
+            android:text="단어장을 추가하거나, 편집할 단어장을 선택하세요"
+            android:textSize="13sp"
             android:textAlignment="center"
             android:textColor="?attr/colorOnPrimary"
             android:visibility="gone" />
