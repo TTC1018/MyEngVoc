@@ -1,6 +1,8 @@
 package com.example.hwengvoc
 
+import android.app.Activity
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     var backStackCount:Int = 0
     var backPressedTime:Long = 0
     var finishFlag:Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

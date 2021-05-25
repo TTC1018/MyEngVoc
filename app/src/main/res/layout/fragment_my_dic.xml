@@ -22,6 +22,21 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+        <TextView
+            android:id="@+id/editShowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="21dp"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:text="편집할 단어장을 길게 눌러주세요"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnPrimary"
+            android:visibility="gone" />
+
         <ImageButton
             android:id="@+id/editBtn"
             android:layout_width="wrap_content"

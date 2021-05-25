@@ -57,14 +57,10 @@ class MyDicActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if(vocData.size>0){
-            val intent = Intent()
-            intent.putExtra("count", vocData.size)
-            setResult(Activity.RESULT_OK, intent)
-        }
-        else{
+        val intent = Intent()
+        intent.putExtra("count", vocData.size)
+        setResult(Activity.RESULT_OK, intent)
 
-        }
         finish()
         super.onBackPressed()
     }
