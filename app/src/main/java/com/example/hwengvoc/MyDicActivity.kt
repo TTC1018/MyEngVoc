@@ -60,7 +60,6 @@ class MyDicActivity : AppCompatActivity() {
         val intent = Intent()
         intent.putExtra("count", vocData.size)
         setResult(Activity.RESULT_OK, intent)
-
         finish()
         super.onBackPressed()
     }

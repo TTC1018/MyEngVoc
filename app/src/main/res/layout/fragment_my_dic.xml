@@ -32,7 +32,7 @@
             android:layout_marginBottom="21dp"
             android:layout_weight="1"
             android:padding="5dp"
-            android:text="편집할 단어장을 길게 눌러주세요"
+            android:text="편집할 단어장을 선택해주세요"
             android:textAlignment="center"
             android:textColor="?attr/colorOnPrimary"
             android:visibility="gone" />
@@ -45,7 +45,7 @@
             android:layout_marginTop="21dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="21dp"
-            android:background="@drawable/gradient_radius"
+            android:background="@drawable/gradient_btn"
             android:elevation="10dp"
             android:outlineAmbientShadowColor="?attr/colorOnPrimary"
             android:outlineSpotShadowColor="?attr/colorOnPrimary"
