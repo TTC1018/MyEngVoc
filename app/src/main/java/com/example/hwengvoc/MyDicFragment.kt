@@ -242,9 +242,11 @@ class MyDicFragment : Fragment() {
                         }
                         else { //한글 숫자 영어 일때
                             if(dicListHas(s.toString(), position)){
+                                okBtn.setBackgroundColor(Color.GRAY)
                                 dicText.error = "같은 이름의 단어장이 존재합니다."
                             }
                             else if(data.dicName.equals(s.toString())){
+                                okBtn.setBackgroundColor(Color.GRAY)
                                 dicText.error = "동일한 이름으로 수정 불가능합니다."
                             }
                             else{
