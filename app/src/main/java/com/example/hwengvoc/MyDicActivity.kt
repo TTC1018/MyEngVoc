@@ -154,7 +154,7 @@ class MyDicActivity : AppCompatActivity() {
                         }
                     }
                     2-> {
-                        meanFlag = s!!.matches(Regex("^[ㄱ-ㅎ|가-힣|0-9|()?, ]+\$"))
+                        meanFlag = s!!.matches(Regex("^[ㄱ-ㅎ|가-힣|0-9|()?,~\\- ]+\$"))
                         btn.isClickable = wordFlag && meanFlag
                         if(!meanFlag){ // 한글 아닐 때
                             btn.setBackgroundColor(Color.GRAY)
