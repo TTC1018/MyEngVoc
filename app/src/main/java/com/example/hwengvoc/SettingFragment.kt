@@ -2,13 +2,11 @@ package com.example.hwengvoc
 
 import android.app.UiModeManager
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.example.hwengvoc.databinding.FragmentSettingBinding
@@ -23,7 +21,6 @@ class SettingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentSettingBinding.inflate(layoutInflater)
         slideUp = AnimationUtils.loadAnimation(context, R.anim.slide_up)
         return binding!!.root

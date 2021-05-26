@@ -4,34 +4,22 @@ import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.graphics.ColorFilter
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationUtils
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AlertDialogLayout
-import androidx.core.view.isEmpty
-import androidx.core.view.isNotEmpty
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hwengvoc.databinding.DialogEditMyDicBinding
 import com.example.hwengvoc.databinding.FragmentMyDicBinding
 import com.google.android.material.textfield.TextInputLayout
 
@@ -42,8 +30,6 @@ class MyDicFragment : Fragment() {
     var binding:FragmentMyDicBinding?=null
     var dicList = mutableListOf<DicData>()
     var dbHelper:MyDBHelper?=null
-
-    val MY_DIC_CODE = 100
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +58,7 @@ class MyDicFragment : Fragment() {
             adapter!!.notifyDataSetChanged()
         }
         val activity = requireActivity() as MainActivity
-        activity.binding!!.bottomNavi.menu.getItem(1).setChecked(true)
+        activity.binding.bottomNavi.menu.getItem(1).setChecked(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -280,13 +266,13 @@ class MyDicFragment : Fragment() {
     private fun showRemoveDialog(position:Int, data:DicData, prevDialog: AlertDialog){
         val alBuilder = AlertDialog.Builder(requireActivity(), R.style.DefaultDialogStyle);
         alBuilder.setMessage("삭제 버튼을 누르면 단어장이 삭제됩니다.");
-        alBuilder.setPositiveButton("삭제") { dialog, which ->
+        alBuilder.setPositiveButton("삭제") { _, _ ->
             dbHelper!!.deleteTable(data.dicName)
             adapter!!.notifyDataSetChanged()
             dicList.removeAt(position)
             prevDialog.dismiss()
         }
-        alBuilder.setNegativeButton("취소") {dialog, which ->
+        alBuilder.setNegativeButton("취소") {_, _ ->
 
         }
         alBuilder.setTitle("단어장 삭제")

@@ -109,7 +109,7 @@ class QuizFragment : Fragment() {
                 else{
                     val intent = Intent(requireContext(), MeanQuizActivity::class.java)
                     intent.putExtra("dicName", selDicTextView.text.toString())
-                    intent.putExtra("difficulty", optTextView.text.toString())
+                    intent.putExtra("option", optTextView.text.toString())
                     startActivity(intent)
                 }
             }
@@ -120,7 +120,7 @@ class QuizFragment : Fragment() {
                 else{
                     val intent = Intent(requireContext(), WordQuizActivity::class.java)
                     intent.putExtra("dicName", selDicTextView.text.toString())
-                    intent.putExtra("difficulty", optTextView.text.toString())
+                    intent.putExtra("option", optTextView.text.toString())
                     startActivity(intent)
                 }
             }
@@ -131,7 +131,7 @@ class QuizFragment : Fragment() {
                 else{
                     val intent = Intent(requireContext(), SpellQuizActivity::class.java)
                     intent.putExtra("dicName", selDicTextView.text.toString())
-                    intent.putExtra("difficulty", optTextView.text.toString())
+                    intent.putExtra("option", optTextView.text.toString())
                     startActivity(intent)
                 }
             }

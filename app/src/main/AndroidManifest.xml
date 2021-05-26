@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HWEngVoc">
-        <activity android:name=".SpellQuizActivity"></activity>
+        <activity android:name=".SpellQuizActivity"/>
         <activity android:name=".WordQuizActivity" />
         <activity android:name=".MeanQuizActivity" />
         <activity android:name=".MyDicActivity" />
@@ -20,7 +20,6 @@
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

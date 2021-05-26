@@ -1,29 +1,11 @@
 package com.example.hwengvoc
 
-import android.app.Activity
-import android.content.DialogInterface
-import android.content.SharedPreferences
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
-import android.view.View
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.core.graphics.component2
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import com.example.hwengvoc.databinding.ActivityMainBinding
-import com.example.hwengvoc.databinding.FragmentMyDicBinding
-import com.example.hwengvoc.databinding.FragmentSearchBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -34,11 +16,9 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
     lateinit var myDBHelper: MyDBHelper
-    val myViewModel: MyViewModel by viewModels()
 
     var fragNum = Stack<Int>()
     var backStackCount:Int = 0
-    var backPressedTime:Long = 0
     var finishFlag:Boolean = false
 
 
@@ -123,10 +103,10 @@ class MainActivity : AppCompatActivity() {
     private fun showCloseDialog(){
         val alBuilder = AlertDialog.Builder(this, R.style.DefaultDialogStyle);
         alBuilder.setMessage("종료 할까요?");
-        alBuilder.setPositiveButton("종료") { dialog, which ->
+        alBuilder.setPositiveButton("종료") { _, _ ->
             finish()
         }
-        alBuilder.setNegativeButton("취소") {dialog, which ->
+        alBuilder.setNegativeButton("취소") {_, _ ->
 
         }
         alBuilder.setTitle("나만의 단어장")

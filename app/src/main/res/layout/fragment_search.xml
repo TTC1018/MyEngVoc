@@ -39,7 +39,7 @@
             android:padding="6dp"
             android:text="@null"
             android:textAlignment="center"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="@color/white"
             android:textCursorDrawable="@null"
             android:imeOptions="actionSearch" />
 

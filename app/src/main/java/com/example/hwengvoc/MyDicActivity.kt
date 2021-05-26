@@ -1,7 +1,5 @@
 package com.example.hwengvoc
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -55,8 +53,8 @@ class MyDicActivity : AppCompatActivity() {
             ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                myDBHelper!!.deleteVoc(vocData[position].word, dicName)
-                adapter!!.removeItem(position)
+                myDBHelper.deleteVoc(vocData[position].word, dicName)
+                adapter.removeItem(position)
             }
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -67,7 +65,7 @@ class MyDicActivity : AppCompatActivity() {
             }
         }
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView!!)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
         //단어 추가 버튼 Listener 설정
         binding.showDicAddBtn.setOnClickListener {
@@ -91,9 +89,9 @@ class MyDicActivity : AppCompatActivity() {
             okBtn.setOnClickListener {
                 val newWord = wordText.editText!!.text.toString()
                 val newMean = meanText.editText!!.text.toString()
-                myDBHelper!!.insertVoc(VocData(0, newWord, newMean), dicName)
+                myDBHelper.insertVoc(VocData(0, newWord, newMean), dicName)
                 vocData.add(VocData(vocData.size, newWord, newMean))
-                adapter!!.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
                 wordText.editText!!.text.clear()
                 meanText.editText!!.text.clear()
                 Toast.makeText(this, "단어가 추가되었습니다", Toast.LENGTH_SHORT).show()
@@ -150,7 +148,7 @@ class MyDicActivity : AppCompatActivity() {
                         btn.isClickable = wordFlag && meanFlag
                         if(!meanFlag){ // 한글 아닐 때
                             btn.setBackgroundColor(Color.GRAY)
-                            if(s!!.isEmpty()){
+                            if(s.isEmpty()){
                                 text.error = "뜻을 입력해주세요"
                             }
                             else if(s.startsWith(" ")){

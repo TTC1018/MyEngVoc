@@ -46,20 +46,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/textView2"
-            style="@style/CustomTextViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:text="기능 2" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/appInfoLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -105,6 +91,7 @@
                 android:padding="4dp"
                 android:text="@string/app_information"
                 android:textAlignment="textStart"
+                android:textColor="@color/white"
                 android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>

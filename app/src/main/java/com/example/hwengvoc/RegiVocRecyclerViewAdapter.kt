@@ -14,12 +14,6 @@ class RegiVocRecyclerViewAdapter(val dics: LinkedList<String>): RecyclerView.Ada
         fun OnItemClick(holder:ViewHolder, view: View, tableName:String, position:Int)
     }
 
-    fun removeItem(pos:Int){
-        dics.removeAt(pos)
-        notifyItemRemoved(pos)
-        notifyItemRangeRemoved(0, itemCount)
-    }
-
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val rowLayout:LinearLayout = view.findViewById(R.id.targetDicLayout)
         val dicNameText: TextView = view.findViewById(R.id.targetDicNameTextView)
