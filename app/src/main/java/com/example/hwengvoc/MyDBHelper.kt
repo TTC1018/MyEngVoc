@@ -126,17 +126,6 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
 //            activity.binding.tableLayout.addView(row)
 //        }while(cursor.moveToNext())
 //    }
-
-//    fun findVoc(word: String, TABLE_NAME: String): Boolean {
-//        val strsql = "select * from $TABLE_NAME where $WORD='$word';"
-//        val db = readableDatabase
-//        val cursor = db.rawQuery(strsql, null)
-//        val flag = cursor.count!=0
-//        showRecord(cursor)
-//        cursor.close()
-//        db.close()
-//        return flag
-//    }
 //
 //    fun findVoc2(meaning: String, TABLE_NAME: String): Boolean {
 //        val strsql = "select * from $TABLE_NAME where $MEAN = '$meaning';"
@@ -148,6 +137,16 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
 //        db.close()
 //        return flag
 //    }
+
+    fun findVoc(word: String, TABLE_NAME: String): Boolean {
+        val strsql = "select * from $TABLE_NAME where $WORD='$word';"
+        val db = readableDatabase
+        val cursor = db.rawQuery(strsql, null)
+        val flag = cursor.count!=0
+        cursor.close()
+        db.close()
+        return flag
+    }
 
     fun findDic(TABLE_NAME: String):LinkedList<VocData>{
         var vocList = LinkedList<VocData>()
@@ -166,6 +165,9 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
     }
 
     fun insertVoc(voc:VocData, TABLE_NAME:String):Boolean{
+        if(findVoc(voc.word, TABLE_NAME)) //중복 삽입 방지
+            return false
+
         val values = ContentValues()
         values.put(WORD, voc.word)
         values.put(MEAN, voc.meaning)

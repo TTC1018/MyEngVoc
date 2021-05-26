@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hwengvoc.databinding.ActivityMyDicBinding
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import java.util.*
 
@@ -80,8 +79,8 @@ class MyDicActivity : AppCompatActivity() {
             dialog.show()
 
             //custom Dialog 컴포넌트들 선언
-            var cancelBtn = customDialog.findViewById<Button>(R.id.vocAddCancelBtn)
-            var okBtn = customDialog.findViewById<Button>(R.id.vocAddOKBtn)
+            var cancelBtn = customDialog.findViewById<Button>(R.id.vocRegiCancelBtn)
+            var okBtn = customDialog.findViewById<Button>(R.id.vocRegiOKBtn)
             var wordText = customDialog.findViewById<TextInputLayout>(R.id.vocWordEditText)
             var meanText = customDialog.findViewById<TextInputLayout>(R.id.vocMeanEditText)
 
@@ -108,14 +107,6 @@ class MyDicActivity : AppCompatActivity() {
             meanText.editText!!.addTextChangedListener(makeTextWatcher(okBtn, meanText.editText!!, 2))
             wordText.requestFocus()
         }
-    }
-
-    override fun onBackPressed() {
-        val intent = Intent()
-        intent.putExtra("count", vocData.size)
-        setResult(Activity.RESULT_OK, intent)
-        finish()
-        super.onBackPressed()
     }
 
     private fun makeTextWatcher(btn:Button, text:EditText, type:Int):TextWatcher{
@@ -154,7 +145,7 @@ class MyDicActivity : AppCompatActivity() {
                         }
                     }
                     2-> {
-                        meanFlag = s!!.matches(Regex("^[ㄱ-ㅎ|가-힣|0-9|()?,~\\- ]+\$"))
+                        meanFlag = s!!.matches(Regex("^[ㄱ-ㅎ|가-힣|0-9|()?,~\\-\\/ ]+\$"))
                         btn.isClickable = wordFlag && meanFlag
                         if(!meanFlag){ // 한글 아닐 때
                             btn.setBackgroundColor(Color.GRAY)
@@ -173,26 +164,6 @@ class MyDicActivity : AppCompatActivity() {
 
                 if(wordFlag && meanFlag)
                     btn.setBackgroundColor(originColor)
-
-//                if(!btn.isClickable){ // 한글 숫자 영어 아닐 때
-//                    btn.setBackgroundColor(Color.GRAY)
-//                    if(s!!.isEmpty()){
-//                        text.error = "글자를 입력해주세요"
-//                    }
-//                    else{
-//                        text.error = "특수문자는 입력 불가능합니다"
-//                    }
-//                }
-//                else { //한글 숫자 영어 일때
-//                    if(vocListHas(s.toString())){
-//                        btn.setBackgroundColor(Color.GRAY)
-//                        text.error = "같은 이름의 단어가 존재합니다."
-//                    }
-//                    else{
-//                        btn.setBackgroundColor(originColor)
-//                        text.error = null
-//                    }
-//                }
             }
         }
     }

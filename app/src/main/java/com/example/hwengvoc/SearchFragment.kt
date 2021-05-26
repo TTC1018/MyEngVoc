@@ -1,16 +1,17 @@
 package com.example.hwengvoc
 
-import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,11 +25,15 @@ import java.util.*
 
 class SearchFragment : Fragment() {
     var recyclerView:RecyclerView?=null
+    var regiRecyclerView:RecyclerView?=null
     var adapter:SearchRecyclerViewAdapter?=null
+    var regiAdapter:RegiVocRecyclerViewAdapter?=null
     var binding: FragmentSearchBinding?=null
     val scope = CoroutineScope(Dispatchers.IO)
     val url = "https://dictionary.cambridge.org/ko/%EC%82%AC%EC%A0%84/%EC%98%81%EC%96%B4-%ED%95%9C%EA%B5%AD%EC%96%B4/"
     var searchedList = LinkedList<VocData>()
+    var targetDics = LinkedList<String>()
+    var dbHelper:MyDBHelper?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +45,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dbHelper = MyDBHelper(requireContext())
         binding!!.apply {
             wordSearchBtn.setOnClickListener {
                 progressBar.visibility=View.VISIBLE
@@ -56,16 +62,7 @@ class SearchFragment : Fragment() {
             recyclerView = recyclerSearch
             recyclerView!!.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = SearchRecyclerViewAdapter(searchedList)
-            adapter!!.itemClickListener = object:SearchRecyclerViewAdapter.OnItemClickListener{
-                override fun OnItemClick(
-                    holder: SearchRecyclerViewAdapter.ViewHolder,
-                    view: View,
-                    data: VocData,
-                    position: Int
-                ) {
-                    //TODO
-                }
-            }
+            adapter!!.itemClickListener = defItemClickListener()
             recyclerView!!.adapter = adapter
             val simpleCallback = object:ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -81,6 +78,15 @@ class SearchFragment : Fragment() {
             }
             val itemTouchHelper = ItemTouchHelper(simpleCallback)
             itemTouchHelper.attachToRecyclerView(recyclerView!!)
+
+            regiAdapter = RegiVocRecyclerViewAdapter(targetDics)
+            if(targetDics.size!=MyDBHelper.TABLE_NAMES.size){
+                for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
+                    if(!targetDics.contains(TABLE_NAME.replace("_", " ")))
+                        targetDics.add(TABLE_NAME.replace("_", " "))
+                }
+                regiAdapter!!.notifyDataSetChanged()
+            }
         }
     }
 
@@ -118,6 +124,57 @@ class SearchFragment : Fragment() {
             }
         }
         binding!!.searchEditText.text.clear()
+    }
+
+    private fun defItemClickListener():SearchRecyclerViewAdapter.OnItemClickListener{
+        return object:SearchRecyclerViewAdapter.OnItemClickListener{
+            override fun OnItemClick(
+                holder: SearchRecyclerViewAdapter.ViewHolder,
+                view: View,
+                data: VocData,
+                position: Int
+            ) {
+                var customDialog = layoutInflater.inflate(R.layout.dialog_add_to_dic, null)
+                var builder = AlertDialog.Builder(requireContext())
+                builder.setView(customDialog)
+                val dialog = builder.create()
+
+                //custom Dialog 컴포넌트들 선언
+                var cancelBtn = customDialog.findViewById<Button>(R.id.vocRegiCancelBtn)
+                regiRecyclerView = customDialog.findViewById<RecyclerView>(R.id.vocRegiRecyclerView)
+                regiRecyclerView!!.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                regiAdapter!!.itemClickListener=regiItemClickListener(data, dialog)
+                regiRecyclerView!!.adapter = regiAdapter
+
+                //각 컴포넌트에 Listener 선언
+                cancelBtn.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.show()
+            }
+        }
+    }
+
+    private fun regiItemClickListener(data: VocData, dialog: AlertDialog):RegiVocRecyclerViewAdapter.OnItemClickListener{
+        return object:RegiVocRecyclerViewAdapter.OnItemClickListener{
+            override fun OnItemClick(
+                holder: RegiVocRecyclerViewAdapter.ViewHolder,
+                view: View,
+                tableName: String,
+                position: Int
+            ) {
+                var resultFlag = dbHelper!!.insertVoc(data, tableName.replace(" ", "_"))
+                if(resultFlag){
+                    Toast.makeText(requireContext(), "$tableName"+"에 단어가 추가되었습니다", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                }
+                else{
+                    Toast.makeText(requireContext(), "단어 추가 실패. 중복 단어인지 확인하세요", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

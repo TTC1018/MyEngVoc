@@ -51,6 +51,19 @@ class MyDicFragment : Fragment() {
         return binding!!.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(dicList.size != 0){
+            for(i in 0 until dicList.size){
+                for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
+                    if(dicList.get(i).dicName.equals(TABLE_NAME.replace("_", " "))){
+                        dicList.get(i).wordCount = dbHelper!!.countVoc(TABLE_NAME)
+                    }
+                }
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         //어플 최조 실행을 확인 해주는 변수 (기본 단어장 추가에 활용)
@@ -141,20 +154,6 @@ class MyDicFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode==Activity.RESULT_OK){
-            val intent = data
-            val vocCount = intent!!.getIntExtra("count", -1)
-            dicList[requestCode] = DicData(dicList.get(requestCode).dicName, vocCount)
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding=null
-    }
-
     private fun defaultDicGenerate(dbHelper: MyDBHelper, first:Boolean, pref:SharedPreferences){
         if(first){ //첫 실행
             MyDBHelper.TABLE_NAMES.add("기본_단어장")
@@ -175,7 +174,7 @@ class MyDicFragment : Fragment() {
             ) {
                 val intent = Intent(context, MyDicActivity::class.java)
                 intent.putExtra("dic", data)
-                startActivityForResult(intent, position)
+                startActivity(intent)
             }
         }
     }
@@ -285,5 +284,10 @@ class MyDicFragment : Fragment() {
             }
         }
         return false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding=null
     }
 }
