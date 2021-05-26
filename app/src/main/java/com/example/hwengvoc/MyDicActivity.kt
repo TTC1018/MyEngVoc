@@ -119,8 +119,6 @@ class MyDicActivity : AppCompatActivity() {
                 before: Int,
                 count: Int
             ) {
-                val originColor = btn.solidColor
-
                 when(type){ //1:단어 2:뜻
                     1-> {
                         wordFlag = s!!.matches(Regex("^[a-z|A-Z| ]+\$"))
@@ -163,7 +161,7 @@ class MyDicActivity : AppCompatActivity() {
                 }
 
                 if(wordFlag && meanFlag)
-                    btn.setBackgroundColor(originColor)
+                    btn.setBackgroundColor(Color.BLACK)
             }
         }
     }

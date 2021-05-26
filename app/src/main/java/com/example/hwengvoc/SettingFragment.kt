@@ -1,5 +1,8 @@
 package com.example.hwengvoc
 
+import android.app.UiModeManager
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +16,7 @@ import com.example.hwengvoc.databinding.FragmentSettingBinding
 class SettingFragment : Fragment() {
     var binding:FragmentSettingBinding?=null
     var slideUp:Animation?=null
+    var uiModeManager:UiModeManager?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +30,7 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        uiModeManager = requireActivity().getSystemService(Context.UI_MODE_SERVICE) as UiModeManager?
         binding!!.apply {
             appInfoLayout.setOnClickListener {
                 if(appInfoTextLayout.visibility==View.GONE){
@@ -34,6 +39,15 @@ class SettingFragment : Fragment() {
                 }
                 else{
                     appInfoTextLayout.visibility=View.GONE
+                }
+            }
+
+            themeToggleBtn.setOnCheckedChangeListener { _, isChecked ->
+                if(isChecked){
+                    uiModeManager!!.nightMode = UiModeManager.MODE_NIGHT_YES
+                }
+                else{
+                    uiModeManager!!.nightMode = UiModeManager.MODE_NIGHT_NO
                 }
             }
         }

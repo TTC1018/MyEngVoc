@@ -62,6 +62,15 @@ class MyDicFragment : Fragment() {
                 }
             }
         }
+
+        if(dicList.size==0 && MyDBHelper.TABLE_NAMES.size!=0){
+            for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
+                dicList.add(DicData(TABLE_NAME.replace("_", " "), dbHelper!!.countVoc(TABLE_NAME)))
+            }
+            adapter!!.notifyDataSetChanged()
+        }
+        val activity = requireActivity() as MainActivity
+        activity.binding!!.bottomNavi.menu.getItem(1).setChecked(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -127,6 +136,8 @@ class MyDicFragment : Fragment() {
                 var cancelBtn = customDialog.findViewById<Button>(R.id.diaAddCancelBtn)
                 var okBtn = customDialog.findViewById<Button>(R.id.diaAddOKBtn)
                 var dicText = customDialog.findViewById<TextInputLayout>(R.id.dicAddEditText)
+
+                //TODO : dicText TextWatcher 작성
 
                 cancelBtn.setOnClickListener {
                     dialog.dismiss()
@@ -217,7 +228,6 @@ class MyDicFragment : Fragment() {
 
                 //TextWatcher 설정
                 dicText.editText!!.setText(dicList.get(position).dicName)
-                val originColor = okBtn.solidColor
                 okBtn.isClickable = false
                 okBtn.setBackgroundColor(Color.GRAY)
                 dicText.editText!!.addTextChangedListener(object :TextWatcher{
@@ -249,7 +259,7 @@ class MyDicFragment : Fragment() {
                                 dicText.error = "동일한 이름으로 수정 불가능합니다."
                             }
                             else{
-                                okBtn.setBackgroundColor(originColor)
+                                okBtn.setBackgroundColor(Color.BLACK)
                                 dicText.error = null
                             }
                         }
@@ -262,7 +272,7 @@ class MyDicFragment : Fragment() {
         }
 
     private fun showRemoveDialog(position:Int, data:DicData, prevDialog: AlertDialog){
-        val alBuilder = AlertDialog.Builder(requireActivity());
+        val alBuilder = AlertDialog.Builder(requireActivity(), R.style.DefaultDialogStyle);
         alBuilder.setMessage("삭제 버튼을 누르면 단어장이 삭제됩니다.");
         alBuilder.setPositiveButton("삭제") { dialog, which ->
             dbHelper!!.deleteTable(data.dicName)

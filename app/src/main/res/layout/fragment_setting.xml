@@ -10,15 +10,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical">
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@drawable/gradient"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:elevation="10dp"
+        android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+        android:outlineSpotShadowColor="?attr/colorOnPrimary">
+
         <TextView
             android:id="@+id/textView"
-            style="@style/CustomTextViewStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:text="기능 1" />
+            android:textColor="@color/white"
+            android:text="야간 모드 켜기"
+            android:padding="4dp"
+            android:textSize="18sp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <ToggleButton
+            android:id="@+id/themeToggleBtn"
+            android:background="@drawable/togglebtn_style"
+            android:layout_width="85dp"
+            android:layout_height="34dp"
+            android:text="@null"
+            android:textOff="@null"
+            android:textOn="@null" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -60,6 +84,7 @@
                 android:layout_weight="1"
                 android:padding="4dp"
                 android:text="앱 정보"
+                android:textColor="@color/white"
                 android:textAlignment="center"
                 android:textSize="18sp" />
         </LinearLayout>

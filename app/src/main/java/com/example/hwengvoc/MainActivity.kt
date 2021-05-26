@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCloseDialog(){
-        val alBuilder = AlertDialog.Builder(this);
+        val alBuilder = AlertDialog.Builder(this, R.style.DefaultDialogStyle);
         alBuilder.setMessage("종료 할까요?");
         alBuilder.setPositiveButton("종료") { dialog, which ->
             finish()
