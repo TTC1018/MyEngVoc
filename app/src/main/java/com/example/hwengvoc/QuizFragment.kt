@@ -1,5 +1,6 @@
 package com.example.hwengvoc
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,7 +23,22 @@ class QuizFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding!!.apply {
-            
+            quizOptionLayout.setOnClickListener {
+
+            }
+
+            meanQuizLayout.setOnClickListener {
+                val intent = Intent(requireContext(), MeanQuizActivity::class.java)
+                startActivity(intent)
+            }
+            wordQuizLayout.setOnClickListener {
+                val intent = Intent(requireContext(), WordQuizActivity::class.java)
+                startActivity(intent)
+            }
+            spellQuizLayout.setOnClickListener {
+                val intent = Intent(requireContext(), SpellQuizActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
