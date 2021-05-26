@@ -121,12 +121,15 @@ class MyDicActivity : AppCompatActivity() {
             ) {
                 when(type){ //1:단어 2:뜻
                     1-> {
-                        wordFlag = s!!.matches(Regex("^[a-z|A-Z| ]+\$"))
+                        wordFlag = s!!.matches(Regex("^[a-z|A-Z| ]+\$")) && count!=0 && !s.startsWith(" ")
                         btn.isClickable = wordFlag && meanFlag
                         if(!wordFlag){ // 영어 아닐 때
                             btn.setBackgroundColor(Color.GRAY)
-                            if(s!!.isEmpty()){
+                            if(s.isEmpty()){
                                 text.error = "단어를 입력해주세요"
+                            }
+                            else if(s.startsWith(" ")){
+                                text.error = "공백만 입력할 수는 없습니다"
                             }
                             else{
                                 text.error = "영어만 입력 가능합니다"
@@ -143,12 +146,15 @@ class MyDicActivity : AppCompatActivity() {
                         }
                     }
                     2-> {
-                        meanFlag = s!!.matches(Regex("^[ㄱ-ㅎ|가-힣|0-9|()?,~\\-\\/ ]+\$"))
+                        meanFlag = s!!.matches(Regex("^[ㄱ-ㅎ|가-힣|0-9|()?,~\\-\\/ ]+\$")) && count!=0 && !s.startsWith(" ")
                         btn.isClickable = wordFlag && meanFlag
                         if(!meanFlag){ // 한글 아닐 때
                             btn.setBackgroundColor(Color.GRAY)
                             if(s!!.isEmpty()){
                                 text.error = "뜻을 입력해주세요"
+                            }
+                            else if(s.startsWith(" ")){
+                                text.error = "공백만 입력할 수는 없습니다"
                             }
                             else{
                                 text.error = "한글, 숫자, 특정 기호만 입력 가능합니다"
