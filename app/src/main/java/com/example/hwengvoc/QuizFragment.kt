@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +21,7 @@ class QuizFragment : Fragment() {
     var binding:FragmentQuizBinding?=null
     var dbHelper:MyDBHelper?=null
     var targetDicAdapter:RegiVocRecyclerViewAdapter?=null
+    var targetRecyclerView:RecyclerView?=null
     var dicList = LinkedList<String>()
 
     override fun onCreateView(
@@ -28,6 +30,18 @@ class QuizFragment : Fragment() {
     ): View? {
         binding = FragmentQuizBinding.inflate(layoutInflater)
         return binding!!.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dicList.clear()
+        if(dicList.size!=MyDBHelper.TABLE_NAMES.size){
+            for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
+                if(!dicList.contains(TABLE_NAME.replace("_", " ")))
+                    dicList.add(TABLE_NAME.replace("_", " "))
+            }
+            targetDicAdapter!!.notifyDataSetChanged()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,6 +56,7 @@ class QuizFragment : Fragment() {
             targetDicAdapter!!.notifyDataSetChanged()
         }
 
+
         binding!!.apply {
             dicChoiceLayout.setOnClickListener {
                 var customDialog = layoutInflater.inflate(R.layout.dialog_set_dic, null)
@@ -51,11 +66,14 @@ class QuizFragment : Fragment() {
 
                 //custom Dialog 컴포넌트들 선언
                 var cancelBtn = customDialog.findViewById<Button>(R.id.setDicCancelBtn)
-                var recyclerView = customDialog.findViewById<RecyclerView>(R.id.setDicRecyclerView)
-                recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                recyclerView.adapter = targetDicAdapter
+                targetDicAdapter!!.itemClickListener=tarItemClickListener(dialog)
+                targetRecyclerView = customDialog.findViewById(R.id.setDicRecyclerView)
+                targetRecyclerView!!.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                targetRecyclerView!!.adapter = targetDicAdapter
 
-                
+                cancelBtn.setOnClickListener {
+                    dialog.dismiss()
+                }
 
                 dialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.show()
@@ -95,6 +113,20 @@ class QuizFragment : Fragment() {
             spellQuizLayout.setOnClickListener {
                 val intent = Intent(requireContext(), SpellQuizActivity::class.java)
                 startActivity(intent)
+            }
+        }
+    }
+
+    private fun tarItemClickListener(dialog: AlertDialog):RegiVocRecyclerViewAdapter.OnItemClickListener{
+        return object:RegiVocRecyclerViewAdapter.OnItemClickListener{
+            override fun OnItemClick(
+                holder: RegiVocRecyclerViewAdapter.ViewHolder,
+                view: View,
+                tableName: String,
+                position: Int
+            ) {
+                binding!!.selDicTextView.text = tableName
+                dialog.dismiss()
             }
         }
     }

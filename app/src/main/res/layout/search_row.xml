@@ -4,7 +4,10 @@
     android:id="@+id/searchTextLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="15dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="10dp"
     android:background="@drawable/gradient"
     android:clickable="true"
     android:elevation="10dp"
@@ -20,8 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="TextView"
-        android:textColor="@color/white"
         android:textAlignment="textStart"
+        android:textColor="@color/white"
         android:textSize="14sp" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -36,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="TextView"
-        android:textColor="@color/white"
         android:textAlignment="textEnd"
+        android:textColor="@color/white"
         android:textSize="14sp" />
 </LinearLayout>
