@@ -175,26 +175,14 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
         return flag
     }
 
-    fun deleteVoc(vid: String, size:Int, TABLE_NAME: String): Boolean {
-        val targetVid = (vid.toInt()+1).toString()
-
-        val strsql = "select * from '$TABLE_NAME' where $VID='$targetVid';"
+    fun deleteVoc(word: String, TABLE_NAME: String): Boolean {
+        val delSql = "select * from '$TABLE_NAME' where $WORD='$word';"
         val db = writableDatabase
-        val cursor = db.rawQuery(strsql, null)
+        val cursor = db.rawQuery(delSql, null)
         val flag = cursor.count!=0
         if(flag){
             cursor.moveToFirst()
-            db.delete(TABLE_NAME, "$VID=?", arrayOf(targetVid))
-            if(size>1){ //VID 정렬하여 갱신하기
-                for(i:Int in targetVid.toInt()+1..size){
-                    val updateSql = "select * from $TABLE_NAME where $VID='$i';"
-                    val cursor2 = db.rawQuery(updateSql, null)
-                    cursor2.moveToFirst()
-                    val values = ContentValues()
-                    values.put("vid", i-1)
-                    db.update(TABLE_NAME, values,"$VID=?", arrayOf(i.toString()))
-                }
-            }
+            db.delete(TABLE_NAME, "$WORD=?", arrayOf(word))
         }
         cursor.close()
         db.close()

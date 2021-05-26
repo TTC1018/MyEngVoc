@@ -1,5 +1,6 @@
 package com.example.hwengvoc
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -55,6 +56,16 @@ class SearchFragment : Fragment() {
             recyclerView = recyclerSearch
             recyclerView!!.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = SearchRecyclerViewAdapter(searchedList)
+            adapter!!.itemClickListener = object:SearchRecyclerViewAdapter.OnItemClickListener{
+                override fun OnItemClick(
+                    holder: SearchRecyclerViewAdapter.ViewHolder,
+                    view: View,
+                    data: VocData,
+                    position: Int
+                ) {
+                    //TODO
+                }
+            }
             recyclerView!!.adapter = adapter
             val simpleCallback = object:ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -83,10 +94,10 @@ class SearchFragment : Fragment() {
             if(!engMatch.matches(unit)){
                 Toast.makeText(context, "영어를 입력하세요", Toast.LENGTH_SHORT).show()
                 binding!!.searchEditText.text.clear()
+                binding!!.progressBar.visibility = View.GONE
                 return
             }
         }
-
 
         scope.launch {
             val doc = Jsoup.connect(url+word).get()

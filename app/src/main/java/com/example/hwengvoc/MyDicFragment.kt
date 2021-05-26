@@ -134,7 +134,7 @@ class MyDicFragment : Fragment() {
         defaultDicGenerate(dbHelper!!, first, pref)
         if(MyDBHelper.TABLE_NAMES.size==0){
             dbHelper!!.initalizeDB()
-            for(i:Int in 0..MyDBHelper.TABLE_NAMES.size-1){
+            for(i:Int in 0 until MyDBHelper.TABLE_NAMES.size){
                 dicList.add(DicData(MyDBHelper.TABLE_NAMES.get(i).replace("_", " "), dbHelper!!.countVoc(MyDBHelper.TABLE_NAMES.get(i))))
             }
             adapter!!.notifyDataSetChanged()
