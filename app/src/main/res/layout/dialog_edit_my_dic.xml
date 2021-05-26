@@ -64,7 +64,7 @@
             android:layout_height="match_parent"
             android:layout_margin="3dp"
             android:text="확인"
-            android:textColor="?attr/colorOnPrimary" />
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/diaRemoveBtn"

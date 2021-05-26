@@ -25,6 +25,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AlertDialogLayout
+import androidx.core.view.isEmpty
+import androidx.core.view.isNotEmpty
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -137,8 +139,7 @@ class MyDicFragment : Fragment() {
                 var okBtn = customDialog.findViewById<Button>(R.id.diaAddOKBtn)
                 var dicText = customDialog.findViewById<TextInputLayout>(R.id.dicAddEditText)
 
-                //TODO : dicText TextWatcher 작성
-
+                dicText.editText!!.addTextChangedListener(makeTextWatcher(okBtn, dicText))
                 cancelBtn.setOnClickListener {
                     dialog.dismiss()
                 }
@@ -149,6 +150,8 @@ class MyDicFragment : Fragment() {
                     adapter!!.notifyDataSetChanged()
                     dialog.dismiss()
                 }
+                okBtn.isClickable = false
+                okBtn.setBackgroundColor(Color.GRAY)
                 dicText.requestFocus()
             }
         }
@@ -239,11 +242,14 @@ class MyDicFragment : Fragment() {
                         before: Int,
                         count: Int
                     ) {
-                        okBtn.isClickable = s!!.matches(Regex("^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9| ]+\$"))
+                        okBtn.isClickable = s!!.matches(Regex("^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9| ]+\$")) && count!=0 && !s.startsWith(" ")
                         if(!okBtn.isClickable){ // 한글 숫자 영어 아닐 때
                             okBtn.setBackgroundColor(Color.GRAY)
                             if(s.isEmpty()){
                                 dicText.error = "글자를 입력해주세요"
+                            }
+                            else if(s.startsWith(" ")){
+                                dicText.error = "공백만 입력할 수는 없습니다"
                             }
                             else{
                                 dicText.error = "특수문자는 입력 불가능합니다"
@@ -294,6 +300,52 @@ class MyDicFragment : Fragment() {
             }
         }
         return false
+    }
+
+    private fun dicListJustHas(dicName:String):Boolean{
+        for(i in 0 until dicList.size){
+            if(dicList.get(i).dicName.equals(dicName)){
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun makeTextWatcher(okBtn:Button, dicText:TextInputLayout):TextWatcher{
+        return object :TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(s: Editable?) {}
+            override fun onTextChanged(
+                s: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                okBtn.isClickable = s!!.matches(Regex("^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9| ]+\$")) && count!=0 && !s.startsWith(" ")
+                if(!okBtn.isClickable){ // 한글 숫자 영어 아닐 때
+                    okBtn.setBackgroundColor(Color.GRAY)
+                    if(s.isEmpty()){
+                        dicText.error = "글자를 입력해주세요"
+                    }
+                    else if(s.startsWith(" ")){
+                        dicText.error = "공백만 입력할 수는 없습니다"
+                    }
+                    else{
+                        dicText.error = "특수문자는 입력 불가능합니다"
+                    }
+                }
+                else { //한글 숫자 영어 일때
+                    if(dicListJustHas(s.toString())){
+                        okBtn.setBackgroundColor(Color.GRAY)
+                        dicText.error = "같은 이름의 단어장이 존재합니다."
+                    }
+                    else{
+                        okBtn.setBackgroundColor(Color.BLACK)
+                        dicText.error = null
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {

@@ -27,9 +27,9 @@
         android:paddingLeft="15dp"
         app:counterEnabled="true"
         app:counterMaxLength="15"
-        app:hintTextColor="?attr/colorOnPrimary"
-        app:boxBackgroundColor="?attr/colorPrimary"
-        app:boxStrokeColor="?attr/colorOnPrimary"
+        app:hintTextColor="@color/black"
+        app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/black"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:theme="@style/Widget.AppTheme.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
@@ -41,7 +41,7 @@
             android:ems="10"
             android:maxLength="15"
             android:textAlignment="center"
-            android:textColor="?attr/colorOnPrimary" />
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/vocMeanEditText"
@@ -54,9 +54,9 @@
         android:paddingLeft="15dp"
         app:counterEnabled="true"
         app:counterMaxLength="15"
-        app:hintTextColor="?attr/colorOnPrimary"
-        app:boxBackgroundColor="?attr/colorPrimary"
-        app:boxStrokeColor="?attr/colorOnPrimary"
+        app:hintTextColor="@color/black"
+        app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/black"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:theme="@style/Widget.AppTheme.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
@@ -68,7 +68,7 @@
             android:ems="10"
             android:maxLength="15"
             android:textAlignment="center"
-            android:textColor="?attr/colorOnPrimary" />
+            android:textColor="@color/black"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
@@ -92,7 +92,7 @@
             android:layout_height="match_parent"
             android:layout_margin="3dp"
             android:text="확인"
-            android:textColor="?attr/colorOnPrimary" />
+            android:textColor="@color/white" />
     </LinearLayout>
 
 </LinearLayout>
