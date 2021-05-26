@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.example.hwengvoc.databinding.FragmentSettingBinding
@@ -42,6 +43,8 @@ class SettingFragment : Fragment() {
                 }
             }
 
+            val fadeInOut = AnimationUtils.loadAnimation(context, R.anim.fade_inandout)
+            nightBtn.startAnimation(fadeInOut)
             nightBtn.setOnClickListener {
                 if(uiModeManager!!.nightMode == UiModeManager.MODE_NIGHT_NO){
                     uiModeManager!!.nightMode = UiModeManager.MODE_NIGHT_YES
@@ -49,7 +52,10 @@ class SettingFragment : Fragment() {
                 else{
                     uiModeManager!!.nightMode = UiModeManager.MODE_NIGHT_NO
                 }
-
+                val activity = requireActivity() as MainActivity
+                for(i in 0 until activity.supportFragmentManager.backStackEntryCount){
+                    activity.supportFragmentManager.popBackStack()
+                }
             }
         }
     }

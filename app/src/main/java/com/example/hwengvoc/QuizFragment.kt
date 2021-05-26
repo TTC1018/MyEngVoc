@@ -103,16 +103,37 @@ class QuizFragment : Fragment() {
             }
 
             meanQuizLayout.setOnClickListener {
-                val intent = Intent(requireContext(), MeanQuizActivity::class.java)
-                startActivity(intent)
+                if(selDicTextView.length()==0){
+                    Toast.makeText(requireContext(), "단어장을 선택하세요", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    val intent = Intent(requireContext(), MeanQuizActivity::class.java)
+                    intent.putExtra("dicName", selDicTextView.text.toString())
+                    intent.putExtra("difficulty", optTextView.text.toString())
+                    startActivity(intent)
+                }
             }
             wordQuizLayout.setOnClickListener {
-                val intent = Intent(requireContext(), WordQuizActivity::class.java)
-                startActivity(intent)
+                if(selDicTextView.length()==0){
+                    Toast.makeText(requireContext(), "단어장을 선택하세요", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    val intent = Intent(requireContext(), WordQuizActivity::class.java)
+                    intent.putExtra("dicName", selDicTextView.text.toString())
+                    intent.putExtra("difficulty", optTextView.text.toString())
+                    startActivity(intent)
+                }
             }
             spellQuizLayout.setOnClickListener {
-                val intent = Intent(requireContext(), SpellQuizActivity::class.java)
-                startActivity(intent)
+                if(selDicTextView.length()==0){
+                    Toast.makeText(requireContext(), "단어장을 선택하세요", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    val intent = Intent(requireContext(), SpellQuizActivity::class.java)
+                    intent.putExtra("dicName", selDicTextView.text.toString())
+                    intent.putExtra("difficulty", optTextView.text.toString())
+                    startActivity(intent)
+                }
             }
         }
     }
