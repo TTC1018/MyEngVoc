@@ -20,6 +20,13 @@ class SearchRecyclerViewAdapter(val vocs: LinkedList<VocData>):RecyclerView.Adap
         notifyItemRangeRemoved(0, itemCount)
     }
 
+    fun moveItem(oldPos:Int, newPos:Int){
+        val item = vocs[oldPos]
+        vocs.removeAt(oldPos)
+        vocs.add(newPos, item)
+        notifyItemMoved(oldPos, newPos)
+    }
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val layout:LinearLayout = view.findViewById(R.id.searchTextLayout)
         val wordText:TextView = view.findViewById(R.id.wordTextView)

@@ -42,13 +42,14 @@ class SettingFragment : Fragment() {
                 }
             }
 
-            themeToggleBtn.setOnCheckedChangeListener { _, isChecked ->
-                if(isChecked){
+            nightBtn.setOnClickListener {
+                if(uiModeManager!!.nightMode == UiModeManager.MODE_NIGHT_NO){
                     uiModeManager!!.nightMode = UiModeManager.MODE_NIGHT_YES
                 }
                 else{
                     uiModeManager!!.nightMode = UiModeManager.MODE_NIGHT_NO
                 }
+
             }
         }
     }

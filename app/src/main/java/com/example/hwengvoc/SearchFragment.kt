@@ -73,6 +73,7 @@ class SearchFragment : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
+                    adapter!!.moveItem(viewHolder.adapterPosition, target.adapterPosition)
                     return true
                 }
             }

@@ -166,9 +166,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="4dp"
-                    android:text="단어를 보고 뜻을 맞춰봅시다."
-                    android:textColor="@color/white"
+                    android:text="단어를 보고 뜻을 맞춰봅시다"
                     android:textAlignment="center"
+                    android:textColor="@color/white"
                     android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
@@ -215,9 +215,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="4dp"
-                    android:text="뜻을 보고 단어를 맞춰봅시다."
-                    android:textColor="@color/white"
+                    android:text="뜻을 보고 단어를 맞춰봅시다"
                     android:textAlignment="center"
+                    android:textColor="@color/white"
                     android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
@@ -264,9 +264,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="4dp"
-                    android:text="뜻을 보고 단어를 배열해봅시다."
-                    android:textColor="@color/white"
+                    android:text="뜻을 보고 단어를 배열해봅시다"
                     android:textAlignment="center"
+                    android:textColor="@color/white"
                     android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>

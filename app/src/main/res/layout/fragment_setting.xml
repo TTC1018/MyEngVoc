@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,14 +35,13 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <ToggleButton
-            android:id="@+id/themeToggleBtn"
-            android:background="@drawable/togglebtn_style"
-            android:layout_width="85dp"
-            android:layout_height="34dp"
-            android:text="@null"
-            android:textOff="@null"
-            android:textOn="@null" />
+        <ImageButton
+            android:id="@+id/nightBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_btn"
+            android:layout_marginRight="10dp"
+            android:src="@android:drawable/ic_menu_view" />
 
     </LinearLayout>
 

@@ -10,11 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.hwengvoc.databinding.FragmentQuizBinding
+import java.util.*
 
 
 class QuizFragment : Fragment() {
     var binding:FragmentQuizBinding?=null
+    var dbHelper:MyDBHelper?=null
+    var targetDicAdapter:RegiVocRecyclerViewAdapter?=null
+    var dicList = LinkedList<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +32,16 @@ class QuizFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dbHelper = MyDBHelper(requireContext())
+        targetDicAdapter = RegiVocRecyclerViewAdapter(dicList)
+        if(dicList.size!=MyDBHelper.TABLE_NAMES.size){
+            for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
+                if(!dicList.contains(TABLE_NAME.replace("_", " ")))
+                    dicList.add(TABLE_NAME.replace("_", " "))
+            }
+            targetDicAdapter!!.notifyDataSetChanged()
+        }
+
         binding!!.apply {
             dicChoiceLayout.setOnClickListener {
                 var customDialog = layoutInflater.inflate(R.layout.dialog_set_dic, null)
@@ -34,7 +50,11 @@ class QuizFragment : Fragment() {
                 val dialog = builder.create()
 
                 //custom Dialog 컴포넌트들 선언
-                var orderBtn = customDialog.findViewById<Button>(R.id.setDicCancelBtn)
+                var cancelBtn = customDialog.findViewById<Button>(R.id.setDicCancelBtn)
+                var recyclerView = customDialog.findViewById<RecyclerView>(R.id.setDicRecyclerView)
+                recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                recyclerView.adapter = targetDicAdapter
+
                 
 
                 dialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
