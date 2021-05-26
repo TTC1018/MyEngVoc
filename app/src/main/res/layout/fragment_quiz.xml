@@ -41,6 +41,7 @@
                     android:layout_weight="1"
                     android:padding="4dp"
                     android:text="단어장 선택"
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -57,8 +58,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="4dp"
-                    android:text="TextView"
+                    android:text="@null"
                     android:textAlignment="center"
+                    android:textColor="@color/white"
                     android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
@@ -89,6 +91,7 @@
                     android:layout_weight="1"
                     android:padding="4dp"
                     android:text="출제 옵션"
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -105,8 +108,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="4dp"
-                    android:text="TextView"
+                    android:text="@null"
                     android:textAlignment="center"
+                    android:textColor="@color/white"
                     android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
@@ -143,6 +147,7 @@
                     android:layout_weight="1"
                     android:padding="4dp"
                     android:text="뜻 맞추기 퀴즈"
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -160,6 +165,7 @@
                     android:layout_weight="1"
                     android:padding="4dp"
                     android:text="단어를 보고 뜻을 맞춰봅시다."
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -190,6 +196,7 @@
                     android:layout_weight="1"
                     android:padding="4dp"
                     android:text="단어 맞추기 퀴즈"
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -207,6 +214,7 @@
                     android:layout_weight="1"
                     android:padding="4dp"
                     android:text="뜻을 보고 단어를 맞춰봅시다."
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -237,6 +245,7 @@
                     android:layout_weight="1"
                     android:padding="4dp"
                     android:text="스펠링 퀴즈"
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -254,6 +263,7 @@
                     android:layout_weight="1"
                     android:padding="4dp"
                     android:text="뜻을 보고 단어를 배열해봅시다."
+                    android:textColor="@color/white"
                     android:textAlignment="center"
                     android:textSize="13sp" />
             </LinearLayout>

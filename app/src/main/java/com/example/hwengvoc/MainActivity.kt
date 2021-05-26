@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 true
             }
-            binding!!.bottomNavi.selectedItemId = R.id.myDicBtn
+            binding.bottomNavi.selectedItemId = R.id.myDicBtn
         }
 
         //BackStack과 BottomNavigation 동기화 코드
@@ -82,10 +82,10 @@ class MainActivity : AppCompatActivity() {
             if(entryCount<backStackCount){
                 backStackCount--
                 when(fragNum.pop()){
-                    0-> binding!!.bottomNavi.menu.getItem(0).setChecked(true)
-                    1-> binding!!.bottomNavi.menu.getItem(1).setChecked(true)
-                    2-> binding!!.bottomNavi.menu.getItem(2).setChecked(true)
-                    3-> binding!!.bottomNavi.menu.getItem(3).setChecked(true)
+                    0-> binding.bottomNavi.menu.getItem(0).setChecked(true)
+                    1-> binding.bottomNavi.menu.getItem(1).setChecked(true)
+                    2-> binding.bottomNavi.menu.getItem(2).setChecked(true)
+                    3-> binding.bottomNavi.menu.getItem(3).setChecked(true)
                 }
             }
         }
