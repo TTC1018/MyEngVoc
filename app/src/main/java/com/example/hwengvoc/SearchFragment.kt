@@ -1,5 +1,6 @@
 package com.example.hwengvoc
 
+import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -9,7 +10,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -114,12 +117,15 @@ class SearchFragment : Fragment() {
                 meaning = doc.select("div.def-body.ddef_b span.trans.dtrans.dtrans-se ").first().text()
                 println(word + "=" + meaning)
                 searchedList.push(VocData(searchedList.size, word, meaning))
-                activity!!.runOnUiThread {
+                requireActivity().runOnUiThread {
                     adapter!!.notifyDataSetChanged()
                     binding!!.progressBar.visibility = View.GONE
+                    //키보드 숨기기 코드
+                    val iMM = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    iMM.hideSoftInputFromWindow(requireActivity().currentFocus!!.windowToken , InputMethodManager.HIDE_NOT_ALWAYS)
                 }
             }catch(e:Exception){
-                activity!!.runOnUiThread {
+                requireActivity().runOnUiThread {
                     binding!!.progressBar.visibility = View.GONE
                     Toast.makeText(context, "검색된 단어가 없습니다", Toast.LENGTH_SHORT).show()
                     Log.e("getNews", e.toString())
