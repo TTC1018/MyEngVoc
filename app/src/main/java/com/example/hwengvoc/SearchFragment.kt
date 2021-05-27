@@ -47,9 +47,11 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         dbHelper = MyDBHelper(requireContext())
         binding!!.apply {
+
             wordSearchBtn.setOnClickListener {
                 progressBar.visibility=View.VISIBLE
                 getNews()
+
             }
 
             searchEditText.setOnKeyListener { _, keyCode, event ->
@@ -182,4 +184,5 @@ class SearchFragment : Fragment() {
         super.onDestroyView()
         binding=null
     }
+
 }

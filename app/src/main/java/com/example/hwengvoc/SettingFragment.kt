@@ -2,6 +2,7 @@ package com.example.hwengvoc
 
 import android.app.UiModeManager
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater

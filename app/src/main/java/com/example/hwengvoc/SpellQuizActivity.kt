@@ -44,16 +44,20 @@ class SpellQuizActivity : AppCompatActivity() {
         }
 
         val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
-
+        val fadeInAndOut = AnimationUtils.loadAnimation(this, R.anim.fade_inandout)
         binding.apply {
             sQuizMeanText.text = vocList.first().meaning
+            sQuizFirstSpell.startAnimation(fadeInAndOut)
+            sQuizSpellCount.startAnimation(fadeInAndOut)
 
             sQuizFirstSpell.setOnClickListener {
+                sQuizFirstSpell.isClickable = false
                 sQuizFirstSpell.text = vocList[vocCounter].word.slice(0 until 1)
                 sQuizFirstSpell.startAnimation(fadeIn)
             }
 
             sQuizSpellCount.setOnClickListener {
+                sQuizSpellCount.isClickable = false
                 sQuizSpellCount.text = vocList[vocCounter].word.length.toString()
                 sQuizSpellCount.startAnimation(fadeIn)
             }
@@ -62,6 +66,8 @@ class SpellQuizActivity : AppCompatActivity() {
                 chanceCounter++
                 //정답
                 if(sQuizSpellInput.text.toString().equals(vocList[vocCounter].word)){
+                    sQuizFirstSpell.isClickable = true
+                    sQuizSpellCount.isClickable = true
                     chanceCounter=0
                     vocCounter++
                     if(vocCounter==vocList.size){
@@ -72,6 +78,8 @@ class SpellQuizActivity : AppCompatActivity() {
                     sQuizFirstSpell.text = "확인"
                     sQuizSpellCount.text = "확인"
 
+                    sQuizFirstSpell.startAnimation(fadeInAndOut)
+                    sQuizSpellCount.startAnimation(fadeInAndOut)
                     sQuizMeanText.startAnimation(fadeIn)
                     sQuizHintLay.startAnimation(fadeIn)
                     Toast.makeText(applicationContext, "정답!", Toast.LENGTH_SHORT).show()
@@ -82,6 +90,8 @@ class SpellQuizActivity : AppCompatActivity() {
                         Toast.makeText(applicationContext, "한번 더 틀리면 정답이 공개됩니다", Toast.LENGTH_SHORT).show()
                     }
                     else if(chanceCounter==5){
+                        sQuizFirstSpell.isClickable = true
+                        sQuizSpellCount.isClickable = true
                         chanceCounter = 0
                         val answer = vocList[vocCounter].word
                         vocCounter++
@@ -93,6 +103,8 @@ class SpellQuizActivity : AppCompatActivity() {
                         sQuizFirstSpell.text = "확인"
                         sQuizSpellCount.text = "확인"
 
+                        sQuizFirstSpell.startAnimation(fadeInAndOut)
+                        sQuizSpellCount.startAnimation(fadeInAndOut)
                         sQuizMeanText.startAnimation(fadeIn)
                         sQuizHintLay.startAnimation(fadeIn)
                         Toast.makeText(applicationContext, "정답은 $answer 였습니다", Toast.LENGTH_LONG).show()

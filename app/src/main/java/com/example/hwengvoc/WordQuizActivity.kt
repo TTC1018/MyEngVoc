@@ -42,14 +42,18 @@ class WordQuizActivity : AppCompatActivity() {
         }
 
         val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+        val fadeInAndOut = AnimationUtils.loadAnimation(this, R.anim.fade_inandout)
         binding.apply {
             wQuizMeanText.text = vocList.first().meaning
+            wQuizAnswerText.startAnimation(fadeInAndOut)
             wQuizAnswerText.setOnClickListener {
+                wQuizAnswerText.isClickable = false
                 wQuizAnswerText.text = vocList[vocCounter].word
                 wQuizAnswerText.startAnimation(fadeIn)
             }
 
             wQuizNextBtn.setOnClickListener {
+                wQuizAnswerText.isClickable = true
                 vocCounter++
                 if(vocCounter==vocList.size){
                     if(option.equals("무작위")){
@@ -63,7 +67,7 @@ class WordQuizActivity : AppCompatActivity() {
                 wQuizMeanText.text = vocList[vocCounter].meaning
                 wQuizAnswerText.text = "정답 확인"
                 wQuizMeanText.startAnimation(fadeIn)
-                wQuizAnswerText.startAnimation(fadeIn)
+                wQuizAnswerText.startAnimation(fadeInAndOut)
             }
         }
     }

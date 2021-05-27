@@ -3,7 +3,11 @@ package com.example.hwengvoc
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.contains
 import androidx.fragment.app.Fragment
 import com.example.hwengvoc.databinding.ActivityMainBinding
 import java.util.*
