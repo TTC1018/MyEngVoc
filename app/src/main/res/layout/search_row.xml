@@ -13,6 +13,8 @@
     android:elevation="10dp"
     android:gravity="center"
     android:orientation="horizontal"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:outlineAmbientShadowColor="?attr/colorOnPrimary"
     android:outlineSpotShadowColor="?attr/colorOnPrimary"
     android:padding="10dp">

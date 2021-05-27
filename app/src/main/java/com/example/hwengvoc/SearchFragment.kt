@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.get
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,11 +51,9 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         dbHelper = MyDBHelper(requireContext())
         binding!!.apply {
-
             wordSearchBtn.setOnClickListener {
                 progressBar.visibility=View.VISIBLE
                 getNews()
-
             }
 
             searchEditText.setOnKeyListener { _, keyCode, event ->
@@ -111,6 +110,7 @@ class SearchFragment : Fragment() {
             }
         }
 
+        binding!!.searchEditText.text.clear()
         scope.launch {
             val doc = Jsoup.connect(url+word).get()
             try{
@@ -123,6 +123,7 @@ class SearchFragment : Fragment() {
                     //키보드 숨기기 코드
                     val iMM = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                     iMM.hideSoftInputFromWindow(requireActivity().currentFocus!!.windowToken , InputMethodManager.HIDE_NOT_ALWAYS)
+                    recyclerView!!.layoutManager!!.scrollToPosition(0)
                 }
             }catch(e:Exception){
                 requireActivity().runOnUiThread {
@@ -132,7 +133,6 @@ class SearchFragment : Fragment() {
                 }
             }
         }
-        binding!!.searchEditText.text.clear()
     }
 
     private fun defItemClickListener():SearchRecyclerViewAdapter.OnItemClickListener{

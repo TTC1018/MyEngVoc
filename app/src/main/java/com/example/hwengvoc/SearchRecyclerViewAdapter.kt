@@ -50,6 +50,7 @@ class SearchRecyclerViewAdapter(val vocs: LinkedList<VocData>):RecyclerView.Adap
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.wordText.text = vocs[position].word
         holder.meanText.text = vocs[position].meaning
-        holder.layout.requestFocus()
+        if(position==0) holder.layout.requestFocus()
     }
+
 }
