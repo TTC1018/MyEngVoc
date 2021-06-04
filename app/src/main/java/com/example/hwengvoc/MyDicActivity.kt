@@ -46,7 +46,7 @@ class MyDicActivity : AppCompatActivity() {
 
         //RecyclerView 관련 설정
         recyclerView = binding.showVocRecycler
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
         adapter = SearchRecyclerViewAdapter(vocData)
         recyclerView.adapter = adapter
         val simpleCallback = object:
@@ -66,6 +66,7 @@ class MyDicActivity : AppCompatActivity() {
         }
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+        recyclerView.scrollToPosition(vocData.size-1)
 
         //단어 추가 버튼 Listener 설정
         binding.showDicAddBtn.setOnClickListener {
@@ -96,6 +97,7 @@ class MyDicActivity : AppCompatActivity() {
                 meanText.editText!!.text.clear()
                 Toast.makeText(this, "단어가 추가되었습니다", Toast.LENGTH_SHORT).show()
                 wordText.editText!!.requestFocus()
+                recyclerView.scrollToPosition(vocData.size-1)
             }
 
             //TextWatcher 설정
