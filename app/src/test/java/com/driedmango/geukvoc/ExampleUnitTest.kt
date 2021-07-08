@@ -1,4 +1,4 @@
-package com.example.hwengvoc
+package com.driedmango.geukvoc
 
 import org.junit.Test
 

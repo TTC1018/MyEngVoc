@@ -1,4 +1,4 @@
-package com.example.hwengvoc
+package com.driedmango.geukvoc.data
 
 import java.io.Serializable
 

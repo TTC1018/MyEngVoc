@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.hwengvoc">
+    package="com.driedmango.geukvoc">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,12 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HWEngVoc">
-        <activity android:name=".SpellQuizActivity"/>
-        <activity android:name=".WordQuizActivity" />
-        <activity android:name=".MeanQuizActivity" />
-        <activity android:name=".MyDicActivity" />
+        <activity android:name="com.driedmango.geukvoc.vocquiz.SpellQuizActivity"/>
+        <activity android:name="com.driedmango.geukvoc.vocquiz.WordQuizActivity" />
+        <activity android:name="com.driedmango.geukvoc.vocquiz.MeanQuizActivity" />
+        <activity android:name="com.driedmango.geukvoc.myengvoc.MyDicActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.driedmango.geukvoc.MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

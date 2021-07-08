@@ -1,11 +1,14 @@
-package com.example.hwengvoc
+package com.driedmango.geukvoc.vocquiz
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
-import com.example.hwengvoc.databinding.ActivitySpellQuizBinding
+import com.driedmango.geukvoc.MyDBHelper
+import com.driedmango.geukvoc.R
+import com.driedmango.geukvoc.data.VocData
+import com.driedmango.geukvoc.databinding.ActivitySpellQuizBinding
 
 class SpellQuizActivity : AppCompatActivity() {
     lateinit var binding: ActivitySpellQuizBinding

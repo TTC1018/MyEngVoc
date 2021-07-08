@@ -1,8 +1,7 @@
-package com.example.hwengvoc
+package com.driedmango.geukvoc.settings
 
 import android.app.UiModeManager
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import com.example.hwengvoc.databinding.FragmentSettingBinding
+import com.driedmango.geukvoc.MainActivity
+import com.driedmango.geukvoc.R
+import com.driedmango.geukvoc.databinding.FragmentSettingBinding
 
 
 class SettingFragment : Fragment() {

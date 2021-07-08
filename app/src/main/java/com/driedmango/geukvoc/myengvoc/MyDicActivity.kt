@@ -1,4 +1,4 @@
-package com.example.hwengvoc
+package com.driedmango.geukvoc.myengvoc
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -13,16 +13,20 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hwengvoc.databinding.ActivityMyDicBinding
+import com.driedmango.geukvoc.*
+import com.driedmango.geukvoc.data.DicData
+import com.driedmango.geukvoc.data.VocData
+import com.driedmango.geukvoc.databinding.ActivityMyDicBinding
+import com.driedmango.geukvoc.wordsearch.SearchRecyclerViewAdapter
 import com.google.android.material.textfield.TextInputLayout
 import java.util.*
 
 class MyDicActivity : AppCompatActivity() {
     lateinit var binding: ActivityMyDicBinding
     lateinit var myDBHelper: MyDBHelper
-    lateinit var adapter:SearchRecyclerViewAdapter
+    lateinit var adapter: SearchRecyclerViewAdapter
     lateinit var recyclerView: RecyclerView
-    lateinit var dicData:DicData
+    lateinit var dicData: DicData
     lateinit var dicName:String
     var vocData = LinkedList<VocData>()
     var wordFlag:Boolean=false
@@ -119,7 +123,7 @@ class MyDicActivity : AppCompatActivity() {
             ) {
                 when(type){ //1:단어 2:뜻
                     1-> {
-                        wordFlag = s!!.matches(Regex("^[a-z|A-Z| ]+\$")) && count!=0 && !s.startsWith(" ")
+                        wordFlag = s!!.matches(Regex("^[a-z|A-Z|\\s]+\$")) && s.isNotEmpty() && !s.startsWith(" ")
                         btn.isClickable = wordFlag && meanFlag
                         if(!wordFlag){ // 영어 아닐 때
                             btn.setBackgroundColor(Color.GRAY)
@@ -144,7 +148,7 @@ class MyDicActivity : AppCompatActivity() {
                         }
                     }
                     2-> {
-                        meanFlag = s!!.matches(Regex("^[ㄱ-ㅎ|가-힣|0-9|()?,~\\-\\/ ]+\$")) && count!=0 && !s.startsWith(" ")
+                        meanFlag = s!!.matches(Regex("^[가-힣|0-9|()?,~\\-\\/\\s]+\$")) && s.isNotEmpty() && !s.startsWith(" ")
                         btn.isClickable = wordFlag && meanFlag
                         if(!meanFlag){ // 한글 아닐 때
                             btn.setBackgroundColor(Color.GRAY)
@@ -155,7 +159,7 @@ class MyDicActivity : AppCompatActivity() {
                                 text.error = "공백만 입력할 수는 없습니다"
                             }
                             else{
-                                text.error = "한글, 숫자, 특정 기호만 입력 가능합니다"
+                                text.error = "올바른 문자를 입력해주세요"
                             }
                         }
                         else { //한글 일 때

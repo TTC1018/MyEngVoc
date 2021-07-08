@@ -7,7 +7,7 @@
     android:background="@drawable/gradient_targetdic"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MeanQuizActivity">
+    tools:context=".vocquiz.MeanQuizActivity">
 
     <TextView
         android:id="@+id/mQuizWordText"

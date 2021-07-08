@@ -1,13 +1,16 @@
-package com.example.hwengvoc
+package com.driedmango.geukvoc.vocquiz
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
-import com.example.hwengvoc.databinding.ActivityWordQuizBinding
+import com.driedmango.geukvoc.MyDBHelper
+import com.driedmango.geukvoc.R
+import com.driedmango.geukvoc.data.VocData
+import com.driedmango.geukvoc.databinding.ActivityMeanQuizBinding
 
-class WordQuizActivity : AppCompatActivity() {
-    lateinit var binding:ActivityWordQuizBinding
+class MeanQuizActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMeanQuizBinding
     lateinit var myDBHelper: MyDBHelper
     lateinit var dicName:String
     lateinit var option:String
@@ -15,7 +18,7 @@ class WordQuizActivity : AppCompatActivity() {
     var vocCounter = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityWordQuizBinding.inflate(layoutInflater)
+        binding = ActivityMeanQuizBinding.inflate(layoutInflater)
         setContentView(binding.root)
         myDBHelper = MyDBHelper(this)
         loadVocs()
@@ -35,39 +38,39 @@ class WordQuizActivity : AppCompatActivity() {
 
     private fun init(){
         if(vocList.isEmpty()){
-            binding.wQuizMeanText.text = "단어 없음"
-            binding.wQuizAnswerText.visibility = View.GONE
-            binding.wQuizNextBtn.visibility = View.GONE
+            binding.mQuizWordText.text = "단어 없음"
+            binding.mQuizAnswerText.visibility = View.GONE
+            binding.mQuizNextBtn.visibility = View.GONE
             return
         }
 
         val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
         val fadeInAndOut = AnimationUtils.loadAnimation(this, R.anim.fade_inandout)
         binding.apply {
-            wQuizMeanText.text = vocList.first().meaning
-            wQuizAnswerText.startAnimation(fadeInAndOut)
-            wQuizAnswerText.setOnClickListener {
-                wQuizAnswerText.isClickable = false
-                wQuizAnswerText.text = vocList[vocCounter].word
-                wQuizAnswerText.startAnimation(fadeIn)
+            mQuizWordText.text = vocList.first().word
+            mQuizAnswerText.startAnimation(fadeInAndOut)
+            mQuizAnswerText.setOnClickListener {
+                mQuizAnswerText.isClickable = false
+                mQuizAnswerText.text = vocList[vocCounter].meaning
+                mQuizAnswerText.startAnimation(fadeIn)
             }
 
-            wQuizNextBtn.setOnClickListener {
-                wQuizAnswerText.isClickable = true
+            mQuizNextBtn.setOnClickListener {
+                mQuizAnswerText.isClickable = true
                 vocCounter++
                 if(vocCounter==vocList.size){
                     if(option.equals("무작위")){
-                        val prevVoc = vocList.last().meaning
+                        val prevVoc = vocList.last().word
                         do{
                             vocList.shuffle()
-                        }while(prevVoc.equals(vocList.get(0).meaning))
+                        }while(prevVoc.equals(vocList.get(0).word))
                     }
                     vocCounter=0
                 }
-                wQuizMeanText.text = vocList[vocCounter].meaning
-                wQuizAnswerText.text = "정답 확인"
-                wQuizMeanText.startAnimation(fadeIn)
-                wQuizAnswerText.startAnimation(fadeInAndOut)
+                mQuizWordText.text = vocList[vocCounter].word
+                mQuizAnswerText.text = "정답 확인"
+                mQuizWordText.startAnimation(fadeIn)
+                mQuizAnswerText.startAnimation(fadeInAndOut)
             }
         }
     }

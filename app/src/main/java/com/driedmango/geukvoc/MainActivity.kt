@@ -1,22 +1,22 @@
-package com.example.hwengvoc
+package com.driedmango.geukvoc
 
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.contains
 import androidx.fragment.app.Fragment
-import com.example.hwengvoc.databinding.ActivityMainBinding
+import com.driedmango.geukvoc.databinding.ActivityMainBinding
+import com.driedmango.geukvoc.myengvoc.MyDicFragment
+import com.driedmango.geukvoc.settings.SettingFragment
+import com.driedmango.geukvoc.vocquiz.QuizFragment
+import com.driedmango.geukvoc.wordsearch.SearchFragment
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    private val dicFragment by lazy {MyDicFragment()}
-    private val searchFragment by lazy {SearchFragment()}
-    private val quizFragment by lazy {QuizFragment()}
-    private val manageFragment by lazy {SettingFragment()}
+    private val dicFragment by lazy { MyDicFragment() }
+    private val searchFragment by lazy { SearchFragment() }
+    private val quizFragment by lazy { QuizFragment() }
+    private val manageFragment by lazy { SettingFragment() }
 
     lateinit var binding: ActivityMainBinding
     lateinit var myDBHelper: MyDBHelper

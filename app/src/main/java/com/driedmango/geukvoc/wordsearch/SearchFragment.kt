@@ -1,4 +1,4 @@
-package com.example.hwengvoc
+package com.driedmango.geukvoc.wordsearch
 
 import android.app.Activity
 import android.graphics.Color
@@ -12,14 +12,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.get
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hwengvoc.databinding.FragmentSearchBinding
+import com.driedmango.geukvoc.*
+import com.driedmango.geukvoc.data.VocData
+import com.driedmango.geukvoc.databinding.FragmentSearchBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,14 +30,14 @@ import java.util.*
 class SearchFragment : Fragment() {
     var recyclerView:RecyclerView?=null
     var regiRecyclerView:RecyclerView?=null
-    var adapter:SearchRecyclerViewAdapter?=null
-    var regiAdapter:RegiVocRecyclerViewAdapter?=null
+    var adapter: SearchRecyclerViewAdapter?=null
+    var regiAdapter: RegiVocRecyclerViewAdapter?=null
     var binding: FragmentSearchBinding?=null
     val scope = CoroutineScope(Dispatchers.IO)
     val url = "https://dictionary.cambridge.org/ko/%EC%82%AC%EC%A0%84/%EC%98%81%EC%96%B4-%ED%95%9C%EA%B5%AD%EC%96%B4/"
     var searchedList = LinkedList<VocData>()
     var targetDics = LinkedList<String>()
-    var dbHelper:MyDBHelper?=null
+    var dbHelper: MyDBHelper?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,7 +85,7 @@ class SearchFragment : Fragment() {
             itemTouchHelper.attachToRecyclerView(recyclerView!!)
 
             regiAdapter = RegiVocRecyclerViewAdapter(targetDics)
-            if(targetDics.size!=MyDBHelper.TABLE_NAMES.size){
+            if(targetDics.size!= MyDBHelper.TABLE_NAMES.size){
                 for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
                     if(!targetDics.contains(TABLE_NAME.replace("_", " ")))
                         targetDics.add(TABLE_NAME.replace("_", " "))
@@ -135,8 +135,8 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun defItemClickListener():SearchRecyclerViewAdapter.OnItemClickListener{
-        return object:SearchRecyclerViewAdapter.OnItemClickListener{
+    private fun defItemClickListener(): SearchRecyclerViewAdapter.OnItemClickListener {
+        return object: SearchRecyclerViewAdapter.OnItemClickListener {
             override fun OnItemClick(
                 holder: SearchRecyclerViewAdapter.ViewHolder,
                 view: View,
@@ -166,8 +166,8 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun regiItemClickListener(data: VocData, dialog: AlertDialog):RegiVocRecyclerViewAdapter.OnItemClickListener{
-        return object:RegiVocRecyclerViewAdapter.OnItemClickListener{
+    private fun regiItemClickListener(data: VocData, dialog: AlertDialog): RegiVocRecyclerViewAdapter.OnItemClickListener {
+        return object: RegiVocRecyclerViewAdapter.OnItemClickListener {
             override fun OnItemClick(
                 holder: RegiVocRecyclerViewAdapter.ViewHolder,
                 view: View,

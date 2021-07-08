@@ -1,9 +1,12 @@
-package com.example.hwengvoc
+package com.driedmango.geukvoc
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.driedmango.geukvoc.data.DicData
+import com.driedmango.geukvoc.data.VocData
+import com.driedmango.geukvoc.myengvoc.MyDicFragment
 import java.util.*
 
 class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
@@ -79,7 +82,7 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
         return vocList
     }
 
-    fun insertVoc(voc:VocData, TABLE_NAME:String):Boolean{
+    fun insertVoc(voc: VocData, TABLE_NAME:String):Boolean{
         if(findVoc(voc.word, TABLE_NAME)) //중복 삽입 방지
             return false
 

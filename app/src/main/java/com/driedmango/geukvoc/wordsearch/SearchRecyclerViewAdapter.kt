@@ -1,4 +1,4 @@
-package com.example.hwengvoc
+package com.driedmango.geukvoc.wordsearch
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.driedmango.geukvoc.R
+import com.driedmango.geukvoc.data.VocData
 import java.util.*
 
 class SearchRecyclerViewAdapter(val vocs: LinkedList<VocData>):RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder>(){
-    var itemClickListener:OnItemClickListener?=null
+    var itemClickListener: OnItemClickListener?=null
     interface OnItemClickListener{
-        fun OnItemClick(holder:ViewHolder, view:View, data:VocData, position:Int)
+        fun OnItemClick(holder: ViewHolder, view:View, data: VocData, position:Int)
     }
 
     fun removeItem(pos:Int){

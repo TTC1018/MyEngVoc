@@ -1,4 +1,4 @@
-package com.example.hwengvoc
+package com.driedmango.geukvoc.myengvoc
 
 import android.app.Activity
 import android.content.Intent
@@ -20,16 +20,18 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hwengvoc.databinding.FragmentMyDicBinding
+import com.driedmango.geukvoc.*
+import com.driedmango.geukvoc.data.DicData
+import com.driedmango.geukvoc.databinding.FragmentMyDicBinding
 import com.google.android.material.textfield.TextInputLayout
 
 
 class MyDicFragment : Fragment() {
     var recyclerView:RecyclerView?=null
-    var adapter:MyDicRecyclerViewAdapter?=null
+    var adapter: MyDicRecyclerViewAdapter?=null
     var binding:FragmentMyDicBinding?=null
     var dicList = mutableListOf<DicData>()
-    var dbHelper:MyDBHelper?=null
+    var dbHelper: MyDBHelper?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -148,7 +150,11 @@ class MyDicFragment : Fragment() {
         if(MyDBHelper.TABLE_NAMES.size==0){
             dbHelper!!.initalizeDB()
             for(i:Int in 0 until MyDBHelper.TABLE_NAMES.size){
-                dicList.add(DicData(MyDBHelper.TABLE_NAMES.get(i).replace("_", " "), dbHelper!!.countVoc(MyDBHelper.TABLE_NAMES.get(i))))
+                dicList.add(
+                    DicData(
+                        MyDBHelper.TABLE_NAMES.get(i).replace("_", " "), dbHelper!!.countVoc(
+                            MyDBHelper.TABLE_NAMES.get(i)))
+                )
             }
             adapter!!.notifyDataSetChanged()
         }
@@ -164,8 +170,8 @@ class MyDicFragment : Fragment() {
         }
     }
 
-    private fun defItemClickListener():MyDicRecyclerViewAdapter.OnItemClickListener{
-        return object:MyDicRecyclerViewAdapter.OnItemClickListener{
+    private fun defItemClickListener(): MyDicRecyclerViewAdapter.OnItemClickListener {
+        return object: MyDicRecyclerViewAdapter.OnItemClickListener {
             override fun OnItemClick(
                 holder: MyDicRecyclerViewAdapter.ViewHolder,
                 view: View,
@@ -179,8 +185,8 @@ class MyDicFragment : Fragment() {
         }
     }
 
-    private fun editItemClickListener():MyDicRecyclerViewAdapter.OnItemClickListener{
-        return object:MyDicRecyclerViewAdapter.OnItemClickListener{
+    private fun editItemClickListener(): MyDicRecyclerViewAdapter.OnItemClickListener {
+        return object: MyDicRecyclerViewAdapter.OnItemClickListener {
             override fun OnItemClick(
                 holder: MyDicRecyclerViewAdapter.ViewHolder,
                 view: View,
@@ -228,7 +234,7 @@ class MyDicFragment : Fragment() {
                         before: Int,
                         count: Int
                     ) {
-                        okBtn.isClickable = s!!.matches(Regex("^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9| ]+\$")) && count!=0 && !s.startsWith(" ")
+                        okBtn.isClickable = s!!.matches(Regex("^[가-힣|a-z|A-Z|0-9|\\s]+\$")) && s.isNotEmpty() && !s.startsWith(" ")
                         if(!okBtn.isClickable){ // 한글 숫자 영어 아닐 때
                             okBtn.setBackgroundColor(Color.GRAY)
                             if(s.isEmpty()){
@@ -238,7 +244,7 @@ class MyDicFragment : Fragment() {
                                 dicText.error = "공백만 입력할 수는 없습니다"
                             }
                             else{
-                                dicText.error = "특수문자는 입력 불가능합니다"
+                                dicText.error = "올바른 문자를 입력해주세요"
                             }
                         }
                         else { //한글 숫자 영어 일때
@@ -263,7 +269,7 @@ class MyDicFragment : Fragment() {
             }
         }
 
-    private fun showRemoveDialog(position:Int, data:DicData, prevDialog: AlertDialog){
+    private fun showRemoveDialog(position:Int, data: DicData, prevDialog: AlertDialog){
         val alBuilder = AlertDialog.Builder(requireActivity(), R.style.DefaultDialogStyle);
         alBuilder.setMessage("삭제 버튼을 누르면 단어장이 삭제됩니다.");
         alBuilder.setPositiveButton("삭제") { _, _ ->
@@ -307,7 +313,7 @@ class MyDicFragment : Fragment() {
                 before: Int,
                 count: Int
             ) {
-                okBtn.isClickable = s!!.matches(Regex("^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9| ]+\$")) && count!=0 && !s.startsWith(" ")
+                okBtn.isClickable = s!!.matches(Regex("^[가-힣|a-z|A-Z|0-9|\\s]+\$")) && s.isNotEmpty() && !s.startsWith(" ")
                 if(!okBtn.isClickable){ // 한글 숫자 영어 아닐 때
                     okBtn.setBackgroundColor(Color.GRAY)
                     if(s.isEmpty()){
@@ -317,7 +323,7 @@ class MyDicFragment : Fragment() {
                         dicText.error = "공백만 입력할 수는 없습니다"
                     }
                     else{
-                        dicText.error = "특수문자는 입력 불가능합니다"
+                        dicText.error = "올바른 문자를 입력해주세요"
                     }
                 }
                 else { //한글 숫자 영어 일때

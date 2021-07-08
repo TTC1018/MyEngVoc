@@ -1,4 +1,4 @@
-package com.example.hwengvoc
+package com.driedmango.geukvoc.vocquiz
 
 import android.content.Intent
 import android.graphics.Color
@@ -13,14 +13,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hwengvoc.databinding.FragmentQuizBinding
+import com.driedmango.geukvoc.MyDBHelper
+import com.driedmango.geukvoc.R
+import com.driedmango.geukvoc.wordsearch.RegiVocRecyclerViewAdapter
+import com.driedmango.geukvoc.databinding.FragmentQuizBinding
 import java.util.*
 
 
 class QuizFragment : Fragment() {
     var binding:FragmentQuizBinding?=null
-    var dbHelper:MyDBHelper?=null
-    var targetDicAdapter:RegiVocRecyclerViewAdapter?=null
+    var dbHelper: MyDBHelper?=null
+    var targetDicAdapter: RegiVocRecyclerViewAdapter?=null
     var targetRecyclerView:RecyclerView?=null
     var dicList = LinkedList<String>()
 
@@ -35,7 +38,7 @@ class QuizFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         dicList.clear()
-        if(dicList.size!=MyDBHelper.TABLE_NAMES.size){
+        if(dicList.size!= MyDBHelper.TABLE_NAMES.size){
             for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
                 if(!dicList.contains(TABLE_NAME.replace("_", " ")))
                     dicList.add(TABLE_NAME.replace("_", " "))
@@ -48,7 +51,7 @@ class QuizFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         dbHelper = MyDBHelper(requireContext())
         targetDicAdapter = RegiVocRecyclerViewAdapter(dicList)
-        if(dicList.size!=MyDBHelper.TABLE_NAMES.size){
+        if(dicList.size!= MyDBHelper.TABLE_NAMES.size){
             for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
                 if(!dicList.contains(TABLE_NAME.replace("_", " ")))
                     dicList.add(TABLE_NAME.replace("_", " "))
@@ -138,8 +141,8 @@ class QuizFragment : Fragment() {
         }
     }
 
-    private fun tarItemClickListener(dialog: AlertDialog):RegiVocRecyclerViewAdapter.OnItemClickListener{
-        return object:RegiVocRecyclerViewAdapter.OnItemClickListener{
+    private fun tarItemClickListener(dialog: AlertDialog): RegiVocRecyclerViewAdapter.OnItemClickListener {
+        return object: RegiVocRecyclerViewAdapter.OnItemClickListener {
             override fun OnItemClick(
                 holder: RegiVocRecyclerViewAdapter.ViewHolder,
                 view: View,
