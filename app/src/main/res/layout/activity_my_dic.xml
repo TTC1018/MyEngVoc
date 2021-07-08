@@ -12,20 +12,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal"
         android:background="?attr/colorPrimary"
         android:elevation="7dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:outlineAmbientShadowColor="?attr/colorOnPrimary"
         android:outlineSpotShadowColor="?attr/colorOnPrimary">
-        <ImageButton
-            android:id="@+id/showDicAddBtn"
-            android:layout_width="wrap_content"
+
+        <ImageView
+            android:id="@+id/alignView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="0.3"
+            android:padding="1dp"
+            app:srcCompat="@android:drawable/ic_menu_sort_alphabetically" />
+
+        <EditText
+            android:id="@+id/vocSearchEditText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="10dp"
+            android:layout_weight="2.5"
+            android:background="@drawable/gradient_btn"
+            android:elevation="10dp"
+            android:ems="14"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+            android:outlineSpotShadowColor="?attr/colorOnPrimary"
+            android:padding="6dp"
+            android:singleLine="true"
+            android:text="@null"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textCursorDrawable="@null" />
+
+        <ImageButton
+            android:id="@+id/showDicAddBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="0.3"
             android:background="@drawable/gradient_btn"
             android:elevation="10dp"
             android:outlineAmbientShadowColor="?attr/colorOnPrimary"
@@ -33,6 +68,7 @@
             android:padding="1dp"
             android:src="@drawable/add_button_ripple"
             android:tint="?attr/colorOnPrimary" />
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

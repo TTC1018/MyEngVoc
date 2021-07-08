@@ -67,7 +67,7 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
     }
 
     fun findDic(TABLE_NAME: String):LinkedList<VocData>{
-        var vocList = LinkedList<VocData>()
+        val vocList = LinkedList<VocData>()
         val strsql = "select * from '$TABLE_NAME';"
         val db = readableDatabase
         val cursor = db.rawQuery(strsql, null)
@@ -79,6 +79,9 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
                 vocList.add(VocData(cursor.getInt(cursor.getColumnIndex("vid")), cursor.getString(cursor.getColumnIndex("word")), cursor.getString(cursor.getColumnIndex("meaning"))))
             }while(cursor.moveToNext())
         }
+
+        db.close()
+        cursor.close()
         return vocList
     }
 

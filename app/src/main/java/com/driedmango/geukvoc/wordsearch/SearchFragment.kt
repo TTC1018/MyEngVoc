@@ -124,6 +124,9 @@ class SearchFragment : Fragment() {
                     val iMM = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                     iMM.hideSoftInputFromWindow(requireActivity().currentFocus!!.windowToken , InputMethodManager.HIDE_NOT_ALWAYS)
                     recyclerView!!.layoutManager!!.scrollToPosition(0)
+                    recyclerView!!.post {
+                        recyclerView!!.requestFocus()
+                    }
                 }
             }catch(e:Exception){
                 requireActivity().runOnUiThread {

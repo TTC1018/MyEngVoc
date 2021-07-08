@@ -10,7 +10,7 @@ import com.driedmango.geukvoc.R
 import com.driedmango.geukvoc.data.VocData
 import java.util.*
 
-class SearchRecyclerViewAdapter(val vocs: LinkedList<VocData>):RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder>(){
+class SearchRecyclerViewAdapter(var vocs: MutableList<VocData>):RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder>(){
     var itemClickListener: OnItemClickListener?=null
     interface OnItemClickListener{
         fun OnItemClick(holder: ViewHolder, view:View, data: VocData, position:Int)
@@ -52,7 +52,6 @@ class SearchRecyclerViewAdapter(val vocs: LinkedList<VocData>):RecyclerView.Adap
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.wordText.text = vocs[position].word
         holder.meanText.text = vocs[position].meaning
-        if(position==0) holder.layout.requestFocus()
     }
 
 }
