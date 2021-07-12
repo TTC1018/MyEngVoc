@@ -75,11 +75,10 @@ class MyDicActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
         recyclerView.scrollToPosition(adapter.vocs.size-1)
 
-        binding.apply {
             //단어 추가 버튼 Listener 설정
-            showDicAddBtn.setOnClickListener {
+            binding.showDicAddBtn.setOnClickListener {
                 var customDialog = layoutInflater.inflate(R.layout.dialog_add_voc, null)
-                var builder = AlertDialog.Builder(applicationContext)
+                var builder = AlertDialog.Builder(this)
                 builder.setView(customDialog)
                 val dialog = builder.create()
                 dialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -103,7 +102,7 @@ class MyDicActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                     wordText.editText!!.text.clear()
                     meanText.editText!!.text.clear()
-                    Toast.makeText(applicationContext, "단어가 추가되었습니다", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "단어가 추가되었습니다", Toast.LENGTH_SHORT).show()
                     wordText.editText!!.requestFocus()
                     recyclerView.scrollToPosition(adapter.vocs.size-1)
                 }
@@ -117,10 +116,10 @@ class MyDicActivity : AppCompatActivity() {
             }
 
             //정렬 버튼
-            val fadeIn = AnimationUtils.loadAnimation(applicationContext, R.anim.fade_in)
-            val fadeInAndOut = AnimationUtils.loadAnimation(applicationContext, R.anim.fade_inandout)
-            alignView.startAnimation(fadeInAndOut)
-            alignView.setOnClickListener {
+            val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+            val fadeInAndOut = AnimationUtils.loadAnimation(this, R.anim.fade_inandout)
+            binding.alignView.startAnimation(fadeInAndOut)
+            binding.alignView.setOnClickListener {
                 when(alignFlag){
                     1->{
                         adapter.vocs.sortBy {
@@ -142,7 +141,7 @@ class MyDicActivity : AppCompatActivity() {
             }
 
             // 단어 검색 EditText
-            vocSearchEditText.addTextChangedListener(object:TextWatcher{
+            binding.vocSearchEditText.addTextChangedListener(object:TextWatcher{
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -167,8 +166,8 @@ class MyDicActivity : AppCompatActivity() {
                             adapter.vocs = tempData.toMutableList()
                         }
 
-                        vocSearchEditText.post {
-                            vocSearchEditText.requestFocus()
+                        binding.vocSearchEditText.post {
+                            binding.vocSearchEditText.requestFocus()
                         }
                     }
                     else{
@@ -179,7 +178,7 @@ class MyDicActivity : AppCompatActivity() {
 
                 override fun afterTextChanged(s: Editable?) { }
             })
-        }
+
 
     }
 

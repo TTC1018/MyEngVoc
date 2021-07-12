@@ -42,11 +42,10 @@
             android:elevation="10dp"
             android:outlineAmbientShadowColor="?attr/colorOnPrimary"
             android:outlineSpotShadowColor="?attr/colorOnPrimary"
-            app:itemIconTint="@drawable/bottom_navigation_color"
             app:itemRippleColor="@color/gray_ripple"
             app:itemTextColor="?attr/colorOnPrimary"
             app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottomnavigation" />
+            app:menu="@menu/bottom_navigation" />
     </LinearLayout>
 
 

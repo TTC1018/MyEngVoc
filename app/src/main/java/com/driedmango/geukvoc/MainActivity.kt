@@ -57,7 +57,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 true
             }
-            binding.bottomNavi.selectedItemId = R.id.myDicBtn
+            bottomNavi.selectedItemId = R.id.myDicBtn
+            bottomNavi.setItemIconTintList(null)
         }
 
         //BackStack과 BottomNavigation 동기화 코드
