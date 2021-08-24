@@ -77,18 +77,18 @@ class MyDicActivity : AppCompatActivity() {
 
             //단어 추가 버튼 Listener 설정
             binding.showDicAddBtn.setOnClickListener {
-                var customDialog = layoutInflater.inflate(R.layout.dialog_add_voc, null)
-                var builder = AlertDialog.Builder(this)
+                val customDialog = layoutInflater.inflate(R.layout.dialog_add_voc, null)
+                val builder = AlertDialog.Builder(this)
                 builder.setView(customDialog)
                 val dialog = builder.create()
                 dialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.show()
 
                 //custom Dialog 컴포넌트들 선언
-                var cancelBtn = customDialog.findViewById<Button>(R.id.vocRegiCancelBtn)
-                var okBtn = customDialog.findViewById<Button>(R.id.vocRegiOKBtn)
-                var wordText = customDialog.findViewById<TextInputLayout>(R.id.vocWordEditText)
-                var meanText = customDialog.findViewById<TextInputLayout>(R.id.vocMeanEditText)
+                val cancelBtn = customDialog.findViewById<Button>(R.id.vocRegiCancelBtn)
+                val okBtn = customDialog.findViewById<Button>(R.id.vocRegiOKBtn)
+                val wordText = customDialog.findViewById<TextInputLayout>(R.id.vocWordEditText)
+                val meanText = customDialog.findViewById<TextInputLayout>(R.id.vocMeanEditText)
 
                 //각 컴포넌트에 ClickListener 선언
                 cancelBtn.setOnClickListener {
