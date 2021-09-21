@@ -44,32 +44,34 @@
             android:textAlignment="center"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/vocMeanEditText"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="4dp"
-        android:paddingRight="15dp"
         android:paddingLeft="15dp"
-        app:counterEnabled="true"
-        app:counterMaxLength="20"
-        app:hintTextColor="@color/black"
+        android:paddingRight="15dp"
+        android:theme="@style/Widget.AppTheme.TextInputLayout.OutlinedBox"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/black"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:theme="@style/Widget.AppTheme.TextInputLayout.OutlinedBox">
+        app:counterEnabled="true"
+        app:counterMaxLength="40"
+        app:hintTextColor="@color/black">
+
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:nextFocusDown="@id/vocRegiOKBtn"
-            android:hint="뜻"
             android:ems="10"
-            android:maxLength="20"
+            android:hint="뜻"
+            android:inputType="text"
+            android:maxLength="40"
+            android:nextFocusDown="@id/vocRegiOKBtn"
             android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
