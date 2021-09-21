@@ -194,7 +194,7 @@ class MyDicActivity : AppCompatActivity() {
             ) {
                 when(type){ //1:단어 2:뜻
                     1-> {
-                        wordFlag = s!!.matches(Regex("^[a-z|A-Z|\\s]+\$")) && s.isNotEmpty() && !s.startsWith(" ")
+                        wordFlag = s!!.matches(Regex("^[\\p{Graph}|\\s]+\$")) && s.isNotEmpty() && !s.startsWith(" ")
                         btn.isClickable = wordFlag && meanFlag
                         if(!wordFlag){ // 영어 아닐 때
                             btn.setBackgroundColor(Color.GRAY)
@@ -202,10 +202,10 @@ class MyDicActivity : AppCompatActivity() {
                                 text.error = "단어를 입력해주세요"
                             }
                             else if(s.startsWith(" ")){
-                                text.error = "공백만 입력할 수는 없습니다"
+                                text.error = "공백으로 시작할 수 없습니다"
                             }
                             else{
-                                text.error = "영어만 입력 가능합니다"
+                                text.error = "허용된 문자열만 가능합니다"
                             }
                         }
                         else { //한글 숫자 영어 일때
