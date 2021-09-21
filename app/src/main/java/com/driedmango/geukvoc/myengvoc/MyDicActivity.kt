@@ -205,13 +205,13 @@ class MyDicActivity : AppCompatActivity() {
                                 text.error = "공백으로 시작할 수 없습니다"
                             }
                             else{
-                                text.error = "허용된 문자열만 가능합니다"
+                                text.error = "올바른 문자를 입력해주세요"
                             }
                         }
                         else { //한글 숫자 영어 일때
                             if(vocListHas(s.toString())){
                                 btn.setBackgroundColor(Color.GRAY)
-                                text.error = "같은 이름의 단어가 존재합니다."
+                                text.error = "이미 등록된 단어입니다"
                             }
                             else{
                                 text.error = null
@@ -219,7 +219,7 @@ class MyDicActivity : AppCompatActivity() {
                         }
                     }
                     2-> {
-                        meanFlag = s!!.matches(Regex("^[가-힣|0-9|()?,~\\-\\/\\s]+\$")) && s.isNotEmpty() && !s.startsWith(" ")
+                        meanFlag = s!!.matches(Regex("^[\\p{Graph}|\\s]+\$")) && s.isNotEmpty() && !s.startsWith(" ")
                         btn.isClickable = wordFlag && meanFlag
                         if(!meanFlag){ // 한글 아닐 때
                             btn.setBackgroundColor(Color.GRAY)
@@ -227,7 +227,7 @@ class MyDicActivity : AppCompatActivity() {
                                 text.error = "뜻을 입력해주세요"
                             }
                             else if(s.startsWith(" ")){
-                                text.error = "공백만 입력할 수는 없습니다"
+                                text.error = "공백으로 시작할 수 없습니다"
                             }
                             else{
                                 text.error = "올바른 문자를 입력해주세요"
