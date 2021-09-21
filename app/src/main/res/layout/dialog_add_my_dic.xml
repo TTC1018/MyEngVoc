@@ -18,6 +18,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dicAddEditText"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
@@ -25,20 +26,20 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="8dp"
         android:padding="15dp"
-        app:counterEnabled="true"
-        app:counterMaxLength="15"
-        app:hintTextColor="@color/black"
+        android:theme="@style/Widget.AppTheme.TextInputLayout.OutlinedBox"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/black"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:theme="@style/Widget.AppTheme.TextInputLayout.OutlinedBox">
+        app:counterEnabled="true"
+        app:counterMaxLength="30"
+        app:hintTextColor="@color/black">
+
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="단어장 이름"
             android:ems="10"
-            android:maxLength="15"
+            android:hint="단어장 이름"
+            android:inputType="text"
+            android:maxLength="30"
             android:textAlignment="center"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
