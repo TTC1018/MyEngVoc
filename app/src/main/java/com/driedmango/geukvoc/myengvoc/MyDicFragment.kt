@@ -234,7 +234,7 @@ class MyDicFragment : Fragment() {
                         before: Int,
                         count: Int
                     ) {
-                        okBtn.isClickable = s!!.matches(Regex("^[가-힣|a-z|A-Z|0-9|\\s]+\$")) && s.isNotEmpty() && !s.startsWith(" ")
+                        okBtn.isClickable = s!!.matches(Regex("^[\\p{Alnum}|\\s]+\$")) && s.isNotEmpty() && !s.startsWith(" ") && !s.endsWith(" ")
                         if(!okBtn.isClickable){ // 한글 숫자 영어 아닐 때
                             okBtn.setBackgroundColor(Color.GRAY)
                             if(s.isEmpty()){
@@ -242,6 +242,9 @@ class MyDicFragment : Fragment() {
                             }
                             else if(s.startsWith(" ")){
                                 dicText.error = "공백만 입력할 수는 없습니다"
+                            }
+                            else if(s.endsWith(" ")){
+                                dicText.error = "공백으로 끝날 수 없습니다"
                             }
                             else{
                                 dicText.error = "올바른 문자를 입력해주세요"
