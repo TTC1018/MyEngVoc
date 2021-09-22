@@ -2,6 +2,7 @@ package com.driedmango.geukvoc.settings
 
 import android.app.UiModeManager
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import com.driedmango.geukvoc.MainActivity
 import com.driedmango.geukvoc.R
 import com.driedmango.geukvoc.databinding.FragmentSettingBinding
@@ -32,7 +34,6 @@ class SettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        uiModeManager = requireActivity().getSystemService(Context.UI_MODE_SERVICE) as UiModeManager?
         binding!!.apply {
             appInfoLayout.setOnClickListener {
                 if(appInfoTextLayout.visibility==View.GONE){
@@ -50,11 +51,14 @@ class SettingFragment : Fragment() {
                 when(Build.VERSION.SDK_INT){
                     28 -> {
                         nightBtn.setOnClickListener {
-                            if(uiModeManager!!.nightMode == UiModeManager.MODE_NIGHT_NO){
-                                uiModeManager!!.nightMode = UiModeManager.MODE_NIGHT_YES
-                            }
-                            else{
-                                uiModeManager!!.nightMode = UiModeManager.MODE_NIGHT_NO
+                            val curNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                            when(curNightMode){
+                                Configuration.UI_MODE_NIGHT_NO->{
+                                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                                }
+                                Configuration.UI_MODE_NIGHT_YES->{
+                                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                                }
                             }
                             val activity = requireActivity() as MainActivity
                             for(i in 0 until activity.supportFragmentManager.backStackEntryCount){
@@ -73,7 +77,7 @@ class SettingFragment : Fragment() {
             }
             else{
                 nightBtn.setOnClickListener {
-                    Toast.makeText(context, "본 안드로이드 버전은 다크 모드가 지원되지 않습니다", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, "다크 모드를 미지원하는 안드로이드 입니다", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
