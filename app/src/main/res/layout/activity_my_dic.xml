@@ -21,11 +21,10 @@
 
         <ImageView
             android:id="@+id/alignView"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:layout_marginLeft="15dp"
-            android:layout_weight="0.3"
             android:padding="1dp"
             app:srcCompat="@android:drawable/ic_menu_sort_alphabetically" />
 
@@ -54,13 +53,12 @@
 
         <ImageButton
             android:id="@+id/showDicAddBtn"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="10dp"
-            android:layout_weight="0.3"
             android:background="@drawable/gradient_btn"
             android:elevation="10dp"
             android:outlineAmbientShadowColor="?attr/colorOnPrimary"
