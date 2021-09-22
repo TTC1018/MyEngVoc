@@ -56,21 +56,26 @@ class MeanQuizActivity : AppCompatActivity() {
             }
 
             mQuizNextBtn.setOnClickListener {
-                mQuizAnswerText.isClickable = true
-                vocCounter++
-                if(vocCounter==vocList.size){
-                    if(option.equals("무작위")){
-                        val prevVoc = vocList.last().word
-                        do{
-                            vocList.shuffle()
-                        }while(prevVoc.equals(vocList.get(0).word))
-                    }
-                    vocCounter=0
+                if(mQuizAnswerText.isClickable){
+                    mQuizAnswerText.performClick()
                 }
-                mQuizWordText.text = vocList[vocCounter].word
-                mQuizAnswerText.text = "정답 확인"
-                mQuizWordText.startAnimation(fadeIn)
-                mQuizAnswerText.startAnimation(fadeInAndOut)
+                else{
+                    mQuizAnswerText.isClickable = true
+                    vocCounter++
+                    if(vocCounter==vocList.size){
+                        if(option.equals("무작위")){
+                            val prevVoc = vocList.last().word
+                            do{
+                                vocList.shuffle()
+                            }while(prevVoc.equals(vocList.get(0).word))
+                        }
+                        vocCounter=0
+                    }
+                    mQuizWordText.text = vocList[vocCounter].word
+                    mQuizAnswerText.text = "정답 확인"
+                    mQuizWordText.startAnimation(fadeIn)
+                    mQuizAnswerText.startAnimation(fadeInAndOut)
+                }
             }
         }
     }

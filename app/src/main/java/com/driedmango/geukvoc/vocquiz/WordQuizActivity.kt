@@ -56,21 +56,26 @@ class WordQuizActivity : AppCompatActivity() {
             }
 
             wQuizNextBtn.setOnClickListener {
-                wQuizAnswerText.isClickable = true
-                vocCounter++
-                if(vocCounter==vocList.size){
-                    if(option.equals("무작위")){
-                        val prevVoc = vocList.last().meaning
-                        do{
-                            vocList.shuffle()
-                        }while(prevVoc.equals(vocList.get(0).meaning))
-                    }
-                    vocCounter=0
+                if(wQuizAnswerText.isClickable){
+                    wQuizAnswerText.performClick()
                 }
-                wQuizMeanText.text = vocList[vocCounter].meaning
-                wQuizAnswerText.text = "정답 확인"
-                wQuizMeanText.startAnimation(fadeIn)
-                wQuizAnswerText.startAnimation(fadeInAndOut)
+                else {
+                    wQuizAnswerText.isClickable = true
+                    vocCounter++
+                    if(vocCounter==vocList.size){
+                        if(option.equals("무작위")){
+                            val prevVoc = vocList.last().meaning
+                            do{
+                                vocList.shuffle()
+                            }while(prevVoc.equals(vocList.get(0).meaning))
+                        }
+                        vocCounter=0
+                    }
+                    wQuizMeanText.text = vocList[vocCounter].meaning
+                    wQuizAnswerText.text = "정답 확인"
+                    wQuizMeanText.startAnimation(fadeIn)
+                    wQuizAnswerText.startAnimation(fadeInAndOut)
+                }
             }
         }
     }
