@@ -97,6 +97,8 @@
             android:ems="10"
             android:gravity="center"
             android:inputType="textPersonName"
+            android:backgroundTint="@color/white"
+            android:textCursorDrawable="@null"
             android:text="@null"
             android:textColor="@color/white"
             android:textSize="18sp" />
