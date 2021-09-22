@@ -48,10 +48,10 @@
             android:layout_marginBottom="21dp"
             android:layout_weight="1"
             android:padding="5dp"
-            android:text="단어장 추가, 혹은 편집할 단어장을 선택"
-            android:textSize="13sp"
+            android:text="단어장 추가 및 편집"
             android:textAlignment="center"
             android:textColor="?attr/colorOnPrimary"
+            android:textSize="13sp"
             android:visibility="gone" />
 
         <ImageButton

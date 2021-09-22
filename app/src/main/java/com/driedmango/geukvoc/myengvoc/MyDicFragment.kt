@@ -1,5 +1,6 @@
 package com.driedmango.geukvoc.myengvoc
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
@@ -33,6 +34,8 @@ class MyDicFragment : Fragment() {
     var dicList = mutableListOf<DicData>()
     var dbHelper: MyDBHelper?=null
 
+    var editFlag:Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,6 +44,7 @@ class MyDicFragment : Fragment() {
         return binding!!.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
         if(dicList.size != 0){
@@ -63,6 +67,7 @@ class MyDicFragment : Fragment() {
         activity.binding.bottomNavi.menu.getItem(1).setChecked(true)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         //어플 최조 실행을 확인 해주는 변수 (기본 단어장 추가에 활용)
@@ -88,11 +93,13 @@ class MyDicFragment : Fragment() {
                     recyclerView!!.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     recyclerView!!.startAnimation(fadeIn)
                     adapter!!.setOnItemClickListener(editItemClickListener())
+                    editFlag = true
                 }
                 else{
                     recyclerView!!.layoutManager = GridLayoutManager(context, 2)
                     recyclerView!!.startAnimation(fadeIn)
                     adapter!!.setOnItemClickListener(defItemClickListener())
+                    editFlag = false
                 }
 
                 val editShowText:TextView = binding!!.editShowText
@@ -187,24 +194,25 @@ class MyDicFragment : Fragment() {
 
     private fun editItemClickListener(): MyDicRecyclerViewAdapter.OnItemClickListener {
         return object: MyDicRecyclerViewAdapter.OnItemClickListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun OnItemClick(
                 holder: MyDicRecyclerViewAdapter.ViewHolder,
                 view: View,
                 data: DicData,
                 position: Int
             ) {
-                var customDialog = layoutInflater.inflate(R.layout.dialog_edit_my_dic, null)
-                var builder = AlertDialog.Builder(context!!)
+                val customDialog = layoutInflater.inflate(R.layout.dialog_edit_my_dic, null)
+                val builder = AlertDialog.Builder(context!!)
                 builder.setView(customDialog)
                 val dialog = builder.create()
                 dialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.show()
 
                 //custom Dialog 컴포넌트들 선언
-                var cancelBtn = customDialog.findViewById<Button>(R.id.diaCancelBtn)
-                var okBtn = customDialog.findViewById<Button>(R.id.diaOKBtn)
-                var removeBtn = customDialog.findViewById<Button>(R.id.diaRemoveBtn)
-                var dicText = customDialog.findViewById<TextInputLayout>(R.id.dicNameEditText)
+                val cancelBtn = customDialog.findViewById<Button>(R.id.diaCancelBtn)
+                val okBtn = customDialog.findViewById<Button>(R.id.diaOKBtn)
+                val removeBtn = customDialog.findViewById<Button>(R.id.diaRemoveBtn)
+                val dicText = customDialog.findViewById<TextInputLayout>(R.id.dicNameEditText)
 
                 //각 컴포넌트에 ClickListener 선언
                 cancelBtn.setOnClickListener {

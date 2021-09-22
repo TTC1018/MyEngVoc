@@ -119,6 +119,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        if(binding.bottomNavi.selectedItemId == R.id.myDicBtn){
+            if(dicFragment.editFlag){
+                dicFragment.binding!!.editBtn.performClick()
+                return
+            }
+        }
+
         if(backStackCount==1){
             finishFlag=true
             if(finishFlag){
