@@ -97,6 +97,7 @@ class SpellQuizActivity : AppCompatActivity() {
                         sQuizSpellCount.isClickable = true
                         chanceCounter = 0
                         val answer = vocList[vocCounter].word
+                        val meaning = vocList[vocCounter].meaning
                         vocCounter++
                         if(vocCounter==vocList.size){
                             noOverlapShuffle()
@@ -110,13 +111,35 @@ class SpellQuizActivity : AppCompatActivity() {
                         sQuizSpellCount.startAnimation(fadeInAndOut)
                         sQuizMeanText.startAnimation(fadeIn)
                         sQuizHintLay.startAnimation(fadeIn)
-                        Toast.makeText(applicationContext, "정답은 $answer 였습니다", Toast.LENGTH_LONG).show()
+                        Toast.makeText(applicationContext, "$meaning: $answer", Toast.LENGTH_LONG).show()
                     }
                     else{
                         Toast.makeText(applicationContext, "오답입니다. 조금 더 고민해보세요", Toast.LENGTH_SHORT).show()
                     }
                 }
                 sQuizSpellInput.text.clear()
+            }
+
+            sQuizSkipBtn.setOnClickListener {
+                sQuizFirstSpell.isClickable = true
+                sQuizSpellCount.isClickable = true
+                chanceCounter = 0
+                val answer = vocList[vocCounter].word
+                val meaning = vocList[vocCounter].meaning
+                vocCounter++
+                if(vocCounter==vocList.size){
+                    noOverlapShuffle()
+                    vocCounter=0
+                }
+                sQuizMeanText.text = vocList[vocCounter].meaning
+                sQuizFirstSpell.text = "확인"
+                sQuizSpellCount.text = "확인"
+
+                sQuizFirstSpell.startAnimation(fadeInAndOut)
+                sQuizSpellCount.startAnimation(fadeInAndOut)
+                sQuizMeanText.startAnimation(fadeIn)
+                sQuizHintLay.startAnimation(fadeIn)
+                Toast.makeText(applicationContext, "$meaning = $answer", Toast.LENGTH_LONG).show()
             }
         }
     }

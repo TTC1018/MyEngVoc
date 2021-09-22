@@ -103,13 +103,30 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <ImageButton
-            android:id="@+id/sQuizNextBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/next_button" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/sQuizNextBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/next_button" />
+
+            <ImageButton
+                android:id="@+id/sQuizSkipBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/answer_button" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
