@@ -1,10 +1,15 @@
 package com.driedmango.geukvoc
 
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.driedmango.geukvoc.data.VocData
 import com.driedmango.geukvoc.databinding.ActivityMainBinding
 import com.driedmango.geukvoc.myengvoc.MyDicFragment
 import com.driedmango.geukvoc.settings.SettingFragment
@@ -106,16 +111,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCloseDialog(){
-        val alBuilder = AlertDialog.Builder(this, R.style.DefaultDialogStyle);
-        alBuilder.setMessage("종료 할까요?");
-        alBuilder.setPositiveButton("종료") { _, _ ->
+//        val alBuilder = AlertDialog.Builder(this, R.style.DefaultDialogStyle);
+//        alBuilder.setMessage("종료 할까요?");
+//        alBuilder.setPositiveButton("종료") { _, _ ->
+//            finish()
+//        }
+//        alBuilder.setNegativeButton("취소") {_, _ ->
+//
+//        }
+//        alBuilder.setTitle("나만의 단어장")
+//        alBuilder.show()
+
+        val customDialog = layoutInflater.inflate(R.layout.dialog_exit, null)
+        val builder = AlertDialog.Builder(this)
+        builder.setView(customDialog)
+        val dialog = builder.create()
+        dialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
+        //custom Dialog 컴포넌트들 선언
+        val cancelBtn = customDialog.findViewById<Button>(R.id.cancelBtn)
+        val exitBtn = customDialog.findViewById<Button>(R.id.exitBtn)
+
+        //각 컴포넌트에 ClickListener 선언
+        cancelBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+        exitBtn.setOnClickListener {
             finish()
         }
-        alBuilder.setNegativeButton("취소") {_, _ ->
-
-        }
-        alBuilder.setTitle("나만의 단어장")
-        alBuilder.show()
     }
 
     override fun onBackPressed() {
