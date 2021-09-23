@@ -120,6 +120,7 @@ class SpellQuizActivity : AppCompatActivity() {
                 sQuizSpellInput.text.clear()
             }
 
+            // 답 버튼
             sQuizSkipBtn.setOnClickListener {
                 sQuizFirstSpell.isClickable = true
                 sQuizSpellCount.isClickable = true
