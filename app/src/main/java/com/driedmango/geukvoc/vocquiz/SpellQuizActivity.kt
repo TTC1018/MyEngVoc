@@ -18,6 +18,8 @@ class SpellQuizActivity : AppCompatActivity() {
     var vocList = mutableListOf<VocData>()
     var vocCounter = 0
     var chanceCounter = 0
+    var cycleCounter = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySpellQuizBinding.inflate(layoutInflater)
@@ -76,6 +78,8 @@ class SpellQuizActivity : AppCompatActivity() {
                     if(vocCounter==vocList.size){
                         noOverlapShuffle()
                         vocCounter=0
+                        cycleCounter++
+                        sQuizCycleNum.text = cycleCounter.toString()
                     }
                     sQuizMeanText.text = vocList[vocCounter].meaning
                     sQuizFirstSpell.text = "확인"
@@ -102,6 +106,8 @@ class SpellQuizActivity : AppCompatActivity() {
                         if(vocCounter==vocList.size){
                             noOverlapShuffle()
                             vocCounter=0
+                            cycleCounter++
+                            sQuizCycleNum.text = cycleCounter.toString()
                         }
                         sQuizMeanText.text = vocList[vocCounter].meaning
                         sQuizFirstSpell.text = "확인"
@@ -131,6 +137,8 @@ class SpellQuizActivity : AppCompatActivity() {
                 if(vocCounter==vocList.size){
                     noOverlapShuffle()
                     vocCounter=0
+                    cycleCounter++
+                    sQuizCycleNum.text = cycleCounter.toString()
                 }
                 sQuizMeanText.text = vocList[vocCounter].meaning
                 sQuizFirstSpell.text = "확인"

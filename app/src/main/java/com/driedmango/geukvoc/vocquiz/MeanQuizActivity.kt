@@ -16,6 +16,8 @@ class MeanQuizActivity : AppCompatActivity() {
     lateinit var option:String
     var vocList = mutableListOf<VocData>()
     var vocCounter = 0
+    var cycleCounter = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMeanQuizBinding.inflate(layoutInflater)
@@ -70,6 +72,8 @@ class MeanQuizActivity : AppCompatActivity() {
                             }while(prevVoc.equals(vocList.get(0).word))
                         }
                         vocCounter=0
+                        cycleCounter++
+                        mQuizCycleNum.text = cycleCounter.toString()
                     }
                     mQuizWordText.text = vocList[vocCounter].word
                     mQuizAnswerText.text = "정답 확인"

@@ -16,6 +16,7 @@ class WordQuizActivity : AppCompatActivity() {
     lateinit var option:String
     var vocList = mutableListOf<VocData>()
     var vocCounter = 0
+    var cycleCounter = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWordQuizBinding.inflate(layoutInflater)
@@ -56,10 +57,10 @@ class WordQuizActivity : AppCompatActivity() {
             }
 
             wQuizNextBtn.setOnClickListener {
-                if(wQuizAnswerText.isClickable){
+                if(wQuizAnswerText.isClickable){ // 정답 확인 아직 안 눌렀을 때
                     wQuizAnswerText.performClick()
                 }
-                else {
+                else { // 정답 확인 눌러져 있을 때 (다음 단어로 넘어가기)
                     wQuizAnswerText.isClickable = true
                     vocCounter++
                     if(vocCounter==vocList.size){
@@ -70,6 +71,8 @@ class WordQuizActivity : AppCompatActivity() {
                             }while(prevVoc.equals(vocList.get(0).meaning))
                         }
                         vocCounter=0
+                        cycleCounter++
+                        wQuizCycleNum.text = cycleCounter.toString()
                     }
                     wQuizMeanText.text = vocList[vocCounter].meaning
                     wQuizAnswerText.text = "정답 확인"
