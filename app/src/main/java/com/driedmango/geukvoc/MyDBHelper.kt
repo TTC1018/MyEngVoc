@@ -86,11 +86,12 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
     }
 
     fun insertVoc(voc: VocData, TABLE_NAME:String):Boolean{
-        if(findVoc(voc.word, TABLE_NAME)) //중복 삽입 방지
-            return false
+        //중복 삽입 방지
+//        if(findVoc(voc.word, TABLE_NAME))
+//            return false
 
         val values = ContentValues()
-        values.put(WORD, voc.word)
+        values.put(WORD, voc.word.replace("\'", "\'\'"))
         values.put(MEAN, voc.meaning)
         val db = writableDatabase
         val flag = db.insert(TABLE_NAME, null, values)>0
@@ -99,7 +100,8 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
     }
 
     fun deleteVoc(word: String, TABLE_NAME: String): Boolean {
-        val delSql = "select * from '$TABLE_NAME' where $WORD='$word';"
+        val e_word = word.replace("\'", "\'\'")
+        val delSql = "select * from '$TABLE_NAME' where $WORD='$e_word';"
         val db = writableDatabase
         val cursor = db.rawQuery(delSql, null)
         val flag = cursor.count!=0
