@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import com.driedmango.geukvoc.data.DicData
 import com.driedmango.geukvoc.data.VocData
 import com.driedmango.geukvoc.myengvoc.MyDicFragment
@@ -39,7 +40,7 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
         var count = 0
 
         while(scan.hasNextLine()){
-            val word = scan.nextLine()
+            var word = scan.nextLine()
             val meaning = scan.nextLine()
             insertVoc(VocData(0, word, meaning), TABLE_NAMES.get(0))
             count++
@@ -76,7 +77,7 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
         if(flag){
             cursor.moveToFirst()
             do {
-                vocList.add(VocData(cursor.getInt(cursor.getColumnIndex("vid")), cursor.getString(cursor.getColumnIndex("word")), cursor.getString(cursor.getColumnIndex("meaning"))))
+                vocList.add(VocData(cursor.getInt(cursor.getColumnIndex("vid")), cursor.getString(cursor.getColumnIndex("word")).replace("\'\'", "\'"), cursor.getString(cursor.getColumnIndex("meaning"))))
             }while(cursor.moveToNext())
         }
 
@@ -101,13 +102,14 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
 
     fun deleteVoc(word: String, TABLE_NAME: String): Boolean {
         val e_word = word.replace("\'", "\'\'")
+        Log.d(e_word, "TEST")
         val delSql = "select * from '$TABLE_NAME' where $WORD='$e_word';"
         val db = writableDatabase
         val cursor = db.rawQuery(delSql, null)
         val flag = cursor.count!=0
         if(flag){
             cursor.moveToFirst()
-            db.delete(TABLE_NAME, "$WORD=?", arrayOf(word))
+            db.delete(TABLE_NAME, "$WORD=?", arrayOf(e_word))
         }
         cursor.close()
         db.close()
