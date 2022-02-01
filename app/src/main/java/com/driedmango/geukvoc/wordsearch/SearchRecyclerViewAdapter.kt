@@ -5,12 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.driedmango.geukvoc.R
+import com.driedmango.geukvoc.data.DicData
 import com.driedmango.geukvoc.data.VocData
 import java.util.*
 
-class SearchRecyclerViewAdapter(var vocs: MutableList<VocData>):RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder>(){
+class SearchRecyclerViewAdapter(diffCallback: DiffUtil.ItemCallback<DicData>):androidx.recyclerview.widget.ListAdapter<DicData, SearchRecyclerViewAdapter.ViewHolder>(diffCallback){
     var itemClickListener: OnItemClickListener?=null
     interface OnItemClickListener{
         fun OnItemClick(holder: ViewHolder, view:View, data: VocData, position:Int)
