@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +31,7 @@ import java.util.*
 class SearchFragment : Fragment() {
     var recyclerView:RecyclerView?=null
     var regiRecyclerView:RecyclerView?=null
-    var adapter: SearchRecyclerViewAdapter?=null
+    private var adapter: SearchRecyclerViewAdapter = SearchRecyclerViewAdapter(diffUtil)
     var regiAdapter: RegiVocRecyclerViewAdapter?=null
     var binding: FragmentSearchBinding?=null
     val scope = CoroutineScope(Dispatchers.IO)
@@ -44,6 +45,10 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
+        recyclerView = binding!!.recyclerSearch
+        recyclerView!!.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        adapter.itemClickListener = defItemClickListener()
+        recyclerView!!.adapter = adapter
         return binding!!.root
     }
 
@@ -62,22 +67,25 @@ class SearchFragment : Fragment() {
                 }
                 true
             }
-
-            recyclerView = recyclerSearch
-            recyclerView!!.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = SearchRecyclerViewAdapter(searchedList)
-            adapter!!.itemClickListener = defItemClickListener()
-            recyclerView!!.adapter = adapter
             val simpleCallback = object:ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    adapter!!.removeItem(viewHolder.adapterPosition)
+                    val currentList = adapter.currentList.toMutableList()
+                    val position = viewHolder.adapterPosition
+                    currentList.removeAt(position)
+                    adapter.submitList(currentList)
                 }
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-                    adapter!!.moveItem(viewHolder.adapterPosition, target.adapterPosition)
+                    val currentList = adapter.currentList.toMutableList()
+                    val oldPos = viewHolder.adapterPosition
+                    val newPos = target.adapterPosition
+                    val item = currentList[oldPos]
+                    currentList.removeAt(oldPos)
+                    currentList.add(newPos, item)
+                    adapter.submitList(currentList)
                     return true
                 }
             }
@@ -194,4 +202,15 @@ class SearchFragment : Fragment() {
         binding=null
     }
 
+    companion object {
+        val diffUtil = object : DiffUtil.ItemCallback<VocData>() {
+            override fun areItemsTheSame(oldItem: VocData, newItem: VocData): Boolean {
+                return oldItem.vid == newItem.vid
+            }
+
+            override fun areContentsTheSame(oldItem: VocData, newItem: VocData): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 }

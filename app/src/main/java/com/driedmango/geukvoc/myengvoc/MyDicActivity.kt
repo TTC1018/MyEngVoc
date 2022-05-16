@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
 import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +29,7 @@ import java.util.*
 class MyDicActivity : AppCompatActivity() {
     lateinit var binding: ActivityMyDicBinding
     lateinit var myDBHelper: MyDBHelper
-    lateinit var adapter: SearchRecyclerViewAdapter
+    private var adapter: SearchRecyclerViewAdapter = SearchRecyclerViewAdapter(diffUtil)
     lateinit var recyclerView: RecyclerView
     lateinit var dicData: DicData
     lateinit var dicName:String
@@ -54,14 +55,16 @@ class MyDicActivity : AppCompatActivity() {
         //RecyclerView 관련 설정
         recyclerView = binding.showVocRecycler
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
-        adapter = SearchRecyclerViewAdapter(myDBHelper.findDic(dicName))
+//        adapter = SearchRecyclerViewAdapter(myDBHelper.findDic(dicName))
         recyclerView.adapter = adapter
         val simpleCallback = object:
             ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                myDBHelper.deleteVoc(adapter.vocs[position].word, dicName)
-                adapter.removeItem(position)
+                val currentList = adapter.currentList.toMutableList()
+                myDBHelper.deleteVoc(currentList[position].word, dicName)
+                currentList.removeAt(position)
+                adapter.submitList(currentList)
             }
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -73,7 +76,7 @@ class MyDicActivity : AppCompatActivity() {
         }
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-        recyclerView.scrollToPosition(adapter.vocs.size-1)
+        recyclerView.scrollToPosition(adapter.itemCount - 1)
 
             //단어 추가 버튼 Listener 설정
             binding.showDicAddBtn.setOnClickListener {
@@ -98,13 +101,15 @@ class MyDicActivity : AppCompatActivity() {
                     val newWord = wordText.editText!!.text.toString()
                     val newMean = meanText.editText!!.text.toString()
                     myDBHelper.insertVoc(VocData(0, newWord, newMean), dicName)
-                    adapter.vocs.add(VocData(adapter.vocs.size, newWord, newMean))
-                    adapter.notifyDataSetChanged()
+
+                    val currentList = adapter.currentList.toMutableList()
+                    currentList.add(VocData(adapter.itemCount, newWord, newMean))
+                    adapter.submitList(currentList)
                     wordText.editText!!.text.clear()
                     meanText.editText!!.text.clear()
                     Toast.makeText(this, "단어가 추가되었습니다", Toast.LENGTH_SHORT).show()
                     wordText.editText!!.requestFocus()
-                    recyclerView.scrollToPosition(adapter.vocs.size-1)
+                    recyclerView.scrollToPosition(adapter.itemCount-1)
                 }
 
                 //TextWatcher 설정
@@ -120,20 +125,21 @@ class MyDicActivity : AppCompatActivity() {
             val fadeInAndOut = AnimationUtils.loadAnimation(this, R.anim.fade_inandout)
             binding.alignView.startAnimation(fadeInAndOut)
             binding.alignView.setOnClickListener {
+                val currentList = adapter.currentList.toMutableList()
                 when(alignFlag){
                     1->{
-                        adapter.vocs.sortBy {
+                        currentList.sortBy {
                             it.word
                         }
-                        adapter.notifyDataSetChanged()
+                        adapter.submitList(currentList)
                         recyclerView.startAnimation(fadeIn)
                         alignFlag = 2;
                     }
                     2->{
-                        adapter.vocs.sortByDescending {
+                        currentList.sortByDescending {
                             it.word
                         }
-                        adapter.notifyDataSetChanged()
+                        adapter.submitList(currentList)
                         recyclerView.startAnimation(fadeIn)
                         alignFlag = 1;
                     }
@@ -152,28 +158,27 @@ class MyDicActivity : AppCompatActivity() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     val target = s.toString()
 
+                    var currentList = adapter.currentList.toMutableList()
                     if(count != 0){
+
                         if(target.matches(Regex("^[a-z|A-Z|\\s]+\$"))){
-                            val tempData = adapter.vocs.filter {
+                            currentList = currentList.filter {
                                 it.word.startsWith(target)
-                            }
-                            adapter.vocs = tempData.toMutableList()
+                            }.toMutableList()
                         }
                         else if(target.matches(Regex("^[가-힣|0-9|()?,~\\-\\/\\s]+\$"))){
-                            val tempData = adapter.vocs.filter {
+                            currentList = currentList.filter {
                                 it.meaning.matches(Regex(target))
-                            }
-                            adapter.vocs = tempData.toMutableList()
+                            }.toMutableList()
                         }
-
                         binding.vocSearchEditText.post {
                             binding.vocSearchEditText.requestFocus()
                         }
                     }
                     else{
-                        adapter.vocs = myDBHelper.findDic(dicName)
+                        currentList = myDBHelper.findDic(dicName)
                     }
-                    adapter.notifyDataSetChanged()
+                    adapter.submitList(currentList)
                 }
 
                 override fun afterTextChanged(s: Editable?) { }
@@ -246,11 +251,24 @@ class MyDicActivity : AppCompatActivity() {
     }
 
     private fun vocListHas(editText: String): Boolean {
-        for(i in 0 until adapter.vocs.size){
-            if(adapter.vocs.get(i).word.equals(editText)){
+        val currentList = adapter.currentList
+        for(i in 0 until currentList.size){
+            if(currentList[i].word == editText){
                 return true
             }
         }
         return false
+    }
+
+    companion object {
+        val diffUtil = object : DiffUtil.ItemCallback<VocData>() {
+            override fun areItemsTheSame(oldItem: VocData, newItem: VocData): Boolean {
+                return oldItem.vid == newItem.vid
+            }
+
+            override fun areContentsTheSame(oldItem: VocData, newItem: VocData): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }
