@@ -1,4 +1,4 @@
-# [2021] 모바일 프로그래밍 개인 과제 - 나만의 단어장
+# [2021] 나만의 영단어장
 ## 어플 아이콘
 <img src="https://user-images.githubusercontent.com/39405316/119695447-2413b380-be89-11eb-8a02-ee2eca9ed9ba.png" width="300" height="300">
 
