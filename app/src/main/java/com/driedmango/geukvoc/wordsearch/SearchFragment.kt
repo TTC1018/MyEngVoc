@@ -63,11 +63,14 @@ class SearchFragment : Fragment() {
                 true
             }
 
-            recyclerView = recyclerSearch
-            recyclerView!!.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = SearchRecyclerViewAdapter(searchedList)
             adapter!!.itemClickListener = defItemClickListener()
-            recyclerView!!.adapter = adapter
+            recyclerView = recyclerSearch
+            recyclerView!!.let {
+                it.itemAnimator = null
+                it.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                it.adapter = adapter
+            }
             val simpleCallback = object:ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     adapter!!.removeItem(viewHolder.adapterPosition)
