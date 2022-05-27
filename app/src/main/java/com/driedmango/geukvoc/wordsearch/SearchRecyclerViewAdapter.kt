@@ -3,6 +3,7 @@ package com.driedmango.geukvoc.wordsearch
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -46,6 +47,7 @@ class SearchRecyclerViewAdapter(diffCallback: DiffUtil.ItemCallback<VocData>):an
             this.vocData = vocData
             wordText.text = this.vocData.word
             meanText.text = this.vocData.meaning
+            itemView.animation = AnimationUtils.loadAnimation(itemView.context, R.anim.item_create)
         }
     }
 

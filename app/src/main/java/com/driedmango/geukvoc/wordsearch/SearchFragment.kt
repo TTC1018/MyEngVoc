@@ -43,11 +43,12 @@ class SearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
         recyclerView = binding!!.recyclerSearch
         recyclerView!!.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         adapter.itemClickListener = defItemClickListener()
+        adapter.submitList(searchedList.toMutableList())
         recyclerView!!.adapter = adapter
         return binding!!.root
     }
@@ -69,23 +70,21 @@ class SearchFragment : Fragment() {
             }
             val simpleCallback = object:ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val currentList = adapter.currentList.toMutableList()
                     val position = viewHolder.adapterPosition
-                    currentList.removeAt(position)
-                    adapter.submitList(currentList)
+                    searchedList.removeAt(position)
+                    adapter.submitList(searchedList.toMutableList())
                 }
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-                    val currentList = adapter.currentList.toMutableList()
                     val oldPos = viewHolder.adapterPosition
                     val newPos = target.adapterPosition
-                    val item = currentList[oldPos]
-                    currentList.removeAt(oldPos)
-                    currentList.add(newPos, item)
-                    adapter.submitList(currentList)
+                    val item = searchedList[oldPos]
+                    searchedList.removeAt(oldPos)
+                    searchedList.add(newPos, item)
+                    adapter.submitList(searchedList.toMutableList())
                     return true
                 }
             }
@@ -126,7 +125,7 @@ class SearchFragment : Fragment() {
                 println(word + "=" + meaning)
                 searchedList.push(VocData(searchedList.size, word, meaning))
                 requireActivity().runOnUiThread {
-                    adapter!!.notifyDataSetChanged()
+                    adapter.submitList(searchedList.toMutableList())
                     binding!!.progressBar.visibility = View.GONE
                     //키보드 숨기기 코드
                     val iMM = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -154,13 +153,13 @@ class SearchFragment : Fragment() {
                 data: VocData,
                 position: Int
             ) {
-                var customDialog = layoutInflater.inflate(R.layout.dialog_add_to_dic, null)
-                var builder = AlertDialog.Builder(requireContext())
+                val customDialog = layoutInflater.inflate(R.layout.dialog_add_to_dic, null)
+                val builder = AlertDialog.Builder(requireContext())
                 builder.setView(customDialog)
                 val dialog = builder.create()
 
                 //custom Dialog 컴포넌트들 선언
-                var cancelBtn = customDialog.findViewById<Button>(R.id.vocRegiCancelBtn)
+                val cancelBtn = customDialog.findViewById<Button>(R.id.vocRegiCancelBtn)
                 regiRecyclerView = customDialog.findViewById<RecyclerView>(R.id.vocRegiRecyclerView)
                 regiRecyclerView!!.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                 regiAdapter!!.itemClickListener=regiItemClickListener(data, dialog)
@@ -185,7 +184,7 @@ class SearchFragment : Fragment() {
                 tableName: String,
                 position: Int
             ) {
-                var resultFlag = dbHelper!!.insertVoc(data, tableName.replace(" ", "_"))
+                val resultFlag = dbHelper!!.insertVoc(data, tableName.replace(" ", "_"))
                 if(resultFlag){
                     Toast.makeText(requireContext(), "$tableName"+"에 단어가 추가되었습니다", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
