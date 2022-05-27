@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,93 +17,98 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.driedmango.geukvoc.*
 import com.driedmango.geukvoc.data.DicData
 import com.driedmango.geukvoc.databinding.FragmentMyDicBinding
+import com.driedmango.geukvoc.viewmodel.MyDicViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 
-class MyDicFragment : Fragment() {
-    var recyclerView:RecyclerView?=null
-    var adapter: MyDicRecyclerViewAdapter?=null
-    var binding:FragmentMyDicBinding?=null
-    var dicList = mutableListOf<DicData>()
+class MyDicFragment : BaseFragment<FragmentMyDicBinding>(R.layout.fragment_my_dic) {
+    private val viewModel by activityViewModels<MyDicViewModel>()
+    private lateinit var recyclerView:RecyclerView
+    val adapter: MyDicRecyclerViewAdapter = MyDicRecyclerViewAdapter(diffUtil)
     var dbHelper: MyDBHelper?=null
-
     var editFlag:Boolean = false
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentMyDicBinding.inflate(layoutInflater, container, false)
-        return binding!!.root
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
-        if(dicList.size != 0){
-            for(i in 0 until dicList.size){
-                for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
-                    if(dicList.get(i).dicName.equals(TABLE_NAME.replace("_", " "))){
-                        dicList.get(i).wordCount = dbHelper!!.countVoc(TABLE_NAME)
+        getCurrentList()?.let {
+            if(it.size != 0){
+                for(i in 0 until it.size){
+                    for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
+                        if(it[i].dicName == TABLE_NAME.replace("_", " ")){
+                            it[i].wordCount = dbHelper!!.countVoc(TABLE_NAME)
+                        }
                     }
                 }
             }
-        }
 
-        if(dicList.size==0 && MyDBHelper.TABLE_NAMES.size!=0){
-            for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
-                dicList.add(DicData(TABLE_NAME.replace("_", " "), dbHelper!!.countVoc(TABLE_NAME)))
+            if(it.size==0 && MyDBHelper.TABLE_NAMES.size!=0){
+                for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
+                    it.add(DicData(TABLE_NAME.replace("_", " "), dbHelper!!.countVoc(TABLE_NAME)))
+                }
+                adapter.submitList(it.toMutableList())
             }
-            adapter!!.notifyDataSetChanged()
         }
         val activity = requireActivity() as MainActivity
-        activity.binding.bottomNavi.menu.getItem(1).setChecked(true)
+        activity.binding.bottomNavi.menu.getItem(1).isChecked = true
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         //어플 최조 실행을 확인 해주는 변수 (기본 단어장 추가에 활용)
-        var pref: SharedPreferences = context!!.getSharedPreferences("isFirst", Activity.MODE_PRIVATE)
-        var first:Boolean = pref.getBoolean("isFirst", true)
+        val pref: SharedPreferences = requireContext().getSharedPreferences("isFirst", Activity.MODE_PRIVATE)
+        val first:Boolean = pref.getBoolean("isFirst", true)
 
         super.onViewCreated(view, savedInstanceState)
-        binding!!.apply {
+        binding.viewModel = viewModel
+        // 데이터베이스 불러오기
+        val activity = requireActivity() as MainActivity
+        dbHelper = activity.myDBHelper
+        dbHelper?.let { helper ->
+            defaultDicGenerate(helper, first, pref)
+            if(MyDBHelper.TABLE_NAMES.size==0){
+                helper.initalizeDB()
+                viewModel.loadDB(helper)
+                adapter.submitList(viewModel.dicList.value?.toMutableList())
+            }
+        }
+        binding.apply {
 
             //변수들 초기화
             recyclerView = recyclerDic
-            recyclerView!!.layoutManager = GridLayoutManager(context, 2)
-            adapter = MyDicRecyclerViewAdapter(dicList)
-            adapter!!.itemClickListener = defItemClickListener()
-            recyclerView!!.adapter = adapter
+            adapter.itemClickListener = defItemClickListener()
+            recyclerView.layoutManager = GridLayoutManager(context, 2)
+            recyclerView.adapter = adapter
+
+
 
             //단어장 수정 버튼 ClickListener
             editBtn.setOnClickListener {
                 val fadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_in)
                 val fadeOut = AnimationUtils.loadAnimation(context, R.anim.fade_out)
 
-                if(recyclerView!!.layoutManager is GridLayoutManager){
-                    recyclerView!!.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                    recyclerView!!.startAnimation(fadeIn)
-                    adapter!!.setOnItemClickListener(editItemClickListener())
+                if(recyclerView.layoutManager is GridLayoutManager){
+                    recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    recyclerView.startAnimation(fadeIn)
+                    adapter.setOnItemClickListener(editItemClickListener())
                     editFlag = true
                 }
                 else{
-                    recyclerView!!.layoutManager = GridLayoutManager(context, 2)
-                    recyclerView!!.startAnimation(fadeIn)
-                    adapter!!.setOnItemClickListener(defItemClickListener())
+                    recyclerView.layoutManager = GridLayoutManager(context, 2)
+                    recyclerView.startAnimation(fadeIn)
+                    adapter.setOnItemClickListener(defItemClickListener())
                     editFlag = false
                 }
 
-                val editShowText:TextView = binding!!.editShowText
-                val addBtn: ImageButton = binding!!.addBtn
-                val weightView:View = binding!!.weightView
+                val editShowText:TextView = binding.editShowText
+                val addBtn: ImageButton = binding.addBtn
+                val weightView:View = binding.weightView
                 if(editShowText.visibility==View.GONE){
                     weightView.visibility=View.GONE
                     editShowText.visibility=View.VISIBLE
@@ -123,16 +127,16 @@ class MyDicFragment : Fragment() {
 
             //단어장 추가 버튼 ClickListener
             addBtn.setOnClickListener {
-                var customDialog = layoutInflater.inflate(R.layout.dialog_add_my_dic, null)
-                var builder = AlertDialog.Builder(requireContext())
+                val customDialog = layoutInflater.inflate(R.layout.dialog_add_my_dic, null)
+                val builder = AlertDialog.Builder(requireContext())
                 builder.setView(customDialog)
                 val dialog = builder.create()
-                dialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.show()
 
-                var cancelBtn = customDialog.findViewById<Button>(R.id.diaAddCancelBtn)
-                var okBtn = customDialog.findViewById<Button>(R.id.diaAddOKBtn)
-                var dicText = customDialog.findViewById<TextInputLayout>(R.id.dicAddEditText)
+                val cancelBtn = customDialog.findViewById<Button>(R.id.diaAddCancelBtn)
+                val okBtn = customDialog.findViewById<Button>(R.id.diaAddOKBtn)
+                val dicText = customDialog.findViewById<TextInputLayout>(R.id.dicAddEditText)
 
                 dicText.editText!!.addTextChangedListener(makeTextWatcher(okBtn, dicText))
                 cancelBtn.setOnClickListener {
@@ -141,29 +145,16 @@ class MyDicFragment : Fragment() {
                 okBtn.setOnClickListener {
                     val newDicName = dicText.editText!!.text.toString()
                     dbHelper!!.createTable(newDicName)
-                    dicList.add(DicData(newDicName, dbHelper!!.countVoc(newDicName.replace(" ", "_"))))
-                    adapter!!.notifyDataSetChanged()
+                    getCurrentList()?.let {
+                        it.add(DicData(newDicName, dbHelper!!.countVoc(newDicName.replace(" ", "_"))))
+                        adapter.submitList(it.toMutableList())
+                    }
                     dialog.dismiss()
                 }
                 okBtn.isClickable = false
                 okBtn.setBackgroundColor(Color.GRAY)
                 dicText.requestFocus()
             }
-        }
-
-        val activity = requireActivity() as MainActivity
-        dbHelper = activity.myDBHelper
-        defaultDicGenerate(dbHelper!!, first, pref)
-        if(MyDBHelper.TABLE_NAMES.size==0){
-            dbHelper!!.initalizeDB()
-            for(i:Int in 0 until MyDBHelper.TABLE_NAMES.size){
-                dicList.add(
-                    DicData(
-                        MyDBHelper.TABLE_NAMES.get(i).replace("_", " "), dbHelper!!.countVoc(
-                            MyDBHelper.TABLE_NAMES.get(i)))
-                )
-            }
-            adapter!!.notifyDataSetChanged()
         }
     }
 
@@ -173,7 +164,7 @@ class MyDicFragment : Fragment() {
             dbHelper.readDefaultDic()
             val editor:SharedPreferences.Editor = pref.edit()
             editor.putBoolean("isFirst", false)
-            editor.commit()
+            editor.apply()
         }
     }
 
@@ -205,7 +196,7 @@ class MyDicFragment : Fragment() {
                 val builder = AlertDialog.Builder(context!!)
                 builder.setView(customDialog)
                 val dialog = builder.create()
-                dialog.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.show()
 
                 //custom Dialog 컴포넌트들 선언
@@ -221,8 +212,11 @@ class MyDicFragment : Fragment() {
                 okBtn.setOnClickListener {
                     val newDicName = dicText.editText!!.text.toString()
                     dbHelper!!.updateTable(data.dicName, newDicName)
-                    dicList.get(position).dicName = newDicName
-                    adapter!!.notifyDataSetChanged()
+                    val currentList = viewModel.dicList.value?.toMutableList()
+                    currentList?.let {
+                        it[position].dicName = newDicName
+                        adapter.submitList(it.toMutableList())
+                    }
                     dialog.dismiss()
                 }
                 removeBtn.setOnClickListener {
@@ -230,7 +224,7 @@ class MyDicFragment : Fragment() {
                 }
 
                 //TextWatcher 설정
-                dicText.editText!!.setText(dicList.get(position).dicName)
+                dicText.editText!!.setText(getCurrentList()!![position].dicName)
                 okBtn.isClickable = false
                 okBtn.setBackgroundColor(Color.GRAY)
                 dicText.editText!!.addTextChangedListener(object :TextWatcher{
@@ -275,7 +269,6 @@ class MyDicFragment : Fragment() {
                     }
                 })
                  dicText.editText!!.requestFocus()
-
                 }
             }
         }
@@ -285,8 +278,11 @@ class MyDicFragment : Fragment() {
         alBuilder.setMessage("삭제 버튼을 누르면 단어장이 삭제됩니다.");
         alBuilder.setPositiveButton("삭제") { _, _ ->
             dbHelper!!.deleteTable(data.dicName)
-            adapter!!.notifyDataSetChanged()
-            dicList.removeAt(position)
+            val currentList = viewModel.dicList.value?.toMutableList()
+            currentList?.let {
+                it.removeAt(position)
+                adapter.submitList(it.toMutableList())
+            }
             prevDialog.dismiss()
         }
         alBuilder.setNegativeButton("취소") {_, _ ->
@@ -297,18 +293,22 @@ class MyDicFragment : Fragment() {
     }
 
     private fun dicListHas(dicName:String, position: Int):Boolean{
-        for(i in 0 until dicList.size){
-            if(dicList.get(i).dicName.equals(dicName) && i!=position){
-                return true
+        getCurrentList()?.let {
+            for(i in 0 until it.size){
+                if(it[i].dicName == dicName && i!=position){
+                    return true
+                }
             }
         }
         return false
     }
 
     private fun dicListJustHas(dicName:String):Boolean{
-        for(i in 0 until dicList.size){
-            if(dicList.get(i).dicName.equals(dicName)){
-                return true
+        getCurrentList()?.let {
+            for(i in 0 until it.size){
+                if(it[i].dicName == dicName){
+                    return true
+                }
             }
         }
         return false
@@ -354,8 +354,21 @@ class MyDicFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding=null
+    fun getCurrentList(): MutableList<DicData>? = viewModel.dicList.value?.toMutableList()
+
+
+
+
+    companion object {
+        fun newInstance() = MyDicFragment()
+        val diffUtil = object : DiffUtil.ItemCallback<DicData>() {
+            override fun areItemsTheSame(oldItem: DicData, newItem: DicData): Boolean {
+                return oldItem.dicName == newItem.dicName
+            }
+
+            override fun areContentsTheSame(oldItem: DicData, newItem: DicData): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }

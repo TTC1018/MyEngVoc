@@ -55,7 +55,6 @@ class MyDicActivity : AppCompatActivity() {
         //RecyclerView 관련 설정
         recyclerView = binding.showVocRecycler
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
-//        adapter = SearchRecyclerViewAdapter(myDBHelper.findDic(dicName))
         adapter.submitList(myDBHelper.findDic(dicName).toMutableList())
         recyclerView.adapter = adapter
         val simpleCallback = object:

@@ -1,81 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".myengvoc.MyDicFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.driedmango.geukvoc.viewmodel.MyDicViewModel" />
+    </data>
+
 
     <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:orientation="horizontal"
-        android:background="?attr/colorPrimary"
-        android:elevation="7dp"
-        android:outlineAmbientShadowColor="?attr/colorOnPrimary"
-        android:outlineSpotShadowColor="?attr/colorOnPrimary">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".myengvoc.MyDicFragment">
 
-        <ImageButton
-            android:id="@+id/addBtn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="21dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="21dp"
-            android:background="@drawable/gradient_btn"
-            android:elevation="10dp"
+            android:layout_gravity="right"
+            android:orientation="horizontal"
+            android:background="?attr/colorPrimary"
+            android:elevation="7dp"
             android:outlineAmbientShadowColor="?attr/colorOnPrimary"
-            android:outlineSpotShadowColor="?attr/colorOnPrimary"
-            android:padding="1dp"
-            android:src="@drawable/add_button_ripple"
-            android:tint="?attr/colorOnPrimary"
-            android:visibility="gone" />
+            android:outlineSpotShadowColor="?attr/colorOnPrimary">
 
-        <View
-            android:id="@+id/weightView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            <ImageButton
+                android:id="@+id/addBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="21dp"
+                android:background="@drawable/gradient_btn"
+                android:elevation="10dp"
+                android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+                android:outlineSpotShadowColor="?attr/colorOnPrimary"
+                android:padding="1dp"
+                android:src="@drawable/add_button_ripple"
+                android:visibility="gone"
+                app:tint="?attr/colorOnPrimary" />
 
-        <TextView
-            android:id="@+id/editShowText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="21dp"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:text="단어장 추가 및 편집"
-            android:textAlignment="center"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="13sp"
-            android:visibility="gone" />
+            <View
+                android:id="@+id/weightView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-        <ImageButton
-            android:id="@+id/editBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="21dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="21dp"
-            android:background="@drawable/gradient_btn"
-            android:elevation="10dp"
-            android:outlineAmbientShadowColor="?attr/colorOnPrimary"
-            android:outlineSpotShadowColor="?attr/colorOnPrimary"
-            android:padding="5dp"
-            android:src="@drawable/edit_button_ripple"
-            android:tint="?attr/colorOnPrimary" />
+            <TextView
+                android:id="@+id/editShowText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="21dp"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="단어장 추가 및 편집"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/editBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="21dp"
+                android:background="@drawable/gradient_btn"
+                android:elevation="10dp"
+                android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+                android:outlineSpotShadowColor="?attr/colorOnPrimary"
+                android:padding="5dp"
+                android:src="@drawable/edit_button_ripple"
+                app:tint="?attr/colorOnPrimary" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerDic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerDic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-</LinearLayout>
+</layout>

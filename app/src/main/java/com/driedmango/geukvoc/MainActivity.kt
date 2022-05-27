@@ -38,10 +38,10 @@ class MainActivity : AppCompatActivity() {
         init()
     }
 
-    override fun onResume() {
-        super.onResume()
-        dicFragment.recyclerView!!.adapter!!.notifyDataSetChanged()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        dicFragment.recyclerView!!.adapter!!.notifyDataSetChanged()
+//    }
 
     private fun init() {
         binding.apply{
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             bottomNavi.selectedItemId = R.id.myDicBtn
-            bottomNavi.setItemIconTintList(null)
+            bottomNavi.itemIconTintList = null
         }
 
         //BackStack과 BottomNavigation 동기화 코드
@@ -72,10 +72,10 @@ class MainActivity : AppCompatActivity() {
             if(entryCount<backStackCount){
                 backStackCount--
                 when(fragNum.pop()){
-                    0-> binding.bottomNavi.menu.getItem(0).setChecked(true)
-                    1-> binding.bottomNavi.menu.getItem(1).setChecked(true)
-                    2-> binding.bottomNavi.menu.getItem(2).setChecked(true)
-                    3-> binding.bottomNavi.menu.getItem(3).setChecked(true)
+                    0-> binding.bottomNavi.menu.getItem(0).isChecked = true
+                    1-> binding.bottomNavi.menu.getItem(1).isChecked = true
+                    2-> binding.bottomNavi.menu.getItem(2).isChecked = true
+                    3-> binding.bottomNavi.menu.getItem(3).isChecked = true
                 }
             }
         }
@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if(binding.bottomNavi.selectedItemId == R.id.myDicBtn){
             if(dicFragment.editFlag){
-                dicFragment.binding!!.editBtn.performClick()
+                dicFragment.binding.editBtn.performClick()
                 return
             }
         }

@@ -89,4 +89,8 @@ class SettingFragment : Fragment() {
         binding=null
     }
 
+    companion object {
+        fun newInstance() = SettingFragment()
+    }
+
 }

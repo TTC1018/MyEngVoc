@@ -40,13 +40,15 @@ class MyDBHelper(val context:Context):SQLiteOpenHelper(context, DB_NAME, null, D
         var count = 0
 
         while(scan.hasNextLine()){
-            var word = scan.nextLine()
+            val word = scan.nextLine()
             val meaning = scan.nextLine()
             insertVoc(VocData(0, word, meaning), TABLE_NAMES.get(0))
             count++
         }
-        myDicFragment!!.dicList.add(DicData(TABLE_NAMES.get(0).replace("_", " "), count))
-        myDicFragment.adapter!!.notifyDataSetChanged()
+        myDicFragment!!.getCurrentList()?.let {
+            it.add(DicData(TABLE_NAMES.get(0).replace("_", " "), count))
+            myDicFragment.adapter.submitList(it.toMutableList())
+        }
         scan.close()
     }
 

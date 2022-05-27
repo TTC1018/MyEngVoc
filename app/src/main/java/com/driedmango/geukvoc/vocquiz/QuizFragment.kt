@@ -160,4 +160,8 @@ class QuizFragment : Fragment() {
         binding=null
     }
 
+
+    companion object {
+        fun newInstance() = QuizFragment()
+    }
 }

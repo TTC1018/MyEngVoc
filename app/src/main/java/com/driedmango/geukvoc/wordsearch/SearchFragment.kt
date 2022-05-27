@@ -212,5 +212,7 @@ class SearchFragment : Fragment() {
                 return oldItem == newItem
             }
         }
+
+        fun newInstance() = SearchFragment()
     }
 }

@@ -5,29 +5,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.driedmango.geukvoc.R
 import com.driedmango.geukvoc.data.DicData
 
-class MyDicRecyclerViewAdapter(val dicList:List<DicData>): RecyclerView.Adapter<MyDicRecyclerViewAdapter.ViewHolder>() {
+class MyDicRecyclerViewAdapter(diffCallback: DiffUtil.ItemCallback<DicData>): ListAdapter<DicData, MyDicRecyclerViewAdapter.ViewHolder>(diffCallback) {
     var itemClickListener: OnItemClickListener?=null
     interface OnItemClickListener{
         fun OnItemClick(holder: ViewHolder, view:View, data: DicData, position:Int)
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private lateinit var dicData:DicData
         val btnLayout:LinearLayout = view.findViewById(R.id.dicBtnLayout)
         val dicNameText: TextView = view.findViewById(R.id.dicNameText)
         val wordCountText: TextView = view.findViewById(R.id.wordCountText)
         init{
             btnLayout.setOnClickListener {
-                itemClickListener?.OnItemClick(this, it, dicList[adapterPosition], adapterPosition)
+                itemClickListener?.OnItemClick(this, it, dicData, adapterPosition)
             }
         }
-    }
 
-    override fun getItemCount(): Int {
-        return dicList.size
+        fun bind(dicData: DicData){
+            this.dicData = dicData
+            dicNameText.text = this.dicData.dicName
+            wordCountText.text = "단어 ${this.dicData.wordCount}개"
+        }
     }
 
     override fun onCreateViewHolder(
@@ -39,8 +44,7 @@ class MyDicRecyclerViewAdapter(val dicList:List<DicData>): RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.dicNameText.text = dicList[position].dicName
-        holder.wordCountText.text = "단어 "+dicList[position].wordCount.toString()+"개"
+        holder.bind(getItem(position))
     }
 
     fun setOnItemClickListener(itemClickListener: OnItemClickListener){
