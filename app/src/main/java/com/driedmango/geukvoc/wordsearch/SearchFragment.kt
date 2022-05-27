@@ -68,6 +68,7 @@ class SearchFragment : Fragment() {
                 }
                 true
             }
+
             val simpleCallback = object:ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val position = viewHolder.adapterPosition
