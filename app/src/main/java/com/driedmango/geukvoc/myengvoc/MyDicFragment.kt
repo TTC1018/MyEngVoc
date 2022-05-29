@@ -38,23 +38,17 @@ class MyDicFragment : BaseFragment<FragmentMyDicBinding>(R.layout.fragment_my_di
 
     override fun onResume() {
         super.onResume()
-        getCurrentList()?.let {
-            if(it.size != 0){
-                for(i in 0 until it.size){
-                    for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
-                        if(it[i].dicName == TABLE_NAME.replace("_", " ")){
-                            it[i].wordCount = dbHelper!!.countVoc(TABLE_NAME)
-                        }
-                    }
-                }
+        viewModel.dicList.value?.let {
+            dbHelper?.let {
+                viewModel.updateInfo(it)
             }
-
-            if(it.size==0 && MyDBHelper.TABLE_NAMES.size!=0){
-                for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
-                    it.add(DicData(TABLE_NAME.replace("_", " "), dbHelper!!.countVoc(TABLE_NAME)))
-                }
-                adapter.submitList(it.toMutableList())
-            }
+//            val dics = mutableListOf<DicData>()
+//            if(it.isEmpty() && MyDBHelper.TABLE_NAMES.size!=0){
+//                for(TABLE_NAME in MyDBHelper.TABLE_NAMES){
+//                    dics.add(DicData(TABLE_NAME.replace("_", " "), dbHelper!!.countVoc(TABLE_NAME)))
+//                }
+//                adapter.submitList(it.toMutableList())
+//            }
         }
         val activity = requireActivity() as MainActivity
         activity.binding.bottomNavi.menu.getItem(1).isChecked = true

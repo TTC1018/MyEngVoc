@@ -1,58 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/dicBtnLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:background="@drawable/gradient"
-    android:clickable="true"
-    android:orientation="vertical"
-    android:elevation="10dp"
-    android:outlineAmbientShadowColor="?attr/colorOnPrimary"
-    android:outlineSpotShadowColor="?attr/colorOnPrimary"
-    android:padding="10dp">
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="dicitem"
+            type="com.driedmango.geukvoc.data.DicData" />
+    </data>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/dicBtnLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:padding="15dp">
+        android:layout_margin="10dp"
+        android:background="@drawable/gradient"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:elevation="10dp"
+        android:outlineAmbientShadowColor="?attr/colorOnPrimary"
+        android:outlineSpotShadowColor="?attr/colorOnPrimary"
+        android:padding="10dp">
 
-        <TextView
-            android:id="@+id/dicNameText"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textColor="@color/white"
-            android:textAlignment="textStart" />
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:padding="15dp">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/dicNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{dicitem.dicName}"
+                android:textColor="@color/white"
+                android:textAlignment="textStart" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:orientation="horizontal"
-        android:padding="15dp">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/wordCountText"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textColor="@color/white"
-            android:textAlignment="textEnd" />
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/wordCountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{dicitem.wordCount}"
+                android:textColor="@color/white"
+                android:textAlignment="textEnd" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</layout>
